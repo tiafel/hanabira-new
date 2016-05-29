@@ -1,0 +1,3 @@
+confs/*.ini
+*.pyc
+__pycache__/
