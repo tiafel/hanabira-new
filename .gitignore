@@ -1,3 +1,9 @@
+# Non-template configs. 
 confs/*.ini
+
+# Python cache files
 *.pyc
 __pycache__/
+
+# Logs
+*.log
