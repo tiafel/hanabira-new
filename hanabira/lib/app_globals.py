@@ -9,7 +9,6 @@ from hanabira.model.files import Extensions
 from hanabira.model.restrictions import Restrictions
 from hanabira.model.boards import Boards
 from hanabira.model.permissions import Permissions
-from hanabira.model.sessions.mongo.session import MongoSessionManager
 from hanabira.model.sessions.beaker import BeakerSessionManager
 from hanabira.model.sessions.bot import BotSession
 from hanabira.model import meta
@@ -43,7 +42,6 @@ class Globals(object):
             meta.metadata.create_all(bind=meta.engine)
         appconf = config['app_conf']
         self.settings = Settings(config)
-        #init_mongo('localhost', 27017, 'hanabira')
         self.fs = FileSystem(self.settings)
         self.boards = Boards(settings=self.settings, fs=self.fs)
         self.sections = self.boards.sections
@@ -61,10 +59,10 @@ class Globals(object):
         self.fonts    = FontsManager(self.settings)
         self._404images = list(map(lambda x: "{0.path.static_web}{1}".format(self.settings, x), os.listdir(self.fs.local('images/404'))))
         self.country_codes = country_codes
-        self.local_domains = map(lambda x: x.strip(), str(self.settings.chan.local_domains).split(','))
-        self.ignore_referers = map(lambda x: x.strip(), appconf.get('chan.ignore_referers', '').split(','))
-        self.ignore_queries = map(lambda x: x.strip(), appconf.get('chan.ignore_queries', '').split(','))        
-        self.slave_nodes = map(lambda x: x.strip(), str(self.settings.cluster.slave_nodes).split(','))
-        self.sessions = MongoSessionManager(beaker=BeakerSessionManager(config))
+        self.local_domains = list(map(lambda x: x.strip(), str(self.settings.chan.local_domains).split(',')))
+        self.ignore_referers = list(map(lambda x: x.strip(), appconf.get('chan.ignore_referers', '').split(',')))
+        self.ignore_queries = list(map(lambda x: x.strip(), appconf.get('chan.ignore_queries', '').split(',')))
+        self.slave_nodes = list(map(lambda x: x.strip(), str(self.settings.cluster.slave_nodes).split(',')))
+        self.sessions = BeakerSessionManager(config)
         self.bot_session = BotSession(self)
         
