@@ -20,6 +20,12 @@ pip install --no-deps htmldiff
 pip install --no-deps genshi
 pip install --no-deps html5lib
 pip install --no-deps pytils
+pip install Pillow
+pip install simplejson
+pip install --no-deps docutils
+pip install lxml
+pip install --no-deps mako
+pip install --no-deps pymysql
 
 4. Make config file.
 
