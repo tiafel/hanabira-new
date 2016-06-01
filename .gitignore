@@ -7,3 +7,7 @@ __pycache__/
 
 # Logs
 *.log
+
+# IDE project files
+hanabira_new
+hanabira_new.wpu
