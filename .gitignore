@@ -5,6 +5,9 @@ confs/*.ini
 *.pyc
 __pycache__/
 
+# Various generated data
+confs/data/
+
 # Logs
 *.log
 
