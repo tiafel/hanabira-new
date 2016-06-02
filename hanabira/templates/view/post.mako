@@ -61,30 +61,7 @@
 	<img src="/images/sticky.png" alt="${_('Sticky')}" title="${_('Sticky')}" />
     %endif
 %endif
-%if board.reputation:
-	<%
-		can_vote = (post.session_id != c.session_id) and c.has_votes and not post.id in c.user_votes
-                is_hidden = (post.session_id != c.session_id) and c.reputation_min >= post.reputation
-	%>
-	<span class="reputation-${post.reputation >= 0 and 'positive' or 'negative'}">
-	%if can_vote:
-	<a href="${h.url('reputation', post_id=post.id, vote='up')}" onclick='return reputation_action(event, this);'>
-	   <img src="/images/rep/up.png" title="${_('Vote up')}" alt="${_('Vote up')}" />
-	</a>
-	%endif
-	<img src="/images/rep/${post.reputation >= 0 and 'positive' or 'negative'}.png" title="${_('Reputation')}" alt="${_('Reputation')}" />
-	${str(post.reputation)}
-	%if can_vote:
-	<a href="${h.url('reputation', post_id=post.id, vote='down')}" onclick='return reputation_action(event, this);'>
-	   <img src="/images/rep/down.png" title="${_('Vote down')}" alt="${_('Vote down')}" />
-	</a>
-	%endif
-	</span>
-%else:
-<%
 	is_hidden = False
-%>
-%endif
 %if c.can_see_invisible and (post.op and thread.invisible or post.invisible):
 	<img src="/images/banned.png" alt="${_('Invisible')}" ${post.inv_reason and 'title="%s"'%u', '.join(post.inv_reason) or '' |n} />
 %endif
