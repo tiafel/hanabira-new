@@ -3,7 +3,8 @@ import datetime, math, cgi, os, random
 import pickle
 import logging
 
-from sqlalchemy import *
+#from sqlalchemy import *
+from sqlalchemy import Column, Integer, UnicodeText, Boolean, ForeignKey, Unicode, PickleType
 from sqlalchemy.orm import eagerload, relation
 from sqlalchemy.ext.declarative import synonym_for
 from sqlalchemy.sql import and_, or_, not_, func
@@ -203,7 +204,7 @@ class Board(meta.Declarative):
                 complexity = ecc + g.settings.captcha.bump_penalty
                 _post_limits.append([('captcha', _(
                     'This thread is too old, please confirm that you are human.')
-                                      ), complexity])
+                                     ), complexity])
                 return True
         if post.op == True:
             qty = Post.query.filter(Post.op == True).filter(
@@ -215,7 +216,7 @@ class Board(meta.Declarative):
                                     (qty - self.threads_per_hour + 1))
                 _post_limits.append([('captcha', _(
                     'You reached new threads limit, please confirm that you are human.')
-                                      ), complexity])
+                                     ), complexity])
                 return True
         if post.op == False:
             posts = Post.query.filter(Post.thread_id == post.thread_id).filter(
@@ -234,7 +235,7 @@ class Board(meta.Declarative):
                                     (consecutive - self.replies_per_hour + 1))
                 _post_limits.append([('captcha', _(
                     'You reached consecutive replies limit, please confirm that you are human.')
-                                      ), complexity])
+                                     ), complexity])
                 return True
 
     def thread_filters(self,
@@ -461,7 +462,7 @@ class Board(meta.Declarative):
         3. User has some threads affected
         """
         if self.check_permissions('read', admin):
-            offset = self.threads_per_page * page
+            #offset = self.threads_per_page * page
             if not see_invisible is None:
                 see_invisible = (admin and admin.has_permission(
                     'see_invisible', self.board_id))
@@ -610,8 +611,8 @@ class Board(meta.Declarative):
 
         # XXX: make errors separate class, with .add_error() method
         errors = {}
-        invisible = False
-        reason = None
+        #invisible = False
+        #reason = None
 
         if len(params.get('message', '')) > 60000:
             add_error(errors, 'message', _(
@@ -760,65 +761,65 @@ class Board(meta.Declarative):
     def import_thread(self, thread):
         return None
 
-        new_thread = Thread()
-        new_thread.import_data(thread, False)
-        new_thread.board_id = self.id
-        new_thread.display_id = None
-        new_thread.imported_from = {'thread_id': thread.display_id,
-                                    'board': thread.board.board}
-        new_thread.exported_to = None
-        meta.Session.add(new_thread)
-        meta.Session.commit()
+        #new_thread = Thread()
+        #new_thread.import_data(thread, False)
+        #new_thread.board_id = self.id
+        #new_thread.display_id = None
+        #new_thread.imported_from = {'thread_id': thread.display_id,
+                                    #'board': thread.board.board}
+        #new_thread.exported_to = None
+        #meta.Session.add(new_thread)
+        #meta.Session.commit()
 
-        ids = {}
-        bname = thread.board.board
+        #ids = {}
+        #bname = thread.board.board
 
-        def rewrite_ref(m):
-            num = int(m.group(1))
-            if num in ids:
-                return '>>%s' % ids[num]
-            else:
-                return '>>%s/%s' % (bname, num)
+        #def rewrite_ref(m):
+            #num = int(m.group(1))
+            #if num in ids:
+                #return '>>%s' % ids[num]
+            #else:
+                #return '>>%s/%s' % (bname, num)
 
-        for post in thread.posts:
-            new_post = Post()
-            new_post.import_data(post, False)
-            for f in post.files:
-                new_post.files.append(f)
-            new_post.thread_id = new_thread.id
-            message = re.sub(r'>>(\d+)', rewrite_ref, post.message_raw)
-            if message != post.message_raw:
-                new_post.message_raw = message
-                parsed_message = g.parser.parse(new_post, new_thread, self)
-                new_post.message = parsed_message.message
-                new_post.message_short = parsed_message.message_short
-            meta.Session.add(new_post)
-            self.set_display_id(new_thread, new_post)
-            if new_post.op:
-                new_thread.op_id = new_post.id
-            ids[post.display_id] = new_post.display_id
+        #for post in thread.posts:
+            #new_post = Post()
+            #new_post.import_data(post, False)
+            #for f in post.files:
+                #new_post.files.append(f)
+            #new_post.thread_id = new_thread.id
+            #message = re.sub(r'>>(\d+)', rewrite_ref, post.message_raw)
+            #if message != post.message_raw:
+                #new_post.message_raw = message
+                #parsed_message = g.parser.parse(new_post, new_thread, self)
+                #new_post.message = parsed_message.message
+                #new_post.message_short = parsed_message.message_short
+            #meta.Session.add(new_post)
+            #self.set_display_id(new_thread, new_post)
+            #if new_post.op:
+                #new_thread.op_id = new_post.id
+            #ids[post.display_id] = new_post.display_id
 
-        self.update_thread(new_thread)
-        return new_thread
+        #self.update_thread(new_thread)
+        #return new_thread
 
     def export_thread(self, thread_id, board):
         return None
 
-        thread = Thread.find(thread_id)
-        new_board = g.boards.get(board)
-        if not thread or not new_board or thread.board_id != self.id or new_board.id == self.id:
-            return
-        thread.posts = Post.post_filters(
-            thread=thread,
-            see_invisible=True).order_by(Post.display_id.asc()).all()
-        new_thread = new_board.import_thread(thread)
-        thread.exported_to = {'thread_id': new_thread.display_id,
-                              'board': board}
-        thread.imported_from = None
-        thread.location = url('thread', **thread.exported_to)
-        thread.locked = True
-        meta.Session.commit()
-        return thread
+        #thread = Thread.find(thread_id)
+        #new_board = g.boards.get(board)
+        #if not thread or not new_board or thread.board_id != self.id or new_board.id == self.id:
+            #return
+        #thread.posts = Post.post_filters(
+            #thread=thread,
+            #see_invisible=True).order_by(Post.display_id.asc()).all()
+        #new_thread = new_board.import_thread(thread)
+        #thread.exported_to = {'thread_id': new_thread.display_id,
+                              #'board': board}
+        #thread.imported_from = None
+        #thread.location = url('thread', **thread.exported_to)
+        #thread.locked = True
+        #meta.Session.commit()
+        #return thread
 
     def delete_posts(self,
                      threads,
@@ -970,7 +971,7 @@ class Boards(object):
         self.board_ids = {}
         self.banners = {}
         self.chan_banners = {}
-        sections = Section.query.order_by(Section.index.asc()).all()
+        #sections = Section.query.order_by(Section.index.asc()).all()
         for chan in Channel.query.all():
             self.chans[chan.name] = self.chan_ids[chan.id] = chan
             chan.sections = Section.query.filter(

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 
 from pylons.i18n import _, ungettext, N_, set_lang
 from pylons import url
