@@ -4,10 +4,12 @@ from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 #from paste.debug.profile import ProfileMiddleware, make_profile_middleware
-from pylons.middleware import ErrorHandler, StatusCodeRedirect
+#from pylons.middleware import ErrorHandler, StatusCodeRedirect
+from pylons.middleware import StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
 from routes.middleware import RoutesMiddleware
 from hanabira.config.environment import load_environment
+
 
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
@@ -20,7 +22,7 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     #if config.get('profiling', False):
     #    app = ProfileMiddleware(app, config, 'profiling.log', 200)
-        
+
     # Routing/Session Middleware
     app = RoutesMiddleware(app, config['routes.map'], singleton=False)
 
@@ -46,5 +48,3 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         app = Cascade([static_app, app])
     app.config = config
     return app
-
-
