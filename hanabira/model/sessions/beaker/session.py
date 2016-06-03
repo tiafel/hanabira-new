@@ -212,8 +212,8 @@ class BeakerSession(Session):
                   admin=None):
         if isinstance(duration, int) and duration > 0:
             duration = timedelta(minutes=duration)
-        token_data = [token, scope, duration, datetime.now().replace(
-            microsecond=0), {}]
+        token_data = [token, scope, duration,
+                      datetime.now().replace(microsecond=0), {}]
         if reason_post_id:
             token_data[4]['reason_post_id'] = reason_post_id
         if reasons:

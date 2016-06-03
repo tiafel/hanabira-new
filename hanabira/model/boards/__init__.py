@@ -528,8 +528,8 @@ class Board(meta.Declarative):
                 if thread.id:
                     if not self.check_permissions('new_reply', admin):
                         log.info('new_reply permission check failed')
-                        critical_errors.append(_('%s permission check failed')
-                                               % 'new_reply')
+                        critical_errors.append(
+                            _('%s permission check failed') % 'new_reply')
                     if thread.archived:
                         log.info('thread is archived')
                         critical_errors.append(_('Thread %s is archived') %
@@ -622,14 +622,14 @@ class Board(meta.Declarative):
             message_raw = params.get('message', '')
 
         trace_time('post.set_data')
-        post.set_data(
-            name_str=(not session.get_token(
-                'forbid_name', board=self,
-                thread=thread) and params.get('name', '') or ''),
-            subject=(not session.get_token(
-                'forbid_subj', board=self,
-                thread=thread) and params.get('subject', '') or ''),
-            message_raw=message_raw, )
+        post.set_data(name_str=(not session.get_token(
+            'forbid_name', board=self, thread=thread) and
+                                params.get('name', '') or ''),
+                      subject=(not session.get_token('forbid_subj',
+                                                     board=self,
+                                                     thread=thread) and
+                               params.get('subject', '') or ''),
+                      message_raw=message_raw, )
         trace_time('post.set_data')
 
         post.password = password

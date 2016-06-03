@@ -138,9 +138,9 @@ class MusicFile(Filetype):
 
     def process_metadata(self, metadata, file):
         fileinfo = "%s, %.2f KB, %d:%02d m @ %s/%s kHz" % (
-            metadata['type'],
-            (file.size / 1024.0), metadata['length'] / 60, metadata['length'] %
-            60, metadata['bitrate'] / 1000.0, metadata['sample_rate'] / 1000.0)
+            metadata['type'], (file.size / 1024.0), metadata['length'] / 60,
+            metadata['length'] % 60, metadata['bitrate'] / 1000.0,
+            metadata['sample_rate'] / 1000.0)
         artist = metadata.get('artist', 'Unknown')
         album = metadata.get('album', 'Unknown')
         title = metadata.get('title', 'Unknown')

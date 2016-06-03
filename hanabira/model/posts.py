@@ -16,15 +16,16 @@ from hanabira.view.error import *
 import logging
 log = logging.getLogger(__name__)
 
-post_files_table = Table(
-    "post_files",
-    meta.metadata,
-    Column("post_id",
-           Integer, ForeignKey('posts.post_id'),
-           index=True),
-    Column("file_id",
-           Integer, ForeignKey('files.file_id'),
-           index=True), )
+post_files_table = Table("post_files",
+                         meta.metadata,
+                         Column("post_id",
+                                Integer,
+                                ForeignKey('posts.post_id'),
+                                index=True),
+                         Column("file_id",
+                                Integer,
+                                ForeignKey('files.file_id'),
+                                index=True), )
 
 
 class PostReference(meta.Declarative):
@@ -469,16 +470,16 @@ class Post(meta.Declarative):
                 ipToInt(request.ip), session.id, self, 0, u", ".join(reason))
 
 
-deleted_post_files_table = Table(
-    "deleted_post_files",
-    meta.metadata,
-    Column("post_id",
-           Integer,
-           ForeignKey('deleted_posts.post_id'),
-           index=True),
-    Column("file_id",
-           Integer, ForeignKey('files.file_id'),
-           index=True), )
+deleted_post_files_table = Table("deleted_post_files",
+                                 meta.metadata,
+                                 Column("post_id",
+                                        Integer,
+                                        ForeignKey('deleted_posts.post_id'),
+                                        index=True),
+                                 Column("file_id",
+                                        Integer,
+                                        ForeignKey('files.file_id'),
+                                        index=True), )
 
 
 class DeletedPost(Post):

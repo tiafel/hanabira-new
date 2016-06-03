@@ -219,9 +219,9 @@ class Settings(object):
         (u'String', u'hanabira_files_idx',
          lazy_gettext("SphinxSearch index for files, by filename and metainfo")
          ),
-        "sphinx.maximum": (
-            u'Integer', 1000,
-            lazy_gettext("SphinxSearch maximum records per search")),
+        "sphinx.maximum":
+        (u'Integer', 1000,
+         lazy_gettext("SphinxSearch maximum records per search")),
         "sphinx.per_page": (u'Integer', 20,
                             lazy_gettext("SphinxSearch threads per page")),
         "trace.enabled": (u'Conf', u'', lazy_gettext("Tracing")),

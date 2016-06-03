@@ -36,8 +36,9 @@ def acceptable_censorship(file, rating, rating_strict=True):
 
 
 def postUrl(board, thread, post):
-    return '%s#i%s' % (url(
-        'thread', board=board, thread_id=thread or post), post)
+    return '%s#i%s' % (url('thread',
+                           board=board,
+                           thread_id=thread or post), post)
 
 
 def reflink(board, thread_id, post, reply):
@@ -189,8 +190,8 @@ def show_errors(field):
     if c.errors and field in c.errors:
         errstr = []
         for error in c.errors[field]:
-            errstr.append("<tr><td colspan='2' class='post-error'>%s</td></tr>"
-                          % error)
+            errstr.append(
+                "<tr><td colspan='2' class='post-error'>%s</td></tr>" % error)
         return "\n".join(errstr)
     else:
         return ''

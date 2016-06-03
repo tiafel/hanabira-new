@@ -135,8 +135,9 @@ def popen(command, raise_errors=False):
                             (command.split(' ')[0], e))
         r = sp.stdout.read()
     else:
-        r = subprocess.Popen(
-            command, shell=True, stdout=subprocess.PIPE).stdout.read()
+        r = subprocess.Popen(command,
+                             shell=True,
+                             stdout=subprocess.PIPE).stdout.read()
     return r
 
 
@@ -148,8 +149,8 @@ def ipToInt(ipstr):
 
 def intToIp(ip):
     if type(ip) in [str, str]: return ip
-    return "%s.%s.%s.%s" % ((ip >> 24) & 0xff, (ip >> 16) & 0xff,
-                            (ip >> 8) & 0xff, ip & 0xff)
+    return "%s.%s.%s.%s" % ((ip >> 24) & 0xff, (ip >> 16) & 0xff, (ip >> 8) &
+                            0xff, ip & 0xff)
 
 
 def whois(ip, ww=None, html=None):
@@ -157,8 +158,8 @@ def whois(ip, ww=None, html=None):
     if ww:
         r = popen("whois %s" % ip)
     else:
-        r = popen("whois -h whois.ripe.net -p 43 -B -T inetnum,organisation %s"
-                  % ip)
+        r = popen(
+            "whois -h whois.ripe.net -p 43 -B -T inetnum,organisation %s" % ip)
     rereq = 0
     res = []
     for line in r.split('\n'):

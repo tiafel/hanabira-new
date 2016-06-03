@@ -155,8 +155,9 @@ class Permissions(object):
         for name, includes_names in self.defaults_compound:
             perm = Permission.get(name)
             if not perm:
-                log.info("Created %s" % CompoundPermission(
-                    name, includes_names=includes_names))
+                log.info("Created %s" %
+                         CompoundPermission(name,
+                                            includes_names=includes_names))
         self.load()
 
     def load(self):

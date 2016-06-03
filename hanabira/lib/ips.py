@@ -45,8 +45,8 @@ def whois(ip, ww=None, html=None):
     if ww:
         r = popen("whois %s" % ip)
     else:
-        r = popen("whois -h whois.ripe.net -p 43 -B -T inetnum,organisation %s"
-                  % ip)
+        r = popen(
+            "whois -h whois.ripe.net -p 43 -B -T inetnum,organisation %s" % ip)
     rereq = 0
     res = []
     for line in r.split('\n'):
