@@ -7,6 +7,7 @@ import simplejson
 from hashlib import md5
 log = logging.getLogger(__name__)
 
+
 class ControlController(BaseController):
     def __before__(self):
         BaseController.init_request(self)

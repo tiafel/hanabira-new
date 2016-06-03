@@ -6,10 +6,13 @@ from .filetype import Filetype
 import logging
 log = logging.getLogger(__name__)
 
+
 class PDFFile(Filetype):
     __mapper_args__ = {'polymorphic_identity': u'pdf'}
+
     def process(self, file, thumb_res, fileset):
-        log.debug('Processing %s[0], %s bytes' % (file.temp_file.path, file.temp_file.size))
+        log.debug('Processing %s[0], %s bytes' %
+                  (file.temp_file.path, file.temp_file.size))
         # XXX: make thumbnail
         # get metadata
         """
@@ -32,6 +35,10 @@ class PDFFile(Filetype):
         raise Exception("Currently not supported")
 
     def process_metadata(self, metadata, file):
-        pages = metadata['pages'] and ungettext(', %s page', ', %s pages', metadata['pages'])%metadata['pages'] or ''
+        pages = metadata['pages'] and ungettext(
+            ', %s page', ', %s pages',
+            metadata['pages']) % metadata['pages'] or ''
         secured = metadata['secured'] and ' [secured]' or ''
-        return u"%s, %.2f KB, %s×%s%s%s" % (metadata['type'], (file.size / 1024.0), metadata.get('width', 0), metadata.get('height', 0), pages, secured)
+        return u"%s, %.2f KB, %s×%s%s%s" % (metadata['type'], (
+            file.size / 1024.0), metadata.get('width', 0), metadata.get(
+                'height', 0), pages, secured)

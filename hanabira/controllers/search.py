@@ -8,6 +8,7 @@ from hanabira.lib.base import *
 
 log = logging.getLogger(__name__)
 
+
 class SearchController(BaseController):
     def __before__(self):
         BaseController.__before__(self)
@@ -15,7 +16,7 @@ class SearchController(BaseController):
         c.errors = []
         c.query = u""
         c.admin = session.get('admin', None)
-    
+
     def search(self, search_id, page, ext):
         if page == 'index':
             page = 0
@@ -28,7 +29,10 @@ class SearchController(BaseController):
         if search:
             c.search = search
             c.pages = search.pages
-            c.threads = search.get_threads(page=page, admin=c.admin, visible_posts=session['visible_posts'])
+            c.threads = search.get_threads(
+                page=page,
+                admin=c.admin,
+                visible_posts=session['visible_posts'])
             return render('/search/result.mako')
         else:
             c.errors = [_("No such search query found")]

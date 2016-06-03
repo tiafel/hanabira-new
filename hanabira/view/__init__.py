@@ -20,14 +20,18 @@ from .admin.posts_list import AdminPostsListView
 import logging
 log = logging.getLogger(__name__)
 
+
 class HTMLView(BaseView):
     def __init__(self, h):
         self.html = h
+
     def make_xhtml(self):
         return self.html
 
+
 def render_view(func):
     spec = getargspec(func)
+
     def _decorator(self, **kw):
         ## Use xhtml as default for now
         format = kw.get('format', 'xhtml')
@@ -36,4 +40,5 @@ def render_view(func):
         args = make_args_for_spec(spec, kw)
         view = func(self, **args)
         return view.render(format)
+
     return _decorator

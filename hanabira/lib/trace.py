@@ -6,17 +6,18 @@ import logging
 from functools import reduce
 trace_log = logging.getLogger('trace')
 
+
 class FuncTracer(object):
     def __init__(self):
         self.funcs = []
         self.stack = []
         self.times = {}
         self.first = None
-        self.last  = None
+        self.last = None
         self._header = None
-        
+
     def trace(self, name):
-        now = datetime.now()        
+        now = datetime.now()
         if name in self.times:
             if self.times[name][1] != None:
                 return None
@@ -33,19 +34,20 @@ class FuncTracer(object):
             self.times[name] = [now, None]
             if not self.first:
                 self.first = now
-                
+
     def print_times(self):
         over_limit = False
         ct = self.last - self.first
-        ct = ct.seconds + float(ct.microseconds)/1000000
+        ct = ct.seconds + float(ct.microseconds) / 1000000
         if ct >= float(str(g.settings.trace.time_limit)):
-            over_limit=True
-            
+            over_limit = True
+
         if not (over_limit or str(g.settings.trace.time_show_all) == 'true'):
-            return 
-        
+            return
+
         msg = [self.header]
-        maxlen = len(reduce(lambda x,y:len(x) > len(y) and x or y, self.funcs))
+        maxlen = len(reduce(lambda x, y: len(x) > len(y) and x or y,
+                            self.funcs))
         for name in self.funcs:
             vals = self.times[name]
             if vals[1]:
@@ -55,7 +57,7 @@ class FuncTracer(object):
             trace_log.error("\n".join(msg))
         else:
             trace_log.info("\n".join(msg))
-            
+
     @property
     def header(self):
         if self._header:
@@ -67,12 +69,13 @@ class FuncTracer(object):
         elif session.is_new:
             sess = ' NEW'
         act   = "{0[controller]}.{0[action]}({2}) from {1.ip} {1.country}{3}".\
-            format(route, request, 
+            format(route, request,
                    request.environ['PATH_INFO'],
                    sess
                    )
         self._header = act
         return act
+
 
 def trace_time(name):
     if str(g.settings.trace.enabled) == 'true':
@@ -81,7 +84,8 @@ def trace_time(name):
             tracer = FuncTracer()
             c.tracer = tracer
         tracer.trace(name)
-        
+
+
 def render(template, *args, **kw):
     trace_time('render')
     res = render_mako(template, *args, **kw)

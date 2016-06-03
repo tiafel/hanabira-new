@@ -11,12 +11,13 @@ from hanabira.model import meta, Post
 import logging
 log = logging.getLogger(__name__)
 
+
 class ApiActionsController(BaseController):
     def __before__(self):
-        BaseController.__before__(self) 
+        BaseController.__before__(self)
         if session.is_bot:
             return abort(403)
-    
+
     @render_view
     def thread_hide(self, board, thread_id, format):
         if not board in session['hide']:
@@ -46,10 +47,10 @@ class ApiActionsController(BaseController):
     def thread_unsign(self, board, display_id):
         board = g.boards.get(board)
         thread = board.get_thread_simple(display_id)
-        if thread:        
+        if thread:
             session['bookmarks'].remove(thread.id)
             session.save()
-                        
+
     def hide_info(self, board, format):
         if board in session['hideinfo']:
             session['hideinfo'].remove(board)
@@ -60,12 +61,13 @@ class ApiActionsController(BaseController):
             return redirect(url('board', board=board))
         else:
             return self._result(True)
-        
+
     @render_view
     def notice_delete(self, mid, format):
         session.delete_notice(mid)
         session.save()
-        return DataView(True)    
+        return DataView(True)
+
     """
     def notification_mark_read(self, notification_id, format):
         n = Notification.query.get(notification_id)
@@ -77,7 +79,7 @@ class ApiActionsController(BaseController):
         meta.Session.commit()
         return DataView(True)
     """
-    
+
     def playlist_add(self, file_id, format):
         f = File.query.get(file_id)
         if f:
@@ -99,7 +101,7 @@ class ApiActionsController(BaseController):
             return self._result(True)
         else:
             return self._result(False)
-        
-    # Save to DB and publish it
+
+        # Save to DB and publish it
     def playlist_playing(self, file_id, format):
-        return self._result(False)    
+        return self._result(False)

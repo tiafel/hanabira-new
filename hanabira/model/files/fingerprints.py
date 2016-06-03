@@ -7,15 +7,16 @@ from .files import File
 import logging
 log = logging.getLogger(__name__)
 
+
 class Fingerprint(meta.Declarative):
     __tablename__ = "fingerprints"
     fingerprint_id = Column(Integer, primary_key=True)
-    file_id        = Column(Integer, ForeignKey("files.file_id"))
-    type           = Column(String(8), nullable=False)
-    quantifier     = Column(Integer)
-    fingerprint    = Column(String(64), nullable=False)
+    file_id = Column(Integer, ForeignKey("files.file_id"))
+    type = Column(String(8), nullable=False)
+    quantifier = Column(Integer)
+    fingerprint = Column(String(64), nullable=False)
 
-    file           = relation(File, backref='fingerprints')
+    file = relation(File, backref='fingerprints')
 
     @synonym_for('fingerprint_id')
     @property
@@ -32,7 +33,9 @@ class Fingerprint(meta.Declarative):
 
     @classmethod
     def get_file(cls, type, quantifier, fingerprint):
-        fp = cls.query.filter(cls.type == type).filter(cls.quantifier == quantifier).filter(cls.fingerprint == fingerprint).first()
+        fp = cls.query.filter(cls.type == type).filter(
+            cls.quantifier == quantifier).filter(
+                cls.fingerprint == fingerprint).first()
         if fp:
             return fp.file
 
@@ -46,4 +49,9 @@ class Fingerprint(meta.Declarative):
     def __repr__(self):
         return "<Fingerprint%s>" % (str(self.get_tuple()))
 
-Index('idx_file_fingerprint', Fingerprint.type, Fingerprint.quantifier, Fingerprint.fingerprint, unique=True)
+
+Index('idx_file_fingerprint',
+      Fingerprint.type,
+      Fingerprint.quantifier,
+      Fingerprint.fingerprint,
+      unique=True)

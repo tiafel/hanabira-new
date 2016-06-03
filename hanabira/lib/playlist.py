@@ -5,31 +5,35 @@ import simplejson
 import logging
 log = logging.getLogger(__name__)
 
+
 class PlayListItem(object):
     file_id = None
-    path    = None
-    filename= None
-    duration= None
-    name    = None
-    ext     = None
-    idx     = 0
+    path = None
+    filename = None
+    duration = None
+    name = None
+    ext = None
+    idx = 0
+
     def __init__(self, f):
         self.file_id = f.id
-        self.path    = g.fs.web(f.path)
+        self.path = g.fs.web(f.path)
         self.filename = f.filename
         self.duration = int(f.metainfo['length'])
-        self.name    = f.filename
-        self.ext     = f.extension.ext
+        self.name = f.filename
+        self.ext = f.extension.ext
 
     def export(self):
         return self.__dict__
-        
+
+
 class PlayList(object):
     playlist = None
-    index    = None
+    index = None
+
     def __init__(self, default=None):
         self.playlist = []
-        self.index    = {}
+        self.index = {}
         if default:
             for f in default:
                 item = PlayListItem(f)
@@ -40,7 +44,6 @@ class PlayList(object):
     def reindex(self):
         for i in range(len(self.playlist)):
             self.playlist[i].idx = i
-            
 
     def add(self, f):
         if not f.id in self.index:
@@ -59,5 +62,3 @@ class PlayList(object):
     def export(self):
         l = [x.export() for x in self.playlist]
         return simplejson.dumps(l)
-            
-            

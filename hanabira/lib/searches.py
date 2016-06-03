@@ -10,6 +10,7 @@ from hanabira.model import meta
 import math
 log = logging.getLogger(__name__)
 
+
 class Search(object):
     id = None
     count = 0
@@ -19,6 +20,7 @@ class Search(object):
     per_page = 0
     pages = 0
     thread_ids = None
+
     def __init__(self, id, query, posts, files, per_page):
         self.id = id
         self.query = query
@@ -33,7 +35,7 @@ class Search(object):
                 post_id = match['id']
                 thread_id = match['attrs']['thread_id']
                 if not thread_id in self.threads:
-                    self.threads[thread_id]=[]
+                    self.threads[thread_id] = []
                 self.threads[thread_id].append(post_id)
                 self.count += 1
         if 'matches' in files and files['matches']:
@@ -47,7 +49,7 @@ class Search(object):
             log.info("Posts with these files: %s" % len(file_posts))
             for post in file_posts:
                 if not post.thread_id in self.threads:
-                    self.threads[post.thread_id]=[]
+                    self.threads[post.thread_id] = []
                 if not post.id in self.threads[post.thread_id]:
                     self.threads[post.thread_id].append(post.id)
                     self.count += 1
@@ -56,17 +58,21 @@ class Search(object):
         self.thread_ids = self.threads.keys()
         self.thread_ids.sort(reverse=True)
         #log.info(self.threads)
-        self.pages = int(math.ceil(float(len(self.threads))/self.per_page))
+        self.pages = int(math.ceil(float(len(self.threads)) / self.per_page))
 
     def get_threads(self, page=0, admin=None, visible_posts=None):
         offset = self.per_page * page
-        thread_ids = self.thread_ids[offset:offset+self.per_page]
+        thread_ids = self.thread_ids[offset:offset + self.per_page]
         log.info(thread_ids)
-        threads_rows = meta.Session.query(Thread, Post).join((Post,Thread.op_id==Post.post_id)).filter(Thread.id.in_(thread_ids)).order_by(Thread.id.desc()).all()
+        threads_rows = meta.Session.query(Thread, Post).join((
+            Post, Thread.op_id == Post.post_id
+        )).filter(Thread.id.in_(thread_ids)).order_by(Thread.id.desc()).all()
         threads = []
         for thread, op in threads_rows:
             if thread.board.check_permissions('read', admin):
-                posts = Post.query.options(eagerload('files')).filter(Post.id.in_(self.threads[thread.id])).order_by("posts_display_id DESC").all()
+                posts = Post.query.options(eagerload('files')).filter(
+                    Post.id.in_(self.threads[thread.id])).order_by(
+                        "posts_display_id DESC").all()
                 thread.collect_posts(op, posts, limit=len(posts))
                 threads.append(thread)
         return threads
@@ -75,19 +81,23 @@ class Search(object):
         return True
 
     def __repr__(self):
-        return "<Search('%s', %s/%s/%s, %s pages)>" % (self.query, self.count, len(self.threads), self.files, self.pages)
+        return "<Search('%s', %s/%s/%s, %s pages)>" % (
+            self.query, self.count, len(self.threads), self.files, self.pages)
+
 
 class Searches(object):
     settings = None
     searches = []
-    client   = None
+    client = None
+
     def __init__(self, settings):
         self.settings = settings
         self.client = SphinxClient()
         self.client.SetServer(str(settings.sphinx.host), settings.sphinx.port)
         self.client.SetMatchMode(SPH_MATCH_EXTENDED2)
-        self.client.SetLimits(0, settings.sphinx.maximum, settings.sphinx.maximum, settings.sphinx.maximum)
-        
+        self.client.SetLimits(0, settings.sphinx.maximum,
+                              settings.sphinx.maximum, settings.sphinx.maximum)
+
     def check(self, query):
         return False
 
@@ -106,8 +116,8 @@ class Searches(object):
         files = self.client.Query(query, str(self.settings.sphinx.index_files))
         if posts or files:
             sid = len(self.searches)
-            self.searches.append(Search(sid, query, posts, files, self.settings.sphinx.per_page))
+            self.searches.append(Search(sid, query, posts, files,
+                                        self.settings.sphinx.per_page))
             return self.searches[sid]
         else:
             return None
-    

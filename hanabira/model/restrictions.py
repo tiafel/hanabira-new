@@ -16,22 +16,32 @@ from hanabira.model import meta
 
 log = logging.getLogger(__name__)
 
-restriction_types = ['ip', 'country', 'name', 'password', 'ua', 'file', 'thread', 'word', 'string', 'regexp', 'referer']
+restriction_types = ['ip', 'country', 'name', 'password', 'ua', 'file',
+                     'thread', 'word', 'string', 'regexp', 'referer']
 effects = ['premod', 'readonly', 'ban', 'captcha', 'nocaptcha', 'whitelist']
+
+
 class Restriction(meta.Declarative):
     __tablename__ = "restrictions"
     restriction_id = Column(Integer, primary_key=True)
-    type           = Column(Enum(*(['none'] + restriction_types)), nullable=False, default='ip')
-    value          = Column(Unicode(64), nullable=False)
-    date_added     = Column(DateTime, nullable=False, default=datetime.datetime.now)
-    duration       = Column(Integer, nullable=False, default=0) # in hours, 0 is infinite
-    scope          = Column(Integer, nullable=False, default=0) # 0 for global, otherwise board_id
-    expired        = Column(Boolean, default=False)
-    effect         = Column(Enum(*effects), nullable=False, default='premod')
-    reason         = Column(UnicodeText)
-    comment        = Column(UnicodeText)
-    
-    includes       = Column(Text, nullable=True) # хммм, и чего это такое я хотел?
+    type = Column(
+        Enum(*(['none'] + restriction_types)),
+        nullable=False,
+        default='ip')
+    value = Column(Unicode(64), nullable=False)
+    date_added = Column(DateTime,
+                        nullable=False,
+                        default=datetime.datetime.now)
+    duration = Column(Integer, nullable=False,
+                      default=0)  # in hours, 0 is infinite
+    scope = Column(Integer, nullable=False,
+                   default=0)  # 0 for global, otherwise board_id
+    expired = Column(Boolean, default=False)
+    effect = Column(Enum(*effects), nullable=False, default='premod')
+    reason = Column(UnicodeText)
+    comment = Column(UnicodeText)
+
+    includes = Column(Text, nullable=True)  # хммм, и чего это такое я хотел?
     __mapper_args__ = {'polymorphic_on': type, 'polymorphic_identity': u'none'}
 
     @synonym_for('restriction_id')
@@ -55,13 +65,14 @@ class Restriction(meta.Declarative):
         return []
 
     def __repr__(self):
-        return "<%s(%s => %s)>" % (self.__class__.__name__, self.value.encode('utf-8'), self.effect)
-    
+        return "<%s(%s => %s)>" % (self.__class__.__name__,
+                                   self.value.encode('utf-8'), self.effect)
+
 
 class RestrictionIP(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'ip'}
     check_at = ['session']
-    
+
     def validate(self):
         sn = self.value.split('/')
         if len(sn[0].split('.')) == 4:
@@ -74,7 +85,7 @@ class RestrictionIP(Restriction):
         ip = ipToInt(parts[0])
         self.sn = (len(parts) > 1) and int(parts[1]) or 32
         self.ip = bin(ip)[2:].rjust(32, '0')[:self.sn]
-        
+
     @classmethod
     def prepare(cls, restrs):
         for r in restrs:
@@ -92,9 +103,11 @@ class RestrictionIP(Restriction):
                 effects.append(r)
         return effects
 
+
 class RestrictionCountry(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'country'}
     check_at = ['session']
+
     @classmethod
     def check(cls, rg, data):
         val = data.country
@@ -103,9 +116,11 @@ class RestrictionCountry(Restriction):
         else:
             return []
 
+
 class RestrictionReferer(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'referer'}
     check_at = ['referer']
+
     @classmethod
     def check(cls, rg, uri, sess):
         val = uri.domain
@@ -114,9 +129,11 @@ class RestrictionReferer(Restriction):
         else:
             return []
 
+
 class RestrictionPassword(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'password'}
     check_at = ['post']
+
     @classmethod
     def check(cls, rg, data):
         val = data.password
@@ -124,24 +141,30 @@ class RestrictionPassword(Restriction):
             return rg[val]
         else:
             return []
+
+
 class RestrictionName(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'name'}
     check_at = ['post']
+
     @classmethod
     def check(cls, rg, data):
         val = data.name
         if val in rg:
             return rg[val]
         else:
-            return []         
+            return []
+
 
 class RestrictionUA(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'ua'}
     check_at = ['session']
 
+
 class RestrictionFile(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'file'}
     check_at = ['post']
+
     @classmethod
     def check(cls, rg, data):
         for f in data.files:
@@ -152,9 +175,11 @@ class RestrictionFile(Restriction):
                 return []
         return []
 
+
 class RestrictionThread(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'thread'}
     check_at = ['post']
+
     @classmethod
     def check(cls, rg, data):
         val = str(data.thread_id)
@@ -163,9 +188,11 @@ class RestrictionThread(Restriction):
         else:
             return []
 
+
 class RestrictionWord(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'word'}
     check_at = ['post']
+
 
 class RestrictionString(Restriction):
     """
@@ -180,7 +207,6 @@ class RestrictionString(Restriction):
     """
     __mapper_args__ = {'polymorphic_identity': u'string'}
     check_at = ['post']
-
 
     @classmethod
     def prepare(cls, restrs):
@@ -201,7 +227,7 @@ class RestrictionString(Restriction):
             if s in msgraw or s in name or s in subj:
                 effects += rg[s]
         return effects
-    
+
 
 class RestrictionRegexp(Restriction):
     __mapper_args__ = {'polymorphic_identity': u'regexp'}
@@ -212,7 +238,8 @@ class RestrictionRegexp(Restriction):
         rg = {}
         for r in restrs:
             rg[re.compile(r.value)] = r.effect
-        return rg    
+        return rg
+
 
 def format_restrictions_reason(l):
     res = []
@@ -224,17 +251,26 @@ def format_restrictions_reason(l):
         res.append(s)
     return res
 
+
 class Restrictions(object):
-    classes = {'ip':RestrictionIP, 'country':RestrictionCountry, 'password':RestrictionPassword,
-               'ua':RestrictionUA, 'file':RestrictionFile, 'thread':RestrictionThread, 'word':RestrictionWord,
-               'string':RestrictionString, 'regexp':RestrictionRegexp, 'name':RestrictionName,
-               'referer':RestrictionReferer}
+    classes = {'ip': RestrictionIP,
+               'country': RestrictionCountry,
+               'password': RestrictionPassword,
+               'ua': RestrictionUA,
+               'file': RestrictionFile,
+               'thread': RestrictionThread,
+               'word': RestrictionWord,
+               'string': RestrictionString,
+               'regexp': RestrictionRegexp,
+               'name': RestrictionName,
+               'referer': RestrictionReferer}
     checks = None
+
     def __init__(self):
         self.load()
 
     def load(self):
-        self.checks = {'post':{}, 'session':{}, 'referer':{}}
+        self.checks = {'post': {}, 'session': {}, 'referer': {}}
         restrs = Restriction.query.filter(Restriction.expired == False).all()
         for restr in restrs:
             if not restr.__class__ in self.checks[restr.check_at[0]]:
@@ -247,7 +283,6 @@ class Restrictions(object):
                 rg = cls.prepare(self.checks[check_at][cls])
                 self.checks[check_at][cls] = rg
 
-
     def check_session(self, request):
         effects = {}
         for cls in self.checks['session']:
@@ -256,7 +291,7 @@ class Restrictions(object):
                 effects.setdefault(r.effect, [])
                 effects[r.effect].append(r)
         return effects
-            
+
     def check_post(self, post):
         effects = {}
         for cls in self.checks['post']:
@@ -265,7 +300,7 @@ class Restrictions(object):
                 effects.setdefault(r.effect, [])
                 effects[r.effect].append(r)
         return effects
-    
+
     def check_referer(self, uri, sess):
         effects = {}
         for cls in self.checks['referer']:
@@ -273,4 +308,4 @@ class Restrictions(object):
             for r in ef:
                 effects.setdefault(r.effect, [])
                 effects[r.effect].append(r)
-        return effects        
+        return effects

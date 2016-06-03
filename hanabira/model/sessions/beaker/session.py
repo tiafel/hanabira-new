@@ -20,6 +20,7 @@ from hanabira.lib.bookmarks import Bookmarks
 import logging
 log = logging.getLogger(__name__)
 
+
 class BeakerSessionManager(object):
     secret = ''
     data_dir = None
@@ -27,6 +28,7 @@ class BeakerSessionManager(object):
     key = 'hanabira'
     timeout = 315360000
     cookie_expires = False
+
     def __init__(self, config):
         appconf = config['app_conf']
         self.key = appconf.get('beaker.session.key', self.key)
@@ -60,51 +62,58 @@ class BeakerSessionManager(object):
 
     def load_file(self, env=None, id=None):
         if id:
-            return BeakerSession({}, use_cookies=False, id=id, 
-                              secret=self.secret, 
-                              key=self.key,
-                              data_dir=self.data_dir,
-                              lock_dir=self.lock_dir,
-                              cookie_expires=self.cookie_expires,
-                              invalidate_corrupt=True,
-                              timeout=self.timeout,
-                              type=None,
-                              log_file=None
-                              )
+            return BeakerSession({},
+                                 use_cookies=False,
+                                 id=id,
+                                 secret=self.secret,
+                                 key=self.key,
+                                 data_dir=self.data_dir,
+                                 lock_dir=self.lock_dir,
+                                 cookie_expires=self.cookie_expires,
+                                 invalidate_corrupt=True,
+                                 timeout=self.timeout,
+                                 type=None,
+                                 log_file=None)
         elif env:
-            req = {'cookie_out':None}
+            req = {'cookie_out': None}
             req['cookie'] = env.get('HTTP_COOKIE')
-            return BeakerSession(req, use_cookies=True,
-                              secret=self.secret, 
-                              key=self.key,
-                              data_dir=self.data_dir,
-                              lock_dir=self.lock_dir,
-                              cookie_expires=self.cookie_expires,
-                              invalidate_corrupt=True,
-                              timeout=self.timeout,
-                              type=None,
-                              log_file=None
-                              )	                           
+            return BeakerSession(req,
+                                 use_cookies=True,
+                                 secret=self.secret,
+                                 key=self.key,
+                                 data_dir=self.data_dir,
+                                 lock_dir=self.lock_dir,
+                                 cookie_expires=self.cookie_expires,
+                                 invalidate_corrupt=True,
+                                 timeout=self.timeout,
+                                 type=None,
+                                 log_file=None)
+
 
 current_version = 3
+
 
 def get_prop(prop):
     def get_prop_sub(self):
         return self[prop]
+
     return get_prop_sub
+
 
 def set_prop(prop):
     def set_prop_sub(self, val):
         self[prop] = val
+
     return set_prop_sub
-    
+
 
 class BeakerSession(Session):
     is_bot = False
+
     def __init__(self, *args, **kw):
         Session.__init__(self, *args, **kw)
         #log.info(self.__dict__)
-            
+
     def update_post_count(self, post, thread, mode='new'):
         if mode == 'delete':
             self.posts_deleted += 1
@@ -127,49 +136,53 @@ class BeakerSession(Session):
             self.last_posted = request.now
             self.last_ip = request.ip
         self.save()
-    
+
     def get_tokens(self):
         r = []
         if not self._need_captcha():
             r.append({
-                '__class__':'UserToken',
-                'token':'no_user_captcha',
-                'created_at':None,
-                'scope':'0',
-                'board_id':None,
-                'thread_id':None,
-                'tag_id':None,
-                'type':'permission',
-                'duration':-1,
-                'value':None,
-                'origin':'auto',
-                })
+                '__class__': 'UserToken',
+                'token': 'no_user_captcha',
+                'created_at': None,
+                'scope': '0',
+                'board_id': None,
+                'thread_id': None,
+                'tag_id': None,
+                'type': 'permission',
+                'duration': -1,
+                'value': None,
+                'origin': 'auto',
+            })
         return r
-    
-    def get_token(self, token,
-                  board=None, board_id=None,
-                  thread=None, thread_id=None,
-                  tag=None, scope=None):
+
+    def get_token(self,
+                  token,
+                  board=None,
+                  board_id=None,
+                  thread=None,
+                  thread_id=None,
+                  tag=None,
+                  scope=None):
         r = []
         if not isinstance(token, list):
-            token = [token]  
-            
-        # Normalize scope            
+            token = [token]
+
+            # Normalize scope
         if thread:
-            thread_id = thread.id            
+            thread_id = thread.id
         board_name = None
         if board:
             board_id = board.id
-            board_name = board.board            
-        
+            board_name = board.board
+
         # Lookup admin tokens
         if self.admin:
             if self.admin.has_permission(token, board_id):
                 r.append(0)
-                
+
         now = datetime.now()
         outdated = False
-        
+
         if 'tokens' in self and self['tokens']:
             for td in self.tokens:
                 if td[0] in token:
@@ -179,18 +192,28 @@ class BeakerSession(Session):
                             continue
                     if td[1][0] == 'global':
                         r.append(td)
-                    elif board_name and td[1][0] == 'board' and td[1][1] == board_name:
+                    elif board_name and td[1][0] == 'board' and td[1][
+                            1] == board_name:
                         r.append(td)
-                    elif thread_id and td[1][0] == 'thread' and td[1][1] == thread_id:
+                    elif thread_id and td[1][0] == 'thread' and td[1][
+                            1] == thread_id:
                         r.append(td)
         if outdated:
             self.recheck_tokens()
-        return r    
-    
-    def add_token(self, token, scope, duration, reason_post_id=None, reasons=None, reason_text=None, admin=None):
+        return r
+
+    def add_token(self,
+                  token,
+                  scope,
+                  duration,
+                  reason_post_id=None,
+                  reasons=None,
+                  reason_text=None,
+                  admin=None):
         if isinstance(duration, int) and duration > 0:
             duration = timedelta(minutes=duration)
-        token_data = [token, scope, duration, datetime.now().replace(microsecond=0), {}]
+        token_data = [token, scope, duration, datetime.now().replace(
+            microsecond=0), {}]
         if reason_post_id:
             token_data[4]['reason_post_id'] = reason_post_id
         if reasons:
@@ -201,41 +224,42 @@ class BeakerSession(Session):
             token_data[4]['reason_text'] = reason_text
         if admin:
             token_data[4]['admin'] = admin.login
-            
+
         if not 'tokens' in self:
             self['tokens'] = []
-            
+
         self['tokens'].append(token_data)
-        
+
     def remove_token(self, token, scope):
         tokens = []
         for td in self['tokens']:
-            if (td[0] != token or (td[1][0] == 'global' and scope[0] != 'global') or
+            if (td[0] != token or
+                (td[1][0] == 'global' and scope[0] != 'global') or
                 (td[1][0] != 'global' and (td[1] != scope))):
                 tokens.append(td)
         self['tokens'] = tokens
-        
+
     def recheck_tokens(self):
         tokens = []
-        now = datetime.now()        
+        now = datetime.now()
         for td in self['tokens']:
             if td[2] != -1:
                 if td[3] + td[2] < now:
-                    continue            
+                    continue
             tokens.append(td)
         self['tokens'] = tokens
-        
+
     def add_notice(self, message, level):
         if not 'notices' in self:
             self['notices'] = {}
         mid = str(int(time.time() * 10**5))
         self['notices'][mid] = (message, level)
         return mid
-    
+
     def delete_notice(self, mid):
         if mid in self['notices']:
             del self['notices'][mid]
-            
+
     def get_threads(self, levels=['hidden', 'bookmarked', 'op', 'replied']):
         r = []
         if 'hidden' in levels:
@@ -243,38 +267,39 @@ class BeakerSession(Session):
                 board = g.boards.get(board=board_name)
                 for thread_id in threads:
                     r.append({
-                        '__class__':'UserThread',
+                        '__class__': 'UserThread',
                         'thread_id': thread_id,
                         'board_id': board.id,
                         'level': 'hidden',
                         'unread': 0,
-                        'last_post_id':None,
-                        'last_viewed':None,
-                        'last_hit':None,
-                        })
+                        'last_post_id': None,
+                        'last_viewed': None,
+                        'last_hit': None,
+                    })
         if 'bookmarked' in levels:
             for thread_id, board_name in self['bookmarks'].threads.items():
                 board = g.boards.get(board=board_name)
                 r.append({
-                        '__class__':'UserThread',
-                        'thread_id': thread_id,
-                        'board_id': board.id,
-                        'level': 'bookmarked',
-                        'unread': 0,
-                        'last_post_id':None,
-                        'last_viewed':str(self['bookmarks'].visits[thread_id]),
-                        'last_hit':None,
-                        })                
+                    '__class__': 'UserThread',
+                    'thread_id': thread_id,
+                    'board_id': board.id,
+                    'level': 'bookmarked',
+                    'unread': 0,
+                    'last_post_id': None,
+                    'last_viewed': str(self['bookmarks'].visits[thread_id]),
+                    'last_hit': None,
+                })
         return r
-        
+
     def _need_captcha(self):
         if self.get_token('no_captcha'):
             return False
-        if not self['enforced_captcha_complexity'] and g.settings.captcha.post_threshold != -1 and g.settings.captcha.post_threshold <= self.posts_visible:
+        if not self[
+                'enforced_captcha_complexity'] and g.settings.captcha.post_threshold != -1 and g.settings.captcha.post_threshold <= self.posts_visible:
             return False
         else:
-            return True        
-    
+            return True
+
     def set_admin_from_key(self, key):
         ak = AdminKey.query.filter(AdminKey.key == key).first()
         if ak:
@@ -317,15 +342,16 @@ class BeakerSession(Session):
         self['nopostform'] = 0
         self['reputation_min'] = -5
         self['banners'] = 'different'
-        self['password'] = "".join(random.sample(string.ascii_letters+string.digits, 8))
+        self['password'] = "".join(random.sample(string.ascii_letters +
+                                                 string.digits, 8))
         self.init_language()
         self['bookmarks'] = Bookmarks()
         self['visible_posts'] = VisiblePosts()
         self['captcha'] = Captcha(self)
         self['playlist'] = PlayList()
-        
+
         # v2
-        
+
         self['last_ip'] = request.ip
         self['created_ip'] = request.ip
         self['last_active'] = request.now
@@ -339,27 +365,31 @@ class BeakerSession(Session):
         self['threads_deleted'] = 0
         self['threads_invisible'] = 0
         self['is_confirmed'] = 0
-        
+
         self['tokens'] = []
         self['notices'] = {}
-        
-        self.check_restrictions()
 
+        self.check_restrictions()
 
     def init_language(self):
         lang = g.settings.chan.language
-        if request.CIS or c.country.lower() in ['ru', 'ua', 'kz', 'by', 'ee', 'lv']:
+        if request.CIS or c.country.lower() in ['ru', 'ua', 'kz', 'by', 'ee',
+                                                'lv']:
             lang = 'ru'
-        elif c.country.lower() in ['us', 'au', 'uk', 'de', 'fr', 'eu', 'ca', 'gb']:
+        elif c.country.lower() in ['us', 'au', 'uk', 'de', 'fr', 'eu', 'ca',
+                                   'gb']:
             lang = 'en'
         elif c.country.lower() in ['jp']:
             lang = 'ja'
-        self['language'] = lang	
+        self['language'] = lang
 
     def check_restrictions(self):
         effects = g.restrictions.check_session(request)
         if 'premod' in effects:
-            self.add_token('premod', ('global', None), -1, reason_text=format_restrictions_reason(effects['premod']))
+            self.add_token(
+                'premod', ('global', None),
+                -1,
+                reason_text=format_restrictions_reason(effects['premod']))
         # XXX: sync other effects with tokens
 
     def process_referer(self, referer):
@@ -369,9 +399,9 @@ class BeakerSession(Session):
         process_http(uri, False)
         if uri.domain in g.local_domains:
             return None
-        
+
         orig_ref = uri.text
-            
+
         if uri.domain in g.ignore_referers:
             return None
         if uri.domain in ['google', 'yandex']:
@@ -380,32 +410,57 @@ class BeakerSession(Session):
             if uri.search_query in g.ignore_queries:
                 return None
         if request.environ['QUERY_STRING']:
-            target = "%s?%s" % (request.environ['PATH_INFO'], request.environ['QUERY_STRING'])
+            target = "%s?%s" % (request.environ['PATH_INFO'],
+                                request.environ['QUERY_STRING'])
         else:
             target = request.environ['PATH_INFO']
-        Referer(date=datetime.now(), 
-                domain=uri.domain, referer=uri.text, target=target,
+        Referer(date=datetime.now(),
+                domain=uri.domain,
+                referer=uri.text,
+                target=target,
                 ip=ipToInt(request.ip),
-                session_id=self.id, session_new=self.is_new).commit()
-        
+                session_id=self.id,
+                session_new=self.is_new).commit()
+
         if self.is_new:
             self['referer'] = orig_ref
             effects = g.restrictions.check_referer(uri, self)
             if 'premod' in effects:
                 if 'premod' in effects:
-                    self.add_token('premod', ('global', None), -1, reason_text=format_restrictions_reason(effects['premod']))
+                    self.add_token('premod', ('global', None),
+                                   -1,
+                                   reason_text=format_restrictions_reason(
+                                       effects['premod']))
             self.save()
-            
+
     def init_hanabira_v1(self):
         log.info("Update session to version 1")
-        opts = {'username':{}, 'stats':{}, 'referer':'', 'hide':{}, 'posts':{}, 'hideinfo':[], 'reply_button':1, 'rating':g.settings.censorship.default, 'rating_strict':g.settings.censorship.strict, 'post_count':0, 'deleted_posts':0, 'redirect':'board', 'scroll_threads':1, 'mini':0, 'enforced_captcha_complexity':0, 'nopostform':0, 'reputation_min':-5, 'banners':'different'}
+        opts = {'username': {},
+                'stats': {},
+                'referer': '',
+                'hide': {},
+                'posts': {},
+                'hideinfo': [],
+                'reply_button': 1,
+                'rating': g.settings.censorship.default,
+                'rating_strict': g.settings.censorship.strict,
+                'post_count': 0,
+                'deleted_posts': 0,
+                'redirect': 'board',
+                'scroll_threads': 1,
+                'mini': 0,
+                'enforced_captcha_complexity': 0,
+                'nopostform': 0,
+                'reputation_min': -5,
+                'banners': 'different'}
 
         for o in opts:
             if not o in self:
                 self[o] = opts[o]
 
         if not 'password' in self:
-            self['password'] = "".join(random.sample(string.letters+string.digits, 8))
+            self['password'] = "".join(random.sample(string.letters +
+                                                     string.digits, 8))
 
         if not 'language' in self:
             self.init_language()
@@ -416,30 +471,31 @@ class BeakerSession(Session):
             else:
                 self['bookmarks'] = Bookmarks()
 
-        if not 'visible_posts' in self or self['visible_posts'].__class__ != VisiblePosts:
+        if not 'visible_posts' in self or self[
+                'visible_posts'].__class__ != VisiblePosts:
             self['visible_posts'] = VisiblePosts()
 
         if not 'captcha' in self:
             self['captcha'] = Captcha(self)
 
-
         if not 'playlist' in self:
             if g.settings.player.playlist:
-                dpl = [int(x.strip()) for x in g.settings.player.playlist.split(',')]
+                dpl = [int(x.strip())
+                       for x in g.settings.player.playlist.split(',')]
                 dpl = File.query.filter(File.id.in_(dpl)).all()
             else:
                 dpl = []
-            self['playlist'] = PlayList(default = dpl)
-
+            self['playlist'] = PlayList(default=dpl)
 
         # Garbage cleanup
-        for i in ['invisible_threads', 'my threads', 'invisible_posts', 'boardpage', 'visible_threads', 'captchas', 'signed']:
+        for i in ['invisible_threads', 'my threads', 'invisible_posts',
+                  'boardpage', 'visible_threads', 'captchas', 'signed']:
             if i in self:
                 del self[i]
 
         self['version'] = 1
         self.save()
-        
+
     def init_hanabira_v2(self):
         self['last_ip'] = request.ip
         self['created_ip'] = request.ip
@@ -454,34 +510,31 @@ class BeakerSession(Session):
         self['threads_deleted'] = 0
         self['threads_invisible'] = 0
         self['is_confirmed'] = 0
-        
+
         del self['post_count']
         del self['deleted_posts']
-        
+
         self['version'] = 2
-        
+
         self.save()
-        
+
     def init_hanabira_v3(self):
         self['notices'] = {}
         self['tokens'] = []
-        
+
         del self['invisible']
         del self['inv_reason']
-        
+
         self['version'] = 3
         self.save()
-        
-        
-    # Properties
+
+        # Properties
+
     created_at = property(get_prop('_creation_time'))
 
-for prop in ['last_active', 'last_posted', 
-             'created_ip', 'last_ip',
-             'referer', 'password',
-             'tokens',
-             'posts_count', 'posts_deleted', 'posts_invisible', 'posts_visible',
-             'posts_chars',
+
+for prop in ['last_active', 'last_posted', 'created_ip', 'last_ip', 'referer',
+             'password', 'tokens', 'posts_count', 'posts_deleted',
+             'posts_invisible', 'posts_visible', 'posts_chars',
              'threads_count', 'threads_deleted', 'threads_invisible']:
     setattr(BeakerSession, prop, property(get_prop(prop), set_prop(prop)))
-

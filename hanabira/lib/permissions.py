@@ -4,8 +4,10 @@ from pylons import tmpl_context as c, cache, config, app_globals as g, request, 
 from hanabira.view.error import *
 from hanabira.lib.decorators import getargspec, make_args_for_spec, decorator
 
+
 class PermissionException(Exception):
     pass
+
 
 def check_permissions(permission, need_global=True, allow_key=False):
     """
@@ -14,6 +16,7 @@ def check_permissions(permission, need_global=True, allow_key=False):
     @check_permissions(permission, False) for scoped check
     In later case, function *MUST* accept 'scopes' keyword, and have it *LAST* in list
     """
+
     def do_check(func, self, *args, **kwargs):
         if allow_key and 'key' in request.GET:
             session.set_admin_from_key(request.GET['key'])
@@ -34,4 +37,5 @@ def check_permissions(permission, need_global=True, allow_key=False):
                     return error_forbidden
             else:
                 return PermissionErrorView(permission, need_global)
+
     return decorator(do_check)

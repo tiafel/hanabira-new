@@ -6,6 +6,7 @@ from decorator import decorator
 import logging
 log = logging.getLogger(__name__)
 
+
 def make_args_for_spec(spec, kw, has_self=True):
     if spec.keywords:
         return kw

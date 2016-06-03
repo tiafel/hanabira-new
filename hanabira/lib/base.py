@@ -34,6 +34,7 @@ log = logging.getLogger(__name__)
 
 cis_countries = ['RU', 'BY', 'KZ', 'UA', 'EE', 'LV']
 
+
 class PageInfo(object):
     page = None
     chan_title = ''
@@ -44,10 +45,10 @@ class PageInfo(object):
     keywords = ''
     meta_description = ''
     language = ''
-    
+
     upper_banner = ''
     lower_banner = ''
-    
+
     @property
     def title_logo(self):
         return self.long_title or self.title
@@ -80,14 +81,14 @@ class PageInfo(object):
         self.subtitle = thread.title
         self.meta_description = None
         self.keywords = None
-        
+
     def setpage(self, page=None):
         if page is None:
             if c.referer:
                 self.page = int(parse_url(c.referer).get('page') or 0)
         else:
             self.page = safe_int(page)
-        
+
     def set(self, board=None, thread=None, page=None):
         if board:
             self.setboard(board)
@@ -95,6 +96,7 @@ class PageInfo(object):
             self.setthread(thread)
         if self.page is None:
             self.setpage(page)
+
 
 def handle_last_modified(lastmodified, lastmodified2=None):
     #log.info(lastmodified)
@@ -111,6 +113,7 @@ def handle_last_modified(lastmodified, lastmodified2=None):
         if rims == lastmodified:
             return abort(304)
 
+
 def handle_etag(etag, time=None):
     if type(etag) is list:
         etag = '-'.join(etag)
@@ -123,20 +126,21 @@ def handle_etag(etag, time=None):
         for req_etag in request.if_none_match.etags:
             if req_etag == etag:
                 return abort(304)
-    
+
+
 class BaseController(WSGIController):
     def __call__(self, environ, start_response):
-        
+
         request.country = request.headers.get("X-Country", "NA")
-        
+
         if not environ['REQUEST_METHOD'] in ['GET', 'POST']:
             start_response('405 Method Not Allowed',
-                           [('Content-Type','text/html')])
+                           [('Content-Type', 'text/html')])
             return ['Only GET and POST methods are supported.']
-        
+
         if ('X-SERV-PROTO' in request.headers and
-            request.headers.get('X-SERV-PROTO') != "HTTP/1.1" and
-            request.country not in cis_countries):
+                request.headers.get('X-SERV-PROTO') != "HTTP/1.1" and
+                request.country not in cis_countries):
             pass
             #start_response('405 Method Not Allowed',
             #               [('Content-Type','text/html')])
@@ -149,53 +153,60 @@ class BaseController(WSGIController):
             return ['Bots are not allowed.']
         """
         if 'DobroReader/3.3.13' in request.headers.get('USER_AGENT', ''):
-            log.info('DR 403 {0}'.format(request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1"))))
-            start_response('403 Forbidden',
-            [('Content-Type','text/html')])
-            return ['This version of Dobroreader contains malware harmful to both your device and Dobrochan.ru, please downgrade or uninstall it immediately. More details at >>/d/40584']
-        
-        
+            log.info('DR 403 {0}'.format(request.headers.get(
+                "X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1"))))
+            start_response('403 Forbidden', [('Content-Type', 'text/html')])
+            return [
+                'This version of Dobroreader contains malware harmful to both your device and Dobrochan.ru, please downgrade or uninstall it immediately. More details at >>/d/40584'
+            ]
+
         trace_time('call')
-        
+
         session._push_object(g.sessions.load(env=environ))
         # TODO: Make a setting for this
-        if (
-            False and
-            (session.is_new or session.posts_visible < 1) and
-            not 'key' in  request.GET
-            #and (request.country not in cis_countries or session.is_new)
-            #and request.country !='RU'
-            and request.country not in ('RU', 'UA')
-            ):
-            log.info("503 for {0} [{1}], {2}".format(request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1")), request.country, session.id))
+        if (False and (session.is_new or session.posts_visible < 1) and
+                not 'key' in request.GET
+                #and (request.country not in cis_countries or session.is_new)
+                #and request.country !='RU'
+                and request.country not in ('RU', 'UA')):
+            log.info("503 for {0} [{1}], {2}".format(
+                request.headers.get("X-Real-IP", request.environ.get(
+                    "REMOTE_ADDR", "127.0.0.1")), request.country, session.id))
             start_response('503 Service Unavailable',
-            [('Content-Type','text/html')])
+                           [('Content-Type', 'text/html')])
             return ['Due to overload, access is limited to site members only.']
-        
+
         if session.is_bot:
-            if request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1")) != "127.0.0.1":
-                start_response('503 Service Unavailable', [('Content-Type','text/html')])
+            if request.headers.get("X-Real-IP", request.environ.get(
+                    "REMOTE_ADDR", "127.0.0.1")) != "127.0.0.1":
+                start_response('503 Service Unavailable',
+                               [('Content-Type', 'text/html')])
                 return ['Search bots disabled for a while.']
-    
+
         try:
             res = WSGIController.__call__(self, environ, start_response)
             return res
         except Exception as e:
             #log = logging.getLogger('hanabira.httpserver')
             dt = str(datetime.now())
-            ip = request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1"))
+            ip = request.headers.get("X-Real-IP", request.environ.get(
+                "REMOTE_ADDR", "127.0.0.1"))
             ureq_id = hashlib.sha256((dt + ip).encode('utf-8')).hexdigest()
-            log.critical("Exception happened, RefID:{0}; URL:{1}; IP:{2}; SessionID:{3}".format(
-                ureq_id, request.environ['PATH_INFO'], ip, session.id))
-            log.critical(traceback.format_exc())            
+            log.critical(
+                "Exception happened, RefID:{0}; URL:{1}; IP:{2}; SessionID:{3}".format(
+                    ureq_id, request.environ['PATH_INFO'], ip, session.id))
+            log.critical(traceback.format_exc())
             start_response('503 Service Unavailable',
-                           [('Content-Type','text/html')])
-            return ['Some unexpected problem happened during processing of your request. All details were logged, problem unique reference ID: {0}'.format(ureq_id)]
+                           [('Content-Type', 'text/html')])
+            return [
+                'Some unexpected problem happened during processing of your request. All details were logged, problem unique reference ID: {0}'.format(
+                    ureq_id)
+            ]
         finally:
             if str(g.settings.trace.enabled) == 'true':
                 c.tracer.trace('call')
-                c.tracer.print_times()            
-                
+                c.tracer.print_times()
+
             session._pop_object()
             meta.Session.remove()
 
@@ -207,11 +218,13 @@ class BaseController(WSGIController):
             if keyadm:
                 return keyadm.admin
         return None
-        
+
     def init_request(self):
         trace_time('before')
-        c.ip = request.ip = ip = request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1"))
-        proxy_ip = request.headers.get("X-Forwarded-For", "").split(',')[0].strip()
+        c.ip = request.ip = ip = request.headers.get(
+            "X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1"))
+        proxy_ip = request.headers.get("X-Forwarded-For",
+                                       "").split(',')[0].strip()
         c.country = request.country
         request.CIS = request.headers.get('X-CIS', False)
         request.SSL = request.headers.get('X-SSL', False)
@@ -226,30 +239,35 @@ class BaseController(WSGIController):
                 c.ip = request.ip = proxy_ip
 
         if (str(g.settings.trace.enabled) == 'true' and
-            str(g.settings.trace.request_show_all) == 'true'):
+                str(g.settings.trace.request_show_all) == 'true'):
             trace_log.warn(c.tracer.header)
 
     def __before__(self, **kw):
         self.init_request()
-        c.channel  = g.boards.get(host=request.environ['HTTP_HOST'])
+        c.channel = g.boards.get(host=request.environ['HTTP_HOST'])
         c.pageinfo = PageInfo(g.settings)
         # Nose and webtest do not provide ip
         session.init_hanabira()
-        
-        if (
-            False and
-            session.posts_visible < 1 and not session.get_token('premod')
-            ):
-            session.add_token('premod', ('global', None), -1, reason_text="New session, temporary")
-            log.info("Banned new session, {0} [{1}], {2}".format(request.headers.get("X-Real-IP", request.environ.get("REMOTE_ADDR", "127.0.0.1")), request.country, session.id))
-        
+
+        if (False and session.posts_visible < 1 and
+                not session.get_token('premod')):
+            session.add_token('premod', ('global', None),
+                              -1,
+                              reason_text="New session, temporary")
+            log.info("Banned new session, {0} [{1}], {2}".format(
+                request.headers.get("X-Real-IP", request.environ.get(
+                    "REMOTE_ADDR", "127.0.0.1")), request.country, session.id))
+
         session.persist_hanabira()
         c.admin = session.get('admin', None)
         c.session = session
         c.viewer_session = session
-        for i in ['username', 'password', 'redirect', 'rating', 'rating_strict', 'reply_button', 'language', 'playlist', 'hideinfo', 'scroll_threads', 'mini', 'nopostform', 'reputation_min', 'banners']:
+        for i in ['username', 'password', 'redirect', 'rating',
+                  'rating_strict', 'reply_button', 'language', 'playlist',
+                  'hideinfo', 'scroll_threads', 'mini', 'nopostform',
+                  'reputation_min', 'banners']:
             c.__setattr__(i, session[i])
-        
+
         set_lang(c.language)
 
         c.session_id = session.id
@@ -258,7 +276,7 @@ class BaseController(WSGIController):
         referer = request.headers.get('Referer', '')
         if referer:
             session.process_referer(referer)
-            
+
         trace_time('before')
 
     def _return(self, result):
@@ -266,10 +284,10 @@ class BaseController(WSGIController):
         return json.dumps(result)
 
     def _result(self, result):
-        return self._return({'status':'ok', 'result':result})
+        return self._return({'status': 'ok', 'result': result})
 
     def _error(self, error):
-        return self._return({'status':'error', 'error':error})
+        return self._return({'status': 'error', 'error': error})
 
 # Include the '_' function in the public names
 __all__ = [__name for __name in list(locals().keys()) if not __name.startswith('_') \

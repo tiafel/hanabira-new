@@ -10,19 +10,22 @@ from hanabira.model.threads import Thread
 
 log = logging.getLogger(__name__)
 
+
 class Bookmarks(object):
     threads = None
-    boards  = None
-    visits  = None
+    boards = None
+    visits = None
+
     def __init__(self, _old=None):
         self.threads = {}
-        self.boards  = {}
-        self.visits  = {}
+        self.boards = {}
+        self.visits = {}
         if _old:
             for b in _old:
                 board = g.boards.get(b)
                 self.boards[b] = []
-                threads = board.thread_filters(archive=None).filter(Thread.display_id.in_(_old[b])).all()
+                threads = board.thread_filters(
+                    archive=None).filter(Thread.display_id.in_(_old[b])).all()
                 for thread in threads:
                     self.boards[b].append(thread.id)
                     self.visits[thread.id] = thread.last_hit
@@ -53,8 +56,10 @@ class Bookmarks(object):
         """
         Return dict {id:thread}
         """
-        threads = Thread.query.filter(Thread.display_id != None).filter(Thread.thread_id.in_(self.threads.keys())).all()
-        result  = {}
+        threads = Thread.query.filter(
+            Thread.display_id !=
+            None).filter(Thread.thread_id.in_(self.threads.keys())).all()
+        result = {}
         for thread in threads:
             result[thread.id] = thread
         return result
@@ -88,4 +93,3 @@ class Bookmarks(object):
             date = datetime.now()
         if thread_id in self.threads:
             self.visits[thread_id] = date
-                

@@ -34,7 +34,7 @@ class Globals(object):
         """
         self.cache = CacheManager(**parse_cache_config_options(config))
         self.paths = paths
-        self.root  = self.paths.get('root')
+        self.root = self.paths.get('root')
         self.config = config
 
     def init_model(self, config, setup_mode):
@@ -49,20 +49,27 @@ class Globals(object):
         self.captchas = Captchas(self)
         self.extensions = Extensions()
         self.restrictions = Restrictions()
-        self.styles = [('Futaba', 'futaba.css'),('Photon', 'photon.css'), ('Snow', 'snow_static.css'), ('Snow[animated]', 'snow.css')]
-                                    #('Spring', 'photon_green.css')]
+        self.styles = [('Futaba', 'futaba.css'), ('Photon', 'photon.css'),
+                       ('Snow', 'snow_static.css'),
+                       ('Snow[animated]', 'snow.css')]
+        #('Spring', 'photon_green.css')]
         self.default_style = 'Futaba'
         self.parser = wakabaparse.WakabaParser(self)
         #self.searches = Searches(self.settings)
         self.newfiles = NewFiles(self.settings)
-        self.filters  = Filters()
-        self.fonts    = FontsManager(self.settings)
-        self._404images = list(map(lambda x: "{0.path.static_web}{1}".format(self.settings, x), os.listdir(self.fs.local('images/404'))))
+        self.filters = Filters()
+        self.fonts = FontsManager(self.settings)
+        self._404images = list(
+            map(lambda x: "{0.path.static_web}{1}".format(self.settings, x),
+                os.listdir(self.fs.local('images/404'))))
         self.country_codes = country_codes
-        self.local_domains = list(map(lambda x: x.strip(), str(self.settings.chan.local_domains).split(',')))
-        self.ignore_referers = list(map(lambda x: x.strip(), appconf.get('chan.ignore_referers', '').split(',')))
-        self.ignore_queries = list(map(lambda x: x.strip(), appconf.get('chan.ignore_queries', '').split(',')))
-        self.slave_nodes = list(map(lambda x: x.strip(), str(self.settings.cluster.slave_nodes).split(',')))
+        self.local_domains = list(map(lambda x: x.strip(), str(
+            self.settings.chan.local_domains).split(',')))
+        self.ignore_referers = list(map(lambda x: x.strip(), appconf.get(
+            'chan.ignore_referers', '').split(',')))
+        self.ignore_queries = list(map(lambda x: x.strip(), appconf.get(
+            'chan.ignore_queries', '').split(',')))
+        self.slave_nodes = list(map(lambda x: x.strip(), str(
+            self.settings.cluster.slave_nodes).split(',')))
         self.sessions = BeakerSessionManager(config)
         self.bot_session = BotSession(self)
-        

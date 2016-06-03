@@ -13,15 +13,16 @@ import subprocess
 
 log = logging.getLogger(__name__)
 
+
 class UtilsController(BaseController):
     def file_new(self, filetype, post_id):
         post_id = int(post_id)
-        c.post = post = Post.get(post_id = post_id)
+        c.post = post = Post.get(post_id=post_id)
         return render('/utils/image.new.mako')
-    
+
     def image_new(self, post_id):
         post_id = int(post_id)
-        c.post = post = Post.get(post_id = post_id)
+        c.post = post = Post.get(post_id=post_id)
         if not post:
             return abort(404)
         c.board = board = g.boards.board_ids[post.thread.board_id]
@@ -40,7 +41,9 @@ class UtilsController(BaseController):
                         post.files.append(f2)
                         post.error = []
                         meta.Session.commit()
-                        return redirect(url('util_image_edit_new', post_id=post.id, file_id=f2.id))
+                        return redirect(url('util_image_edit_new',
+                                            post_id=post.id,
+                                            file_id=f2.id))
                 return render('/utils/image.new.mako')
             else:
                 filename = request.POST.get('shi_filename', '').strip()
@@ -60,16 +63,20 @@ class UtilsController(BaseController):
                 newfile.tool = tool
                 newfile.shi_type = shi_type
                 newfile.source = None
-                newfile.animation = bool(request.POST.get('shi_animation', False))                
-                return redirect(url('util_shi_new', file_id=newfile.id, file_key=newfile.key))
+                newfile.animation = bool(request.POST.get('shi_animation',
+                                                          False))
+                return redirect(url('util_shi_new',
+                                    file_id=newfile.id,
+                                    file_key=newfile.key))
         return render('/utils/image.new.mako')
 
     def image_edit(self, file_id, post_id, new):
-        log.info("utils.image_edit(%s, %s, %s) %s @ %s" % (file_id, post_id, new, request.method, request.ip))
-        c.post = post = Post.get(post_id = post_id)
+        log.info("utils.image_edit(%s, %s, %s) %s @ %s" %
+                 (file_id, post_id, new, request.method, request.ip))
+        c.post = post = Post.get(post_id=post_id)
         if post:
             c.board = board = g.boards.board_ids[post.thread.board_id]
-            c.file = f = File.get(file_id = file_id)
+            c.file = f = File.get(file_id=file_id)
             c.fonts = g.fonts.fonts
             if f and f.filetype.type == 'image':
                 if request.POST:
@@ -78,7 +85,7 @@ class UtilsController(BaseController):
                         newpost = board.empty_post(thread_id=post.thread.display_id, fileset=fs,\
                                                    password=session['password'], admin=session.get('admin', None), ip=request.ip, session_id=session.id)
                         session['posts'][newpost.post_id] = board.board
-                        session.save()                        
+                        session.save()
                         post = newpost
                     else:
                         fs = FileSet(board=board, fileset=post.files)
@@ -110,17 +117,20 @@ class UtilsController(BaseController):
                         newfile.tool = tool
                         newfile.shi_type = shi_type
                         newfile.source = g.fs.web(f.path)
-                        newfile.animation = bool(request.POST.get('shi_animation', False))
-                        return redirect(url('util_shi_new', file_id=newfile.id, file_key=newfile.key))
+                        newfile.animation = bool(request.POST.get(
+                            'shi_animation', False))
+                        return redirect(url('util_shi_new',
+                                            file_id=newfile.id,
+                                            file_key=newfile.key))
                     if f2:
                         post.files.append(f2)
                         post.error = []
                         meta.Session.commit()
-                        return redirect(url('post_error', post_id=post.post_id))
+                        return redirect(url('post_error',
+                                            post_id=post.post_id))
                 return render('/utils/image.edit.mako')
             else:
                 return abort(403)
-                
 
     def image_shi(self, file_id, file_key):
         file_id = int(file_id)
@@ -133,7 +143,7 @@ class UtilsController(BaseController):
         c.file_id = newfile.id
         c.file_key = newfile.key
         c.shi_type = newfile.shi_type
-        c.source  = newfile.source
+        c.source = newfile.source
         c.animation = newfile.animation
         return render('/utils/shi.mako')
 
@@ -142,9 +152,11 @@ class UtilsController(BaseController):
         newfile = g.newfiles.get(file_id, file_key)
         if not newfile:
             return abort(403)
-        post  = Post.get(post_id = newfile.post_id)
+        post = Post.get(post_id=newfile.post_id)
         board = g.boards.board_ids[post.thread.board_id]
-        start_response('200 OK', [('Content-Type', 'text/plain'), ('Content-Length', '2')])
+        start_response(
+            '200 OK',
+            [('Content-Type', 'text/plain'), ('Content-Length', '2')])
         cl = int(request.environ['CONTENT_LENGTH'])
         id = request.environ['wsgi.input'].read(1)
         if id == 'S':
@@ -165,12 +177,11 @@ class UtilsController(BaseController):
             post.error = []
             meta.Session.commit()
         return ['ok']
-            
-        
+
     def text(self, file_id, post_id, edit=False):
-        c.post = post = Post.get(post_id = post_id)
+        c.post = post = Post.get(post_id=post_id)
         if post:
-            c.file = f = File.get(file_id = file_id)
+            c.file = f = File.get(file_id=file_id)
             if f:
                 c.pageinfo.title = f.filename
                 fp = g.fs.local(f.path)
@@ -178,50 +189,69 @@ class UtilsController(BaseController):
                 lexer = get_lexer_by_name(meta['type'].lower())
                 c.type = meta['type'].lower()
                 c.edit = edit
-                formatter = HtmlFormatter(linenos='table', encoding="", outencoding="")
+                formatter = HtmlFormatter(linenos='table',
+                                          encoding="",
+                                          outencoding="")
                 c.text = text = open(fp, 'r').read()
                 c.text_html = highlight(text.decode('utf8'), lexer, formatter)
                 return render('/utils/text.mako')
 
     def text_save(self, file_id, post_id):
-        c.post = post = Post.get(post_id = post_id)
+        c.post = post = Post.get(post_id=post_id)
         if post:
             if post.thread.board_id in g.boards.board_ids:
                 c.board = board = g.boards.board_ids[post.thread.board_id]
-                c.file = f = File.get(file_id = file_id)
+                c.file = f = File.get(file_id=file_id)
                 if f:
                     fs = FileSet(board=board)
-                    f2 = fs.add_from_data(data=request.POST.get('code', None), filename=f.filename)
+                    f2 = fs.add_from_data(data=request.POST.get('code', None),
+                                          filename=f.filename)
                     if f2 and f2.id:
                         # Generate unified diff
-                        sp = subprocess.Popen("diff -u %s %s" % (h.static_local(f.path), h.static_local(f2.path)), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                        sp = subprocess.Popen("diff -u %s %s" % (
+                            h.static_local(f.path), h.static_local(f2.path)),
+                                              shell=True,
+                                              stdout=subprocess.PIPE,
+                                              stderr=subprocess.PIPE)
                         r = sp.stdout.read()
                         e = sp.stderr.read()
                         if not e and r:
                             r = unicode(r, 'utf-8')
                             diff_lines = r.split('\n')
-                            diff = "\n".join(['diff -urN %s %s' % (f.path, f2.path), '--- %s' % f.path, '+++ %s' % f2.path] + diff_lines[2:])
-                            diff_filename = "%s%s%sr.patch" % (f.filename, f.get_suffix(), f2.get_suffix())
-                            diff_file = fs.add_from_data(data=diff, filename=diff_filename)
+                            diff = "\n".join(['diff -urN %s %s' % (
+                                f.path, f2.path), '--- %s' % f.path, '+++ %s' %
+                                              f2.path] + diff_lines[2:])
+                            diff_filename = "%s%s%sr.patch" % (
+                                f.filename, f.get_suffix(), f2.get_suffix())
+                            diff_file = fs.add_from_data(
+                                data=diff, filename=diff_filename)
                         # Save result
-                        ip = request.headers.get("X-Real-IP", request.environ["REMOTE_ADDR"])
+                        ip = request.headers.get(
+                            "X-Real-IP", request.environ["REMOTE_ADDR"])
                         admin = session.get('admin', None)
                         password = request.POST.get('password', u'')
                         session_id = session.id
-                        post = board.empty_post(thread_id=post.thread.display_id, fileset=fs, password=password, admin=admin, ip=ip, session_id=session_id)
+                        post = board.empty_post(
+                            thread_id=post.thread.display_id,
+                            fileset=fs,
+                            password=password,
+                            admin=admin,
+                            ip=ip,
+                            session_id=session_id)
                         if post:
                             if not session.get('posts', False):
                                 session['posts'] = {}
                             session['posts'][post.post_id] = board.board
-                            session.save()                          
-                            return redirect(url('post_error', post_id=post.post_id))
+                            session.save()
+                            return redirect(url('post_error',
+                                                post_id=post.post_id))
 
     def archive(self, file_id, post_id):
-        c.post = post = Post.get(post_id = post_id)
+        c.post = post = Post.get(post_id=post_id)
         if post:
             if post.thread.board_id in g.boards.board_ids:
                 c.board = board = g.boards.board_ids[post.thread.board_id]
-                c.file = f = File.get(file_id = file_id)
+                c.file = f = File.get(file_id=file_id)
                 if f:
                     c.pageinfo.title = f.filename
                     fp = g.fs.local(f.path)
@@ -231,10 +261,10 @@ class UtilsController(BaseController):
                     return render('/utils/archive.mako')
 
     @render_view
-    @Post.fetcher    
+    @Post.fetcher
     def post_history(self, post, board):
-        if (not (c.admin and c.admin.has_permission('edit_posts', board.id)) and
-            not (post.session_id == session.id)):
+        if (not (c.admin and c.admin.has_permission('edit_posts', board.id))
+                and not (post.session_id == session.id)):
             return error_temporary_restricted_to_author
         revisions = post.get_revisions()
         if not revisions:

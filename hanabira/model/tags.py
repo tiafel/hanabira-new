@@ -15,11 +15,12 @@ from hanabira.model import meta
 
 log = logging.getLogger(__name__)
 
+
 class Tag(meta.Declarative):
     __tablename__ = "tags"
-    tag_id  = Column(Integer, primary_key=True)
-    tag     = Column(Unicode(128), nullable=False, index=True)
-    title   = Column(UnicodeText)
+    tag_id = Column(Integer, primary_key=True)
+    tag = Column(Unicode(128), nullable=False, index=True)
+    title = Column(UnicodeText)
     description = Column(UnicodeText)
     single_thread = Column(Boolean, default=True)
     threads = Column(Integer, default=0)
@@ -35,7 +36,6 @@ class Tag(meta.Declarative):
     override_require_post_file = Column(Integer, default=-1)
     override_archive = Column(Integer, default=-1)
     override_allow_delete_threads = Column(Integer, default=-1)
-    
 
     @synonym_for('tag_id')
     @property
@@ -43,10 +43,7 @@ class Tag(meta.Declarative):
         return self.tag_id
 
     def export_dict(self, **kw):
-        return dict(
-            tag_id=self.id,
-            tag=self.tag,
-            title=self.title,
-            description=self.description,
-            )
-    
+        return dict(tag_id=self.id,
+                    tag=self.tag,
+                    title=self.title,
+                    description=self.description, )

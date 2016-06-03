@@ -8,6 +8,7 @@ from hanabira.lib.captcha import Captcha
 from hanabira.lib.playlist import PlayList
 from hanabira.lib.bookmarks import Bookmarks
 
+
 class BotSession(object):
     is_new = False
     is_bot = True
@@ -33,7 +34,7 @@ class BotSession(object):
         self.inv_reason = ['Bot']
         self.invisible = True
         self.rating = g.settings.censorship.default
-        self.rating_strict = g.settings.censorship.strict    
+        self.rating_strict = g.settings.censorship.strict
         self.bookmarks = Bookmarks()
         self.visible_posts = VisiblePosts()
         self.captcha = Captcha(self)
@@ -51,7 +52,7 @@ class BotSession(object):
         self.threads_count = 0
         self.threads_deleted = 0
         self.threads_invisible = 0
-        self.is_confirmed = 0        
+        self.is_confirmed = 0
 
     def init_hanabira(self):
         pass
@@ -73,16 +74,21 @@ class BotSession(object):
 
     def process_referer(self, ref):
         pass
-    
-    def get_token(self, token,
-                  board=None, board_id=None,
-                  thread=None, thread_id=None,
+
+    def get_token(self,
+                  token,
+                  board=None,
+                  board_id=None,
+                  thread=None,
+                  thread_id=None,
                   tag=None):
-        return []   
+        return []
+
     def get_tokens(self):
         return []
+
     def get_threads(self):
         return []
-    
+
     def set_admin_from_key(self, key):
         pass

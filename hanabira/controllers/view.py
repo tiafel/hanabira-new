@@ -16,10 +16,11 @@ from datetime import datetime
 import string, time, random
 log = logging.getLogger(__name__)
 
+
 class ViewController(BaseController):
     def main(self):
         return 'This is view.main()'
-    
+
     def frameset(self, format='xhtml', since=None, key=None, count=None, **kw):
         #log.info('ViewController.frameset({0}, {1}) for {2.ip}'.format(ext, since, c))
         if format == 'xhtml':
@@ -31,9 +32,10 @@ class ViewController(BaseController):
                 count = request.GET.get('count', 100)
             count = int(count)
             if not key:
-                key  = request.GET.get('key', None)
+                key = request.GET.get('key', None)
             admin = self._get_admin(key, c)
-            pq = Post.query.options(eagerload('files')).options((eagerload('thread'))).filter(Post.display_id != None)
+            pq = Post.query.options(eagerload('files')).options(
+                (eagerload('thread'))).filter(Post.display_id != None)
             if not admin or not admin.has_permission('see_invisible'):
                 pq = pq.filter(Post.invisible == False)
             if since:
@@ -52,9 +54,13 @@ class ViewController(BaseController):
                 events = BaseEventLog.query.filter(BaseEventLog.date > since).\
                          filter(or_(BaseEventLog.admin_id != admin.id, BaseEventLog.admin_id == None)).\
                          filter(not_(BaseEventLog.type.in_(['auto_session_ban', 'auto_post_invisible', 'mod_login', 'mod_view_post', 'mod_view_session']))).all()
-        return Export(format=format, threads=list(threads.values()), events=events, admin=admin, response=response)
-        
-    def thread_post(self, board, post_id):        
+        return Export(format=format,
+                      threads=list(threads.values()),
+                      events=events,
+                      admin=admin,
+                      response=response)
+
+    def thread_post(self, board, post_id):
         b = g.boards.get(board)
         if b and b.check_permissions('read', c.admin, c.channel):
             post = b.get_post(post_id)
@@ -63,7 +69,7 @@ class ViewController(BaseController):
                 if post.op:
                     return redirect(url)
                 else:
-                    return redirect(str('%s#i%s'%(url, post_id)))
+                    return redirect(str('%s#i%s' % (url, post_id)))
             else:
                 return abort(404)
         else:
@@ -77,7 +83,7 @@ class ViewController(BaseController):
         ref = request.headers.get('Referer', '')
         if format != 'xhtml' and 'xhtml' in ref:
             return "This interface is not allowed to be used repeatedly."
-        
+
         archive = archive == 'True'
         thread_id = safe_int(thread_id)
         if not thread_id:
@@ -89,13 +95,14 @@ class ViewController(BaseController):
                 return abort(404)
 
             handle_etag(thread.last_modified)
-            
+
             if thread.is_censored(session):
                 c.thread = thread
                 return render('/view/censored.mako')
-            
+
             trace_time('fetch_posts')
-            thread.fetch_posts(admin=c.admin, visible_posts=session['visible_posts'])
+            thread.fetch_posts(admin=c.admin,
+                               visible_posts=session['visible_posts'])
             trace_time('fetch_posts')
             c.pageinfo.set(board, thread)
             c.threads = [thread]
@@ -110,7 +117,8 @@ class ViewController(BaseController):
                 session['scroll_to'] = None
                 sc = True
             board.set_context_permissions(context=c, admin=c.admin)
-            if thread.invisible and not session['visible_posts'].has_thread(thread):
+            if thread.invisible and not session['visible_posts'].has_thread(
+                    thread):
                 session['visible_posts'].add_thread(thread)
                 sc = True
             if c.bookmarks.is_faved(thread.id):
@@ -118,16 +126,20 @@ class ViewController(BaseController):
                 sc = True
             if sc:
                 session.save()
-            
+
             # Hack for now, should implement some smarter solution later
             if format in ['html', 'xhtml']:
                 return render('/view/posts.mako')
             else:
-                return Export(threads=c.threads, admin=c.admin, board=board, format=format, response=response)
-                
+                return Export(threads=c.threads,
+                              admin=c.admin,
+                              board=board,
+                              format=format,
+                              response=response)
+
         else:
             return abort(404)
-    
+
     def board(self, board, page, format, archive):
         if format == 'html':
             return render('/view/bots.mako')
@@ -146,28 +158,42 @@ class ViewController(BaseController):
             if archive:
                 c.threads = board.get_archive_threads(page=page)
             else:
-                c.threads = board.get_threads(admin=c.admin, page=page, archive=archive, hidden=hidden, visible_posts=session['visible_posts'])
+                c.threads = board.get_threads(
+                    admin=c.admin,
+                    page=page,
+                    archive=archive,
+                    hidden=hidden,
+                    visible_posts=session['visible_posts'])
             trace_time('board.get_threads')
             if not c.threads and page > 0:
                 return abort(404)
-                
+
             if c.threads:
                 handle_etag([str(x.thread_id) for x in c.threads],
-                    max(c.threads, key=lambda x:x.last_modified).
-                                     last_modified)
-                                                                                        
+                            max(c.threads,
+                                key=lambda x: x.last_modified).last_modified)
+
             c.bookmarks = session['bookmarks']
             session['stats'][board.board] = board.stats_posts()
             session.save()
             trace_time('board.pages')
-            c.pages = board.get_pages(admin=c.admin, archive=archive, hidden=hidden, visible_posts=session['visible_posts'])
+            c.pages = board.get_pages(admin=c.admin,
+                                      archive=archive,
+                                      hidden=hidden,
+                                      visible_posts=session['visible_posts'])
             trace_time('board.pages')
             board.set_context_permissions(context=c, admin=c.admin)
             c.archive = archive
             if format in ['html', 'xhtml']:
                 return render('/view/posts.mako')
             else:
-                return Export(threads=c.threads, admin=c.admin, board=board, format=format, page=page, pages=c.pages, response=response)
+                return Export(threads=c.threads,
+                              admin=c.admin,
+                              board=board,
+                              format=format,
+                              page=page,
+                              pages=c.pages,
+                              response=response)
         else:
             return abort(404)
 
@@ -175,7 +201,11 @@ class ViewController(BaseController):
     def deleted_thread(self, board, thread_id, format='xhtml'):
         c.board = board = g.boards.get(board)
         if board and board.check_permissions('read', c.admin, c.channel):
-            c.thread = thread = board.get_thread(thread_id, admin=c.admin, visible_posts=session['visible_posts'], deleted=True)
+            c.thread = thread = board.get_thread(
+                thread_id,
+                admin=c.admin,
+                visible_posts=session['visible_posts'],
+                deleted=True)
             if not thread:
                 return abort(404)
             if not thread.posts:
@@ -186,19 +216,21 @@ class ViewController(BaseController):
             c.deleted = True
             board.set_context_permissions(context=c, admin=c.admin)
             if format in ['html', 'xhtml']:
-                return render('/view/posts.mako')   
-            
+                return render('/view/posts.mako')
+
     def archive_last(self, board):
         c.board = board = g.boards.get(board)
         if board and board.check_permissions('read', c.admin, c.channel):
             hidden = session['hide'].get(board.board, [])
-            pages = board.get_pages(admin=c.admin, archive=True, 
+            pages = board.get_pages(admin=c.admin,
+                                    archive=True,
                                     hidden=hidden,
                                     visible_posts=session['visible_posts'])
-            return redirect(url('board_arch', board=board.board, page=(pages-1)))
+            return redirect(url('board_arch',
+                                board=board.board,
+                                page=(pages - 1)))
         raise abort(404)
-            
-            
+
     def post_error(self, post_id):
         post_id = int(post_id)
         if session.get('posts', None) and post_id in session['posts']:
@@ -208,50 +240,64 @@ class ViewController(BaseController):
             c.pageinfo.description = board.description
             c.post = post = board.get_unfinished_post(post_id)
             c.thread = post.thread
-            c.reply  = not post.op
+            c.reply = not post.op
             c.errors = post.error
             c.hideinfo = []
-        else: 
+        else:
             c.error_message = _('You should enable cookies.')
         return render('/error/post.mako')
 
     def frame(self, **kw):
         c.onload = "update_board_stats();"
         return render('/view/frame.mako')
-    
+
     def featured(self, page=0, **kw):
-        c.featured_files = Featured.query.filter(Featured.show_file==True).order_by(Featured.date.desc()).limit(10).all()
+        c.featured_files = Featured.query.filter(
+            Featured.show_file ==
+            True).order_by(Featured.date.desc()).limit(10).all()
         for img in c.featured_files:
             img.thread = img.post.thread
             img.board = g.boards.board_ids[img.thread.board_id]
         threads = []
-        featured_posts = Featured.query.filter(Featured.show_text==True).order_by(Featured.date.desc()).limit(3).all()
+        featured_posts = Featured.query.filter(
+            Featured.show_text ==
+            True).order_by(Featured.date.desc()).limit(3).all()
         for img in featured_posts:
             img.thread = img.post.thread
             img.board = g.boards.board_ids[img.thread.board_id]
-            thread = img.board.get_thread(img.thread.display_id, get_posts=False)
+            thread = img.board.get_thread(img.thread.display_id,
+                                          get_posts=False)
             thread.op = img.post
             threads.append(thread)
         news = []
         if g.settings.featured.news:
             c.board = board = g.boards.boards[str(g.settings.featured.news)]
-            news = board.get_threads(admin=c.admin, page=page, see_invisible=None, get_posts=False, get_ops=True, ignore_sticky=True)
-        c.news = sorted(news + threads, key=lambda x:x.op.date, reverse=True)
+            news = board.get_threads(admin=c.admin,
+                                     page=page,
+                                     see_invisible=None,
+                                     get_posts=False,
+                                     get_ops=True,
+                                     ignore_sticky=True)
+        c.news = sorted(news + threads, key=lambda x: x.op.date, reverse=True)
         return render('/view/featured.mako')
 
     def settings(self):
         if request.POST:
-            session['rating_strict'] = not bool(request.POST.get('rating_strict', False))
-            r = request.POST.get('rating', g.settings.censorship.default).lower()
+            session['rating_strict'] = not bool(request.POST.get(
+                'rating_strict', False))
+            r = request.POST.get('rating',
+                                 g.settings.censorship.default).lower()
             if r in ['sfw', 'r-15', 'r-18', 'r-18g']:
                 session['rating'] = r
             session['reply_button'] = int(request.POST.get('reply_button', 1))
-            session['scroll_threads'] = int(request.POST.get('scroll_threads', 1))
+            session['scroll_threads'] = int(request.POST.get('scroll_threads',
+                                                             1))
             session['mini'] = int(bool(request.POST.get('mini')))
             session['nopostform'] = int(bool(request.POST.get('nopostform')))
             session['reputation_min'] = int(request.POST.get('reputation_min'))
             session['banners'] = request.POST.get('banners')
-            lang = request.POST.get('language', g.settings.chan.language).lower()
+            lang = request.POST.get('language',
+                                    g.settings.chan.language).lower()
             if lang in ['ru', 'en', 'ru_ua', 'ja']:
                 session['language'] = lang
                 session['captcha'].set(lang=lang)
@@ -263,19 +309,23 @@ class ViewController(BaseController):
             c.hidden = {}
             for b in session['hide']:
                 board = g.boards.get(b)
-                if board and board.check_permissions('read', c.admin, c.channel):
+                if board and board.check_permissions('read', c.admin,
+                                                     c.channel):
                     hidden = session['hide'][b]
                     if len(hidden) > 4:
-                        c.hidden[b] = {0:hidden[:-4:-1], 1:hidden[-4::-1]}
+                        c.hidden[b] = {0: hidden[:-4:-1], 1: hidden[-4::-1]}
                     else:
-                        c.hidden[b] = {0:hidden[::-1], 1:[]}
+                        c.hidden[b] = {0: hidden[::-1], 1: []}
             return render('/view/settings.mako')
-            
+
     def bookmarks(self):
         c.pageinfo.title = _("Subscription")
         c.bookmarks = bookmarks = session['bookmarks']
 
-        threads = Thread.query.filter(Thread.thread_id.in_(list(bookmarks.visits.keys()))).order_by(Thread.board_id.asc(), Thread.last_modified.desc()).limit(100).all()
+        threads = Thread.query.filter(Thread.thread_id.in_(list(
+            bookmarks.visits.keys()))).order_by(
+                Thread.board_id.asc(),
+                Thread.last_modified.desc()).limit(100).all()
         data = []
         board = [None, []]
         for thread in threads:
@@ -289,12 +339,14 @@ class ViewController(BaseController):
         # data = [(board, [(thread, visited),..]),...]
         c.bookmarks_data = data
         return render('/view/bookmarks.mako')
-        
 
     def help(self, handle):
-        article = HelpArticle.query.filter(HelpArticle.handle == handle).filter(HelpArticle.language == session['language']).first()
+        article = HelpArticle.query.filter(
+            HelpArticle.handle == handle).filter(
+                HelpArticle.language == session['language']).first()
         if not article:
-            article = HelpArticle.query.filter(HelpArticle.handle == handle).first()
+            article = HelpArticle.query.filter(
+                HelpArticle.handle == handle).first()
             if not article:
                 return abort(404)
         c.pageinfo.title = _("Help")
@@ -303,9 +355,13 @@ class ViewController(BaseController):
         return render('/view/help.mako')
 
     def help_index(self):
-        articles = HelpArticle.query.filter(HelpArticle.language == session['language']).order_by(HelpArticle.index.asc()).all()
+        articles = HelpArticle.query.filter(
+            HelpArticle.language ==
+            session['language']).order_by(HelpArticle.index.asc()).all()
         if not articles:
-            articles = HelpArticle.query.filter(HelpArticle.language == 'en').order_by(HelpArticle.index.asc()).all()
+            articles = HelpArticle.query.filter(
+                HelpArticle.language ==
+                'en').order_by(HelpArticle.index.asc()).all()
         c.pageinfo.title = _("Help")
         c.articles = articles
         return render('/view/help.index.mako')

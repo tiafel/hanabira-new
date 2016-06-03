@@ -4,12 +4,14 @@ import math
 import logging
 log = logging.getLogger(__name__)
 
+
 def get_model_attr(model, attr):
     path = attr.split('.')
     m = model
     for el in path:
         m = m.__dict__[el]
     return m
+
 
 class Filter(object):
     id = 0
@@ -22,7 +24,13 @@ class Filter(object):
     pages = None
     total = None
     restrictions = None
-    def __init__(self, base=None, per_page=10, sort=None, filters=None, restrictions=None):
+
+    def __init__(self,
+                 base=None,
+                 per_page=10,
+                 sort=None,
+                 filters=None,
+                 restrictions=None):
         self.base = base
         self.per_page = per_page
         if not sort:
@@ -34,7 +42,7 @@ class Filter(object):
         self.sort = sort
         filter = self.compile_filter()
         self.total = filter.count()
-        self.pages = int(math.ceil(float(self.total)/self.per_page))
+        self.pages = int(math.ceil(float(self.total) / self.per_page))
 
     def compile_filter(self):
         model = self.base.model
@@ -48,17 +56,20 @@ class Filter(object):
             filter = model.query
         # Apply filters
         for f in self.filters:
-            filter = filter.filter(self.base.filters[f[0]][0].__dict__[f[0]] == f[1])
+            filter = filter.filter(
+                self.base.filters[f[0]][0].__dict__[f[0]] == f[1])
         # Apply sorting
         for s in self.sort:
-            filter = filter.order_by(self.base.sort[s[0]].__dict__[s[0]].__getattr__(s[1])())
-        return filter        
+            filter = filter.order_by(self.base.sort[s[0]].__dict__[s[
+                0]].__getattr__(s[1])())
+        return filter
 
     def get(self, page=0):
         self.page = page
         filter = self.compile_filter()
-        return filter.offset(self.page * self.per_page).limit(self.per_page).all()
-        
+        return filter.offset(self.page *
+                             self.per_page).limit(self.per_page).all()
+
 
 class FilterBase(object):
     filters = None
@@ -69,7 +80,16 @@ class FilterBase(object):
     default_filters = None
     default_per_page = None
     restrictions = None
-    def __init__(self, model=None, filters=None, sort=None, query=None, default_sort=None, default_per_page=10, default_filters=None, restrictions=None):
+
+    def __init__(self,
+                 model=None,
+                 filters=None,
+                 sort=None,
+                 query=None,
+                 default_sort=None,
+                 default_per_page=10,
+                 default_filters=None,
+                 restrictions=None):
         self.model = model
         self.filters = filters
         for s in sort:
@@ -100,11 +120,16 @@ class FilterBase(object):
         else:
             sort = self.default_sort
             filters = self.default_filters
-        return Filter(base=self, per_page=per_page, sort=sort, filters=filters, restrictions=restrictions)
+        return Filter(base=self,
+                      per_page=per_page,
+                      sort=sort,
+                      filters=filters,
+                      restrictions=restrictions)
 
 
 class Filters(object):
     filters = None
+
     def __init__(self):
         self.filters = [None]
 
@@ -127,4 +152,3 @@ class Filters(object):
         else:
             filter = base.filter({})
         return filter
-        

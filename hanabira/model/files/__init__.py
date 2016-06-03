@@ -15,4 +15,3 @@ from .ratings import ratings
 
 import logging
 log = logging.getLogger(__name__)
-

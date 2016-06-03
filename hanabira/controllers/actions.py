@@ -9,7 +9,6 @@ log = logging.getLogger(__name__)
 
 
 class ActionsController(BaseController):
-
     def captcha(self, board, rand=None):
         #print("captcha()")
         data = session['captcha'].draw(board)
@@ -22,7 +21,9 @@ class ActionsController(BaseController):
     def post(self, board, format, post_id):
         if not board in g.boards.boards:
             return abort(403)
-        log.debug("ActionsController.post('{0}', {1}): {2.ip}, {3} bytes".format(board, post_id, request, len(request.POST.get('message', ''))))
+        log.debug(
+            "ActionsController.post('{0}', {1}): {2.ip}, {3} bytes".format(
+                board, post_id, request, len(request.POST.get('message', ''))))
         redir = None
         board = g.boards.boards[board]
         if post_id and post_id != u'new':
@@ -41,7 +42,8 @@ class ActionsController(BaseController):
             if session['bookmarks'].is_faved(post.thread.id):
                 session['bookmarks'].visited(post.thread.id)
                 sc = True
-            if post.thread.invisible and not session['visible_posts'].has_thread(post.thread):
+            if post.thread.invisible and not session[
+                    'visible_posts'].has_thread(post.thread):
                 session['visible_posts'].add_thread(post.thread)
                 sc = True
             if session['redirect'] == 'board':
@@ -50,14 +52,21 @@ class ActionsController(BaseController):
                 if c.scroll_threads:
                     session['scroll_to'] = request.POST.get('scroll_to')
                     sc = True
-                redir = url('thread', board=board.board, thread_id=post.thread.display_id)
+                redir = url('thread',
+                            board=board.board,
+                            thread_id=post.thread.display_id)
             else:
-                redir = url('board', board=board.board, page=session['redirect'])
+                redir = url('board',
+                            board=board.board,
+                            page=session['redirect'])
             if sc:
                 session.save()
         else:
             if new_file:
-                redir = url('util_file_new', post_id=post.post_id, filetype=request.POST.get('new_file_type', 'image'))
+                redir = url('util_file_new',
+                            post_id=post.post_id,
+                            filetype=request.POST.get('new_file_type',
+                                                      'image'))
             else:
                 redir = url('post_error', post_id=post.post_id)
         if 'X-Progress-ID' in request.environ['QUERY_STRING']:
@@ -86,7 +95,11 @@ class ActionsController(BaseController):
                     if not post_id in threads[thread_id]:
                         threads[thread_id].append(post_id)
             if threads:
-                res = board.delete_posts(threads=threads, password=password, admin=admin, request=request, session=session)
+                res = board.delete_posts(threads=threads,
+                                         password=password,
+                                         admin=admin,
+                                         request=request,
+                                         session=session)
                 if res:
                     c.error_message = res
                     return render('/error/post.mako')
@@ -94,7 +107,11 @@ class ActionsController(BaseController):
         if c.referer:
             m = parse_url(c.referer)
             if m.get('thread'):
-                return redirect(url('thread', board=board.board, thread_id=m['thread']))
+                return redirect(url('thread',
+                                    board=board.board,
+                                    thread_id=m['thread']))
             elif m.get('page'):
-                return redirect(url('board', board=board.board, page=m['page']))
+                return redirect(url('board',
+                                    board=board.board,
+                                    page=m['page']))
         return redirect(url('board', board=board.board))

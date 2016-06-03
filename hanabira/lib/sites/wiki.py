@@ -5,9 +5,13 @@ domains = {'lurkmore.ru': 'lm',
            'ru.wikipedia.org': 'ruwiki'}
 
 wikis = {'lm': 'http://lurkmore.ru/index.php?title=Служебная%3ASearch&search=',
-         'enwiki': 'http://en.wikipedia.org/w/index.php?title=Special:Search&search=',
-         'ruwiki': 'http://ru.wikipedia.org/w/index.php?title=Special:Search&search=',
-         'wiki': 'http://ru.wikipedia.org/w/index.php?title=Special:Search&search='}
+         'enwiki':
+         'http://en.wikipedia.org/w/index.php?title=Special:Search&search=',
+         'ruwiki':
+         'http://ru.wikipedia.org/w/index.php?title=Special:Search&search=',
+         'wiki':
+         'http://ru.wikipedia.org/w/index.php?title=Special:Search&search='}
+
 
 def process_wiki_url(uri):
     proto = domains.get(uri.domain, '')
@@ -18,9 +22,11 @@ def process_wiki_url(uri):
         elif 'search' in uri.query:
             page = uri.query['search']
         if page:
-            uri.text = proto + "://" + unquote(page.encode('utf-8')).decode('utf-8')
+            uri.text = proto + "://" + unquote(page.encode('utf-8')).decode(
+                'utf-8')
             uri.href = uri.string
-            
+
+
 def process_wiki_proto(uri):
     url_base = wikis.get(uri.proto, '')
     if url_base:

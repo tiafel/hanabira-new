@@ -8,25 +8,27 @@ import pickle
 import logging
 log = logging.getLogger(__name__)
 
+
 class Permission(meta.Declarative):
     __tablename__ = "permissions"
     permission_id = Column(Integer, primary_key=True)
-    name          = Column(Unicode(16), nullable=False, unique=True)
-    type          = Column(Unicode(8), nullable=False)
-    includes      = Column(Text, nullable=True)
-    __mapper_args__ = {'polymorphic_on': type, 'polymorphic_identity': u'simple'}
-    
+    name = Column(Unicode(16), nullable=False, unique=True)
+    type = Column(Unicode(8), nullable=False)
+    includes = Column(Text, nullable=True)
+    __mapper_args__ = {'polymorphic_on': type,
+                       'polymorphic_identity': u'simple'}
+
     @synonym_for('permission_id')
     @property
     def id(self):
         return self.permission_id
-    
+
     def __init__(self, name=None):
         if name:
             self.name = name
             meta.Session.add(self)
             meta.Session.commit()
-    
+
     def expand(self):
         return [self.name]
 
@@ -41,8 +43,10 @@ class Permission(meta.Declarative):
     def __repr__(self):
         return "<Permission(%s)>" % self.name
 
+
 class CompoundPermission(Permission):
     __mapper_args__ = {'polymorphic_identity': u'compound'}
+
     def __init__(self, name=None, includes=None, includes_names=None):
         if includes_names:
             includes = self.get_includes(includes_names)
@@ -56,7 +60,7 @@ class CompoundPermission(Permission):
         for name in includes_names:
             result.append(Permission.get(name))
         return result
-        
+
     def update(self, name=None, permissions=None):
         if name:
             self.name = name
@@ -75,9 +79,10 @@ class CompoundPermission(Permission):
         ids = pickle.loads(self.includes.encode('utf-8'))
         result = []
         for pid in ids:
-            result.append(Permission.query.filter(Permission.permission_id == pid).first())
+            result.append(Permission.query.filter(Permission.permission_id ==
+                                                  pid).first())
         return result
-    
+
     def expand(self):
         result = []
         for permission in self.permissions:
@@ -85,26 +90,64 @@ class CompoundPermission(Permission):
         return result
 
     def __repr__(self):
-        return "<CompoundPermission(%s) %s>" % (self.name, map(lambda x:x.name, self.permissions))
+        return "<CompoundPermission(%s) %s>" % (self.name, map(
+            lambda x: x.name, self.permissions))
+
 
 class Permissions(object):
     """
     Collection of Permission instances
     """
     defaults_simple = [
-        u'read', u'new_thread', u'new_reply', u'reputation',
-        u'delete_posts', u'delete_threads', u'edit_posts', u'view_ip', u'view_log', u'sessions', u'see_invisible', u'view_deleted',
-        u'manage_archive', u'manage_threads', u'featured',
-        u'view_admins', u'statistics', u'referers', u'boards', u'sections', u'no_restrictions', u'no_captcha', u'no_delay', u'notifications',
-        u'invites', u'manage_admins', u'permissions', u'settings', u'help', u'files', u'restrictions', u'revive_post', u'no_user_captcha',
-        ]
+        u'read',
+        u'new_thread',
+        u'new_reply',
+        u'reputation',
+        u'delete_posts',
+        u'delete_threads',
+        u'edit_posts',
+        u'view_ip',
+        u'view_log',
+        u'sessions',
+        u'see_invisible',
+        u'view_deleted',
+        u'manage_archive',
+        u'manage_threads',
+        u'featured',
+        u'view_admins',
+        u'statistics',
+        u'referers',
+        u'boards',
+        u'sections',
+        u'no_restrictions',
+        u'no_captcha',
+        u'no_delay',
+        u'notifications',
+        u'invites',
+        u'manage_admins',
+        u'permissions',
+        u'settings',
+        u'help',
+        u'files',
+        u'restrictions',
+        u'revive_post',
+        u'no_user_captcha',
+    ]
     defaults_compound = [
         (u'member', [u'read', u'new_thread', u'new_reply']),
-        (u'white',  [u'member', u'no_restrictions', u'no_captcha', u'no_delay', u'reputation']),
-        (u'moderator', [u'white', u'delete_posts', u'delete_threads', u'revive_post', u'view_log', u'restrictions', u'sessions', u'see_invisible', u'view_deleted', u'manage_threads', u'edit_posts', u'files']),
-        (u'admin', [u'moderator', u'view_admins', u'statistics', u'referers', u'boards', u'sections', u'manage_archive', u'notifications', u'view_ip']),
-        (u'root', [u'featured', u'admin', u'help', u'invites', u'manage_admins', u'permissions', u'settings']),
-        ]
+        (u'white', [u'member', u'no_restrictions', u'no_captcha', u'no_delay',
+                    u'reputation']),
+        (u'moderator',
+         [u'white', u'delete_posts', u'delete_threads', u'revive_post',
+          u'view_log', u'restrictions', u'sessions', u'see_invisible',
+          u'view_deleted', u'manage_threads', u'edit_posts', u'files']),
+        (u'admin',
+         [u'moderator', u'view_admins', u'statistics', u'referers', u'boards',
+          u'sections', u'manage_archive', u'notifications', u'view_ip']),
+        (u'root', [u'featured', u'admin', u'help', u'invites',
+                   u'manage_admins', u'permissions', u'settings']),
+    ]
+
     def __init__(self):
         for name in self.defaults_simple:
             if not Permission.get(name):
@@ -112,7 +155,8 @@ class Permissions(object):
         for name, includes_names in self.defaults_compound:
             perm = Permission.get(name)
             if not perm:
-                log.info("Created %s" % CompoundPermission(name, includes_names=includes_names))
+                log.info("Created %s" % CompoundPermission(
+                    name, includes_names=includes_names))
         self.load()
 
     def load(self):
@@ -137,12 +181,13 @@ class Permissions(object):
                         g.append(permission)
         return (g, b)
 
+
 class AdminPermission(meta.Declarative):
     __tablename__ = "admin_permissions"
     admin_permissions_id = Column(Integer, primary_key=True)
-    admin_id             = Column(Integer, ForeignKey("admins.admin_id"), index=True)
-    scope                = Column(Integer) # 0 for global, otherwise board_id
-    name                 = Column(Unicode(16))
+    admin_id = Column(Integer, ForeignKey("admins.admin_id"), index=True)
+    scope = Column(Integer)  # 0 for global, otherwise board_id
+    name = Column(Unicode(16))
 
     @synonym_for('admin_permissions_id')
     @property

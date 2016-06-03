@@ -7,19 +7,24 @@ from hanabira.lib.base import *
 
 log = logging.getLogger(__name__)
 
+
 class AuthController(BaseController):
     def login(self):
         # if admin is already authorized, redirect to admin panel
         admin = session.get('admin', None)
         if admin and admin.valid() and admin.enabled:
             return redirect(url('admin'))
-        
+
         if request.POST and request.POST.get('login', None):
-            admin = Admin.get(login=request.POST.get('login', None), password=request.POST.get('password', None))
+            admin = Admin.get(login=request.POST.get('login', None),
+                              password=request.POST.get('password', None))
             if admin:
                 session['admin'] = admin
                 session.save()
-                ModLogin(ip=ipToInt(request.ip), session_id=session.id, admin=admin, commit=True)
+                ModLogin(ip=ipToInt(request.ip),
+                         session_id=session.id,
+                         admin=admin,
+                         commit=True)
                 return redirect(url('admin'))
         return render('/auth/login.mako')
 
@@ -54,9 +59,6 @@ class AuthController(BaseController):
                 del session['invite']
                 session.save()
                 return redirect(url('login'))
-                
+
         c.form = form
         return render('/auth/register.mako')
-        
-        
-        

@@ -14,27 +14,26 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 class Stats(meta.Declarative):
     __tablename__ = "statistics_day"
     statistics_id = Column(Integer, primary_key=True)
-    date          = Column(DateTime, index=True)
-    range         = Column(Enum('day', 'month'), index=True)
-    board_id      = Column(Integer, ForeignKey('boards.board_id'),
-                           index=True)
-    posts_total   = Column(Integer) # Posts+DeletedPosts
+    date = Column(DateTime, index=True)
+    range = Column(Enum('day', 'month'), index=True)
+    board_id = Column(Integer, ForeignKey('boards.board_id'), index=True)
+    posts_total = Column(Integer)  # Posts+DeletedPosts
     posts_visible = Column(Integer)
     posts_deleted = Column(Integer)
     posts_invisible = Column(Integer)
-    threads_new   = Column(Integer)
-    threads_active= Column(Integer)
+    threads_new = Column(Integer)
+    threads_active = Column(Integer)
     threads_deleted = Column(Integer)
     threads_invisible = Column(Integer)
     sessions_posts = Column(Integer)
     sessions_total = Column(Integer)
-    ips_posts      = Column(Integer)
-    ips_total      = Column(Integer) # Get from view.log
-    hits           = Column(Integer) # Get from view.log
-
+    ips_posts = Column(Integer)
+    ips_total = Column(Integer)  # Get from view.log
+    hits = Column(Integer)  # Get from view.log
     """
     cat ~/12.12.2010 | awk "{ print \$1; }" | sort | uniq | wc -l
     
