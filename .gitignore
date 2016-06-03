@@ -14,3 +14,6 @@ confs/data/
 # IDE project files
 hanabira_new
 hanabira_new.wpu
+
+# vagrant
+.vagrant/
