@@ -2,7 +2,6 @@
 from hanabira.lib.utils import *
 from hanabira.lib.base import *
 from hanabira.model import Post
-from hanabira.model.reputation import UserReputation, PostReputation
 import time
 
 import logging
