@@ -1,0 +1,299 @@
+/*Основные фоновые цвета*/
+html, body {
+	/*Цвет бэкграунда*/
+    background-color: $global-background-color;
+	@if $global-background-image != nil {
+		background-image: $global-background-image;
+	}
+	/*Цвет шрифта ОП-поста*/
+    color: $font-color;
+	/*Шрифт Оп-поста?*/
+	@if font-family != nil {
+		font-family: $font-family;
+	}
+}
+/*Цвет задника ОП-поста*/
+.oppost {
+    background-color: $oppost-background-color;
+}
+/*Попапы, посты, подсвеченные посты*/
+.highlight, .reply, .popup {
+	/*Цвет фона*/
+    background-color: $post-background-color;
+	/*Цвет шрифта*/
+    color: $font-color;
+}
+/*Обычный пост*/
+.reply {
+    border-color: $post-border-color;
+}
+/*Подсвеченный пост*/
+.highlight {
+	border-color: $hightlighted-border-color;
+}
+/*Попап - тени*/
+.popup {
+	-moz-box-shadow: $popup-shadow;
+	-webkit-box-shadow: $popup-shadow;
+	box-shadow: $popup-shadow;
+}
+@if $show-doubledash == false {
+	/*">>" слева от поста*/
+	.doubledash {
+		display: none;
+	}
+}
+/*Отступ слева у ответа*/
+@if $post-margin != 0px {
+	.replypost {
+		margin-left: $post-margin;
+	}
+}
+/*Админбар - парелька с досками сверху/снизу*/
+@if $stylename == Futaba {
+	.adminbar b {
+		font-weight: normal;
+	}
+}
+@if $stylename != Futaba {
+	.adminbar, .stylebar {
+		font-size: 1em;
+		font-weight: bold;
+	}
+}
+/*Заголовок открытого треда*/
+.theader, .passvalid {
+	background:$threader-background-color;
+	color: $threader-color;
+}
+/*Баннер + заголовок сверху страницы*/
+.logo {
+	clear:both;
+	text-align:$logo-align;
+	@if $bold-logo == true {
+		font-weight: bold;
+	}
+    color: $logo-color;
+}
+/*Текст формы постинга*/
+.postblock {
+    background: $posting-form-background-color;
+    color: $posting-form-color;
+}
+/*Не используется*/
+.managehead {
+    background: $list-background-color;
+}
+/*Заголовок поста (втч ОП-поста)*/
+.replytitle {
+    color:$subj-color;
+}
+/*"Имя" отправителя (и "Анонимус")*/
+.postername {
+	color:$postername-color;
+}
+/*Трипкод*/
+.postertrip {
+    color:$tripcode-color;
+}
+/*Цвет описания файла*/
+.fileinfo {
+    color: $fileinfo-color;
+}
+/**/
+dl.menu dt {
+    background: $post-background-color;
+    border: solid 1px $spoiler-color;
+}
+/**/
+dl.menu dd {
+    border-left: solid 1px $spoiler-color;
+}
+/*Ссылка*/
+a {
+    color: $link-color;
+	.reflink & {
+		/*Ссылка-рефлинк*/
+		color: inherit;
+	}
+	&:hover {
+		/*И ссылка по наведению*/
+		color: $link-active-color;
+	}
+}
+/*Рефлинки - жирнота*/
+@if $reflink-bold == true {
+	.reflink {
+		font-size: .8em;
+		font-weight: bold;
+	}
+}
+@if $blockquote-color!=standart {
+	/*Кастомный цвет цитат*/
+	.postbody blockquote, .postbody blockquote blockquote, .postbody blockquote blockquote blockquote {
+		color:$blockquote-color;
+	}
+}
+
+/*Спойлер. Цвет текста под спойлером = цвет бэкграунда спойлера, таким образом текст скрывается*/
+.spoiler, .spoiler a, .spoiler blockquote, .spoiler blockquote blockquote, .spoiler blockquote blockquote blockquote{
+	background: $spoiler-color;
+	color: $spoiler-color;
+}
+/*Цвет шрифта под раскрытым спойлером*/
+.spoiler:hover {
+	background: $spoiler-color !important;
+	color: $font-color !important;
+	& a {
+		/*Цвет ссылок под раскрытым спойлером*/
+		color:$link-color !important;
+	}
+}
+/*Цвет цитат под раскрытым спойлером*/
+@if $blockquote-color!=standart {
+	.spoiler:hover blockquote, .spoiler:hover blockquote blockquote, .spoiler:hover blockquote blockquote blockquote {
+		color:$blockquote-spoiler-color !important;
+	}
+}
+@else {
+	.spoiler:hover {
+		& blockquote {color:#789922!important;}
+		& blockquote blockquote {color:#406010!important;}
+		& blockquote blockquote blockquote {color:#204010!important;}
+	}
+}
+
+/**/
+#code_view .highlight {
+    background: $code-view-color;
+}
+
+/*
+                           Main page
+*/
+
+/**/
+.category {
+        font-family: sans-serif;
+        font-size: small;
+        margin-bottom: 8px;
+        background: $list-background-color;
+}
+
+/**/
+.header {
+        background: $list-header-background-color;
+        color: $list-header-color;
+        padding: 0px 3px 0px 3px;
+        font-weight: bold;
+		@if $list-border != 0px {
+			border-left: $list-border;
+			border-right: $list-border;
+			border-top: $list-border;
+		}
+}
+
+/**/
+@if $list-border != 0px {
+	.list {
+		border-left: $list-border;
+		border-right: $list-border;
+		border-bottom: $list-border;
+		}
+}
+
+/**/
+.list div a {
+        display: block;
+        text-decoration: none;
+        color: $list-link-color;
+        padding: 0px 3px 0px 3px;
+}
+
+/**/
+.list div a:hover {
+	@if $list-link-active-color != nil {
+		color: $list-link-active-color;
+	}
+	@if $list-link-active-background-color != nil {
+		background: $list-link-active-background-color;
+	}
+}
+
+/**/
+.featuredimgtop {
+	@if $stylename == Futaba {
+		background-image:url(/css/img/imgtop.futaba.png);
+	}
+	@if $stylename == Photon {
+		background-image:url(/css/img/imgtop.png);
+	}
+	background-position:top;
+	background-repeat:no-repeat;
+}
+
+/**/
+.featuredimgbottom {
+	height:300px; 
+	@if $stylename == Futaba {
+		background-image:url(/css/img/imgbottom.futaba.png);
+	}
+	@if $stylename == Photon {
+		background-image:url(/css/img/imgbottom.png);
+	}
+	background-position:bottom; 
+	background-repeat:no-repeat;
+}
+
+/**/
+.newsbg {
+	width:502px; 
+	background-color:$news-background-color;
+}
+
+/**/
+.newstop {
+	@if $stylename == Futaba {
+		background-image:url(/css/img/top.futaba.png);
+	}
+	@if $stylename == Photon {
+		background-image:url(/css/img/top.png);
+	}
+	background-position:top; 
+	background-repeat:no-repeat;
+}
+
+/**/
+.newsbottom {
+	@if $stylename == Futaba {
+		background-image:url(/css/img/bottom.futaba.png);
+	}
+	@if $stylename == Photon {
+		background-image:url(/css/img/bottom.png);
+	}
+	background-position:bottom; 
+	background-repeat:no-repeat;
+}
+
+/**/
+.newssize {
+padding:35px 40px 65px 45px; font-size:120%;
+}
+
+/*Админка - информация о сессии*/
+.names td {
+  //Цвет задника заголовка у фрейма - бежевый
+  background: #999;
+  //Цвет текста заголовка у фрейма - бордовый
+  color: #000;
+}
+/*Админка - бэкграунд и шрифт строк над постом*/
+.values td {
+  background: $admin-header-background-color;
+  color: $admin-header-color;
+}
+/*Меню настроек - заголовки*/
+td.logo, td > .logo {
+  background: $settings-header-color;
+  font-size: 1.2em;
+}

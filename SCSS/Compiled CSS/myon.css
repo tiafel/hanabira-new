@@ -1,0 +1,223 @@
+@charset UTF-8;
+
+html,body {
+background-color:#211F1A;
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.bg.jpg);
+color:#9B8165;
+font-family:"Trebuchet MS", Trebuchet, tahoma, serif
+}
+
+.oppost {
+background-color:transparent
+}
+
+.highlight,.reply,.popup {
+background-color:transparent;
+color:#9B8165;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.posts.jpg)
+}
+
+.reply {
+border-color:#34352D
+}
+
+.highlight {
+border-color:#678CB1
+}
+
+.popup {
+-moz-box-shadow:0 0 12px #34352D;
+-webkit-box-shadow:0 0 12px #34352D;
+box-shadow:0 0 12px #34352D
+}
+
+.doubledash {
+display:none
+}
+
+.adminbar,.stylebar {
+font-size:1em;
+font-weight:700
+}
+
+.theader,.passvalid {
+background:#282828;
+color:#698CC0
+}
+
+.logo {
+clear:both;
+text-align:center;
+font-weight:700;
+color:#F60
+}
+
+.managehead {
+background:#181818
+}
+
+.replytitle {
+color:#FFC17B
+}
+
+dl.menu dt {
+background:transparent;
+border:solid 1px #454545
+}
+
+dl.menu dd {
+border-left:solid 1px #454545
+}
+
+a {
+color:#FFD97A
+}
+
+.reflink a {
+color:inherit
+}
+
+a:hover {
+color:#FFF369;
+text-shadow:#FFDE22 0 0 15px!important
+}
+
+.reflink {
+font-size:.8em;
+font-weight:700
+}
+
+.postbody blockquote,.postbody blockquote blockquote,.postbody blockquote blockquote blockquote {
+color:#C1B387
+}
+
+.spoiler,.spoiler a,.spoiler blockquote,.spoiler blockquote blockquote,.spoiler blockquote blockquote blockquote {
+background:#454545;
+color:#454545
+}
+
+.spoiler:hover {
+background:#454545!important;
+color:#AEAEAE!important
+}
+
+.spoiler:hover a {
+color:#FFD97A!important
+}
+
+.spoiler:hover blockquote,.spoiler:hover blockquote blockquote,.spoiler:hover blockquote blockquote blockquote {
+color:#C2C2C2!important
+}
+
+#code_view .highlight {
+background:#FFFFF7
+}
+
+.category {
+font-family:sans-serif;
+font-size:small;
+margin-bottom:8px;
+background:#181818
+}
+
+.header {
+color:#B0C4DE;
+font-weight:700;
+border-left:1px solid #757575;
+border-right:1px solid #757575;
+border-top:1px solid #757575;
+border-bottom:1px solid #757575;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.bg.jpg);
+background-color:#211F1A;
+padding:0 3px
+}
+
+.list {
+border-left:1px solid #757575;
+border-right:1px solid #757575;
+border-bottom:1px solid #757575
+}
+
+.list div a {
+display:block;
+text-decoration:none;
+color:#FFD97A;
+padding:0 3px
+}
+
+.list div a:hover {
+color:#FFF369;
+background:#4C4C4C
+}
+
+.featuredimgbottom {
+height:300px;
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newsbg {
+width:502px;
+background-color:#131313
+}
+
+.newsbottom {
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newssize {
+font-size:120%;
+padding:35px 40px 65px 45px
+}
+
+.names td {
+background:#999;
+color:#000
+}
+
+td.logo,td > .logo {
+background:transparent;
+font-size:1.2em
+}
+
+input[type=password],input[type=submit],input[type=text],textarea,select {
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.inputs.jpg);
+background-color:#211F1A;
+border:2px solid #34352D;
+color:#C7924E;
+font-weight:700
+}
+
+input[type=text],select,input[type=file],input[type=submit] {
+font-weight:700
+}
+
+hr {
+height:3px!important;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.line.png) center no-repeat;
+border-width:0!important
+}
+
+.postbody,.message {
+color:#C7924E
+}
+
+.postblock,.values td {
+background:transparent;
+color:#9B8165
+}
+
+.postername,.postertrip,.fileinfo {
+color:#9B8165
+}
+
+.featuredimgtop,.newstop {
+background-position:top;
+background-repeat:no-repeat
+}
+
+::-moz-selection,::selection {
+background:#FEC77D!important;
+color:#111!important
+}

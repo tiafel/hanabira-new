@@ -1,0 +1,132 @@
+//Имя юзерстиля
+$stylename: Snow;
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#FAFAFA;
+//Картинка бэкграунда
+$global-background-image:url(/images/snow_animuted.gif);
+//Стандартный цвет шрифта
+$font-color:#333333;
+//Стандартный шрифт
+$font-family:"Trebuchet MS",Trebuchet,tahoma,serif;
+
+//Цвет задника ОП-поста
+$oppost-background-color:transparent;
+//Цвет задника обычных постов
+$post-background-color:#F3F3FF;
+//Цвет обводки обычных постов
+$post-border-color:#8F8F8F;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#FF5500;
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: 5px 5px 10px #8495D8;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:false;
+//Отступ слева у ответа
+$post-margin:20px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: #DDDDDD;
+//И соответственно - цвет шрифта
+$threader-color:#2266AA;
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: left;
+//Жирность текста заголовка вверху страницы
+$bold-logo: true;
+//Цвет текста заголовка вверху страницы
+$logo-color: #AAA;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color: transparent;
+//Цвет текста формы постинга
+$posting-form-color:#002244;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#002244;
+//Имя отправителя ("Анонимус")
+$postername-color:#004A99;
+//Цвет трипкода
+$tripcode-color:#FF3300;
+//Цвет описания файла
+$fileinfo-color:#666666;
+
+//Цвет ссылок
+$link-color:#00305B;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#0087FF;
+//Жирность рефлинков
+$reflink-bold:true;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:standart;
+$blockquote-spoiler-color:standart;
+
+//Цвет спойлера
+$spoiler-color: #CCC;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #F7F7F7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 1px solid #777777;
+//Бэкграунд таблицы досок
+$list-background-color: #DDDDDD;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color: #CCCCCC;
+//Цвет заголовка таблицы досок
+$list-header-color:#2266AA;
+//Цвет ссылки в таблице досок
+$list-link-color: #FF6600;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: #0066FF;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: #EEEEEE;
+
+//Бэкграунд главной
+$news-background-color:#d0d0d0;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
+
+
+/*Иконки*/
+.reply_ {
+	background-image:url(/images/reply.snow.png);
+}
+.quote {
+	background-image:url(/images/quote.snow.png);
+}
+
+/*Player Skin*/
+#playlist_list ul {
+	background-color:#F3F3FF;
+}
+#player_container {
+	background-color:#FFF;
+}
+#player_play, #player_pause, #ctrl_prev, #ctrl_next, #player_stop, #player_volume_min, #player_volume_max {
+	background-image: url("/images/music/icons.snow.png") !important;
+}

@@ -1,0 +1,387 @@
+@charset UTF-8;
+
+html,body {
+background-color:#FFE;
+color:#600000;
+font-family:nil
+}
+
+.oppost {
+background-color:#FFE
+}
+
+.highlight,.reply,.popup {
+background-color:#F0E0D6;
+color:#600000
+}
+
+.reply {
+border-color:#CCC
+}
+
+.highlight {
+border-color:#F50
+}
+
+.popup {
+-moz-box-shadow:5px 5px 10px #988;
+-webkit-box-shadow:5px 5px 10px #988;
+box-shadow:5px 5px 10px #988
+}
+
+.adminbar b {
+font-weight:400
+}
+
+.theader,.passvalid {
+background:#E04000;
+color:#FFF
+}
+
+.logo {
+clear:both;
+text-align:center;
+color:#600000
+}
+
+.postblock {
+background:#EA8;
+color:#600000
+}
+
+.replytitle {
+color:#CC1105
+}
+
+.postername {
+color:#117743
+}
+
+.postertrip {
+color:#228854
+}
+
+.fileinfo {
+color:#600000
+}
+
+dl.menu dt {
+background:#F0E0D6;
+border:solid 1px #F0D0B6
+}
+
+dl.menu dd {
+border-left:solid 1px #F0D0B6
+}
+
+a {
+color:#00E
+}
+
+.reflink a {
+color:inherit
+}
+
+a:hover {
+color:#D00
+}
+
+.spoiler,.spoiler a,.spoiler blockquote,.spoiler blockquote blockquote,.spoiler blockquote blockquote blockquote {
+background:#F0D0B6;
+color:#F0D0B6
+}
+
+.spoiler:hover {
+background:#F0D0B6!important;
+color:#600000!important
+}
+
+.spoiler:hover a {
+color:#00E!important
+}
+
+.spoiler:hover blockquote {
+color:#789922!important
+}
+
+.spoiler:hover blockquote blockquote {
+color:#406010!important
+}
+
+.spoiler:hover blockquote blockquote blockquote {
+color:#204010!important
+}
+
+#code_view .highlight {
+background:#FFFFF7
+}
+
+.category {
+font-family:sans-serif;
+font-size:small;
+margin-bottom:8px;
+background:#F0E0D6
+}
+
+.header {
+background:#EA8;
+color:#600000;
+font-weight:700;
+padding:0 3px
+}
+
+.list div a {
+display:block;
+text-decoration:none;
+color:#600000;
+padding:0 3px
+}
+
+.list div a:hover {
+background:#FFE
+}
+
+.featuredimgtop {
+background-image:url(/css/img/imgtop.futaba.png);
+background-position:top;
+background-repeat:no-repeat
+}
+
+.featuredimgbottom {
+height:300px;
+background-image:url(/css/img/imgbottom.futaba.png);
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newsbg {
+width:502px;
+background-color:#f0e0d6
+}
+
+.newstop {
+background-image:url(/css/img/top.futaba.png);
+background-position:top;
+background-repeat:no-repeat
+}
+
+.newsbottom {
+background-image:url(/css/img/bottom.futaba.png);
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newssize {
+font-size:120%;
+padding:35px 40px 65px 45px
+}
+
+.names td {
+background:#999;
+color:#000
+}
+
+.values td {
+background:#F0E0D6;
+color:#600000
+}
+
+td.logo,td > .logo {
+background:#F0E0D6;
+font-size:1.2em
+}
+
+.delete,.delete-file {
+background-image:url(/images/delete.futaba.png)
+}
+
+.checked {
+background-image:url(/images/delete_selected.png)
+}
+
+.hide {
+background-image:url(/images/hidethread.futaba.png)
+}
+
+.close {
+background-image:url(/images/close.futaba.png)
+}
+
+.reply_ {
+background-image:url(/images/reply.futaba.png)
+}
+
+.quote {
+background-image:url(/images/quote.futaba.png)
+}
+
+.add_ {
+background-image:url(/images/music/add.futaba.png)
+}
+
+.play_ {
+background-image:url(/images/music/play.futaba.png)
+}
+
+.remove_ {
+background-image:url(/images/music/remove.futaba.png)
+}
+
+.icon {
+font-size:1.25em
+}
+
+.pages {
+border:solid 1px #DDCCC5
+}
+
+#player_container {
+background-color:#FFE;
+border:1px solid #FF9D00
+}
+
+#player_play {
+background:url(/images/music/icons.futaba.png) 0 0 no-repeat
+}
+
+#player_play.jqjp_hover {
+background:url(/images/music/icons.futaba.png) -41px 0 no-repeat
+}
+
+#player_pause {
+background:url(/images/music/icons.futaba.png) 0 -42px no-repeat
+}
+
+#player_pause.jqjp_hover {
+background:url(/images/music/icons.futaba.png) -41px -42px no-repeat
+}
+
+#ctrl_prev {
+background:url(/images/music/icons.futaba.png) 0 -112px no-repeat
+}
+
+#ctrl_prev:hover {
+background:url(/images/music/icons.futaba.png) -29px -112px no-repeat
+}
+
+#ctrl_prev.disabled {
+background:url(/images/music/icons.futaba.png) -58px -112px no-repeat;
+cursor:default
+}
+
+#ctrl_next {
+background:url(/images/music/icons.futaba.png) 0 -141px no-repeat
+}
+
+#ctrl_next:hover {
+background:url(/images/music/icons.futaba.png) -29px -141px no-repeat
+}
+
+#ctrl_next.disabled {
+background:url(/images/music/icons.futaba.png) -58px -141px no-repeat;
+cursor:default
+}
+
+#player_stop {
+background:url(/images/music/icons.futaba.png) 0 -83px no-repeat
+}
+
+#player_stop.jqjp_hover {
+background:url(/images/music/icons.futaba.png) -29px -83px no-repeat
+}
+
+#player_progress {
+position:absolute;
+left:164px;
+top:32px;
+background-color:#FFE;
+width:122px;
+height:15px
+}
+
+#player_progress_load_bar {
+background:url(/images/music/bar_load.futaba.png) top left repeat-x;
+width:0;
+height:15px
+}
+
+#player_progress_play_bar {
+background:url(/images/music/bar_play.futaba.png) top left repeat-x;
+width:0;
+height:15px
+}
+
+#player_volume_min {
+left:296px;
+top:32px;
+background:url(/images/music/icons.futaba.png) 0 -170px no-repeat;
+width:18px;
+height:15px
+}
+
+#player_volume_max {
+left:368px;
+top:32px;
+background:url(/images/music/icons.futaba.png) 0 -186px no-repeat;
+width:18px;
+height:15px
+}
+
+#player_volume_min.jqjp_hover {
+background:url(/images/music/icons.futaba.png) -19px -170px no-repeat
+}
+
+#player_volume_max.jqjp_hover {
+background:url(/images/music/icons.futaba.png) -19px -186px no-repeat
+}
+
+#player_volume_bar {
+left:314px;
+top:37px;
+background:url(/images/music/volume_bar.futaba.png) repeat-x top left;
+width:46px;
+height:5px
+}
+
+#player_volume_bar_value {
+background:url(/images/music/volume_bar_value.futaba.png) repeat-x top left;
+width:0;
+height:5px
+}
+
+#playlist_list {
+width:418px
+}
+
+#playlist_list ul {
+list-style-type:none;
+background-color:#F0E0D6;
+border:1px solid #FF9D00;
+border-top:none;
+width:378px;
+font-size:.9em;
+margin:0 0 10px;
+padding:10px 20px 20px
+}
+
+#playlist_list li {
+border-bottom:1px solid #FFE;
+cursor:pointer;
+padding:4px 0 4px 20px
+}
+
+#playlist_list li.playlist_current {
+color:#FF9D00;
+list-style-type:square;
+list-style-position:inside;
+padding-left:6px;
+cursor:default
+}
+
+#playlist_list li.playlist_hover {
+color:#FF9D00
+}
+
+.managehead,.logline {
+background:#F0E0D6
+}

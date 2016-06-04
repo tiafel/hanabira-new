@@ -1,0 +1,345 @@
+@charset UTF-8;
+
+html,body {
+background-color:#000;
+color:#0C0;
+font-family:Verdana, Verdana, Tahoma, Tahoma, tahoma, sans-serif
+}
+
+.oppost {
+background-color:#000
+}
+
+.highlight,.reply,.popup {
+background-color:#000;
+color:#0C0
+}
+
+.reply {
+border-color:#060
+}
+
+.highlight {
+border-color:#0F0
+}
+
+.popup {
+-moz-box-shadow:#0C0 0 0 1em;
+-webkit-box-shadow:#0C0 0 0 1em;
+box-shadow:#0C0 0 0 1em
+}
+
+.adminbar,.stylebar {
+font-size:1em;
+font-weight:700
+}
+
+.theader,.passvalid {
+text-align:center;
+clear:both;
+margin-bottom:.5em;
+border:solid 1px #0C0;
+font-weight:700;
+border-radius:5px;
+background:#030;
+color:#0F0;
+padding:2px
+}
+
+.logo {
+clear:both;
+text-align:center;
+font-weight:700;
+color:#0F0
+}
+
+.managehead {
+background:#000
+}
+
+.replytitle {
+color:#0C0
+}
+
+dl.menu dt {
+background:#000;
+border:solid 1px #0C0
+}
+
+dl.menu dd {
+border-left:solid 1px #0C0
+}
+
+a {
+color:#00e500;
+text-shadow:#000 0 0 10px
+}
+
+.reflink a {
+color:#0F0
+}
+
+a:hover {
+color:#0F0;
+text-shadow:#0C0 0 0 15px!important
+}
+
+.reflink {
+font-size:.8em;
+font-weight:700
+}
+
+.postbody blockquote,.postbody blockquote blockquote,.postbody blockquote blockquote blockquote {
+color:green
+}
+
+.spoiler,.spoiler a,.spoiler blockquote,.spoiler blockquote blockquote,.spoiler blockquote blockquote blockquote {
+background:#0C0;
+color:#0C0
+}
+
+.spoiler:hover {
+background:#0C0!important;
+color:#000!important
+}
+
+.spoiler:hover a {
+color:#00e500!important
+}
+
+.spoiler:hover blockquote,.spoiler:hover blockquote blockquote,.spoiler:hover blockquote blockquote blockquote {
+color:#001a00!important
+}
+
+#code_view .highlight {
+background:#FFFFF7
+}
+
+.category {
+font-family:sans-serif;
+font-size:small;
+margin-bottom:8px;
+background:#000
+}
+
+.header {
+background:#030;
+color:#0F0;
+font-weight:700;
+border-left:1px solid #060;
+border-right:1px solid #060;
+border-top:1px solid #060;
+border-bottom:1px solid #060;
+padding:0 3px
+}
+
+.list {
+border-left:1px solid #060;
+border-right:1px solid #060;
+border-bottom:1px solid #060
+}
+
+.list div a {
+display:block;
+text-decoration:none;
+color:#00e500;
+padding:0 3px
+}
+
+.list div a:hover {
+color:#0F0;
+background:#001a00
+}
+
+.featuredimgbottom {
+height:300px;
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newsbg {
+width:502px;
+background-color:#000
+}
+
+.newsbottom {
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newssize {
+font-size:120%;
+padding:35px 40px 65px 45px
+}
+
+.names td {
+background:#999;
+color:#000
+}
+
+td.logo,td > .logo {
+background:#000;
+font-size:1.2em
+}
+
+input[type=password],input[type=submit],input[type=text],textarea,select {
+background-color:#000;
+border:2px solid #0C0;
+color:#0C0;
+font-weight:700
+}
+
+input[type=submit],input[type=text],input[type=file],select {
+font-weight:700
+}
+
+input[type=text],textarea {
+-moz-appearance:none!important;
+-moz-border-radius:5px!important;
+-moz-box-sizing:content-box!important
+}
+
+hr {
+height:3px!important;
+border-color:#0C0
+}
+
+.spoiler a {
+text-shadow:none
+}
+
+.spoiler a:hover {
+color:#000!important
+}
+
+.waiting0 {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.waiting0.gif)
+}
+
+.waiting1 {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.waiting1.gif)
+}
+
+.waiting2 {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.waiting2.gif)
+}
+
+.delete,.delete-file {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.delete.svg)
+}
+
+.checked {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.delete_selected.svg)
+}
+
+.hide {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.hidethread.svg)
+}
+
+.signed {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.signed-on.svg)
+}
+
+.unsigned {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.signed-off8.svg)
+}
+
+.close {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.close.svg)
+}
+
+.reply_ {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.reply.svg)
+}
+
+.quote {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.quote.svg)
+}
+
+.add_ {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.add.svg)
+}
+
+.play_ {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.play.svg)
+}
+
+.view_ {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.view.svg)
+}
+
+.edit_ {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.edit.svg)
+}
+
+.search_google {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.google.svg)
+}
+
+.search_iqdb {
+background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.booru.svg)
+}
+
+label img[src=/images/sticky.png] {
+-moz-box-sizing:border-box;
+box-sizing:border-box;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.sticky.svg) no-repeat;
+width:14px;
+height:14px;
+padding-left:14px
+}
+
+label img[src=/images/autosage.gif] {
+-moz-box-sizing:border-box;
+box-sizing:border-box;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.autosage.svg) no-repeat;
+width:14px;
+height:14px;
+padding-left:14px
+}
+
+label img[src=/images/locked.png] {
+-moz-box-sizing:border-box;
+box-sizing:border-box;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.locked.svg) no-repeat;
+width:14px;
+height:14px;
+padding-left:14px
+}
+
+label img[src=/images/archive.gif] {
+-moz-box-sizing:border-box;
+box-sizing:border-box;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.archive.svg) no-repeat;
+width:14px;
+height:14px;
+padding-left:14px
+}
+
+.logo img[src=/images/horo.png] {
+-moz-box-sizing:border-box;
+box-sizing:border-box;
+background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/greenlight-terminal.horo.png) no-repeat;
+width:180px;
+height:223px;
+padding-left:180px
+}
+
+.img[id=captcha-image] {
+border-color:#0F0;
+border-width:2px
+}
+
+.postblock,.values td {
+background:#000;
+color:#0C0
+}
+
+.postername,.postertrip,.fileinfo,.abbrev {
+color:#060
+}
+
+.featuredimgtop,.newstop {
+background-position:top;
+background-repeat:no-repeat
+}

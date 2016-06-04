@@ -1,0 +1,180 @@
+//Имя юзерстиля
+$stylename: Neutron;
+
+//Вкл/выкл тестирование картинок
+$img_address:'https://dl.dropboxusercontent.com/u/32654067/styles';
+//$img_address:'';
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#181818;
+//Картинка бэкграунда
+$global-background-image:nil;
+//Стандартный цвет шрифта
+$font-color:#698CC0;
+//Стандартный шрифт
+$font-family:"Trebuchet MS",Trebuchet,tahoma,serif;
+
+//Цвет задника ОП-поста
+$oppost-background-color:$global-background-color;
+//Цвет задника обычных постов
+$post-background-color:#2C2C2C;
+//Цвет обводки обычных постов
+$post-border-color:#575757;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#678CB1;
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: #006699 0px 0px 1em;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:true;
+//Отступ слева у ответа (лучше не менять, пожалуй)
+$post-margin:0px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: #282828;
+//И соответственно - цвет шрифта
+$threader-color:#698CC0;
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: center;
+//Жирность текста заголовка вверху страницы
+$bold-logo: false;
+//Цвет текста заголовка вверху страницы
+$logo-color: #698CC0;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color: #181818;
+//Цвет текста формы постинга
+$posting-form-color:#698CC0;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#E1E2CF;
+//Имя отправителя ("Анонимус")
+$postername-color:#C0E9F0;
+//Цвет трипкода
+$tripcode-color:#228854;
+//Цвет описания файла
+$fileinfo-color:#698CC0;
+
+//Цвет ссылок
+$link-color:#DDC771;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#FFF369;
+//Жирность рефлинков
+$reflink-bold:true;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:#6466D1;
+$blockquote-spoiler-color:#A8A3FF;
+//$blockquote-color:#BF69AE;
+//$blockquote-spoiler-color:#BF69AE;
+
+//Цвет спойлера
+$spoiler-color: #575757;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #FFFFF7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 1px solid #757575;
+//Бэкграунд таблицы досок
+$list-background-color: #181818;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color: #111111;
+//Цвет заголовка таблицы досок
+$list-header-color:#B0C4DE;
+//Цвет ссылки в таблице досок
+$list-link-color: $link-color;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: $link-active-color;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: #4C4C4C;
+
+//Бэкграунд главной
+$news-background-color:#131313;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
+
+
+/*Изменение стандартных полей ввода ответа*/
+input[type=password],input[type=submit],input[type=text],textarea,select
+{
+	background-color:#111111;
+	border:2px solid #545454;
+	color:#698Cff;
+	font-weight:bold;
+}
+input[type=text],select,input[type=file],input[type=submit]
+{
+	font-weight:bold;
+}
+input[type=text], textarea
+{
+	-moz-appearance:none !important;
+	-moz-border-radius:5px 5px 5px 5px !important;
+	-moz-box-sizing:content-box !important;
+}
+/*Замена разделителя картинкой*/
+hr {
+	height:3px !important;
+	border-width: 0px !important;
+	background:url($img_address+'/images/neutron.line.png') center no-repeat;
+}
+/*Заголовки фрейма подчёркнуты снизу*/
+.header {
+	border-bottom: $list-border;
+}
+
+/*Свечение вокруг ссылок*/
+a {
+text-shadow: #FFD200 0px 0px 10px;
+}
+.reflink a { 
+    color: #DDC771;
+}
+//Это чтобы под спойлерами не светилось
+.spoiler a {
+	text-shadow:none;
+}
+.spoiler a:hover {
+    color: #FFDE22 !important;
+}
+a:hover {
+	text-shadow: #FFDE22 0px 0px 15px !important;
+}
+
+/*Изменённый цвет текста под спойлерами*/
+.spoiler:hover {
+	color:#8EAAD4 !important;
+}
+
+.logo img[src="/images/horo.png"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/neutron.horo.png') no-repeat;
+	width: 180px; /* ширина нового изображения */
+	height: 234px; /* высота нового изображения */
+	padding-left: 180px; /* размер отступа равен ширине нового изображения */
+}

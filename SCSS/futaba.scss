@@ -1,0 +1,292 @@
+//Имя юзерстиля
+$stylename: Futaba;
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#FFFFEE;
+//Картинка бэкграунда
+$global-background-image:nil;
+//Стандартный цвет шрифта
+$font-color:#600000;
+//Стандартный шрифт
+$font-family:nil;
+
+//Цвет задника ОП-поста
+$oppost-background-color:$global-background-color;
+//Цвет задника обычных постов
+$post-background-color:#F0E0D6;
+//Цвет обводки обычных постов
+$post-border-color:#CCCCCC;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#FF5500;
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: 5px 5px 10px #988;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:true;
+//Отступ слева у ответа (лучше не менять, пожалуй)
+$post-margin:0px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: #E04000;
+//И соответственно - цвет шрифта
+$threader-color:#FFFFFF;
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: center;
+//Жирность текста заголовка вверху страницы
+$bold-logo: false;
+//Цвет текста заголовка вверху страницы
+$logo-color: $font-color;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color:#EEAA88;
+//Цвет текста формы постинга
+$posting-form-color:$font-color;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#CC1105;
+//Имя отправителя ("Анонимус")
+$postername-color:#117743;
+//Цвет трипкода
+$tripcode-color:#228854;
+//Цвет описания файла
+$fileinfo-color:#600000;
+
+//Цвет ссылок
+$link-color:#0000EE;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#DD0000;
+//Жирность рефлинков
+$reflink-bold:false;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:standart;
+$blockquote-spoiler-color:standart;
+
+//Цвет спойлера
+$spoiler-color: #F0D0B6;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #FFFFF7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 0px;
+//Бэкграунд таблицы досок
+$list-background-color: $post-background-color;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color:#EEAA88;
+//Цвет заголовка таблицы досок
+$list-header-color: $font-color;
+//Цвет ссылки в таблице досок
+$list-link-color: $font-color;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: nil;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: $global-background-color;
+
+//Бэкграунд главной
+$news-background-color:#f0e0d6;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
+
+
+/*Иконки*/
+
+.delete, .delete-file {
+    background-image:url(/images/delete.futaba.png);
+}
+.checked {
+    background-image:url(/images/delete_selected.png);
+}
+.hide {
+    background-image:url(/images/hidethread.futaba.png);
+}
+.close {
+    background-image:url(/images/close.futaba.png);
+}
+.reply_ {
+	background-image:url(/images/reply.futaba.png);
+}
+.quote {
+	background-image:url(/images/quote.futaba.png);
+}
+.add_ {
+	background-image:url(/images/music/add.futaba.png);
+}
+.play_ {
+	background-image:url(/images/music/play.futaba.png);
+}
+.remove_ {
+	background-image:url(/images/music/remove.futaba.png);
+}
+.icon {
+	font-size: 1.25em;
+}
+.pages {
+	border: solid 1px #DDCCC5;
+}
+.logline {
+    background: #F0E0D6;
+}
+
+/* Player skin */
+
+#player_container {
+	background-color:#FFFFEE;
+	border:1px solid #FF9D00;
+}
+#player_play {
+	background: url("/images/music/icons.futaba.png") 0 0 no-repeat;
+}
+
+#player_play.jqjp_hover {
+	background: url("/images/music/icons.futaba.png") -41px 0 no-repeat;
+}
+#player_pause {
+	background: url("/images/music/icons.futaba.png") 0 -42px no-repeat;
+}
+#player_pause.jqjp_hover {
+	background: url("/images/music/icons.futaba.png") -41px -42px no-repeat;
+}
+
+#ctrl_prev {
+	background: url("/images/music/icons.futaba.png") 0 -112px no-repeat;
+}
+
+#ctrl_prev:hover {
+	background: url("/images/music/icons.futaba.png") -29px -112px no-repeat;
+}
+
+#ctrl_prev.disabled {
+	background: url("/images/music/icons.futaba.png") -58px -112px no-repeat;
+	cursor:default;
+}
+
+#ctrl_next {
+	background: url("/images/music/icons.futaba.png") 0 -141px no-repeat;
+}
+
+#ctrl_next:hover {
+	background: url("/images/music/icons.futaba.png") -29px -141px no-repeat;
+}
+
+#ctrl_next.disabled {
+	background: url("/images/music/icons.futaba.png") -58px -141px no-repeat;
+	cursor:default;
+}
+
+
+#player_stop {
+	background: url("/images/music/icons.futaba.png") 0 -83px no-repeat;
+}
+#player_stop.jqjp_hover {
+	background: url("/images/music/icons.futaba.png") -29px -83px no-repeat;
+}
+#player_progress {
+	position: absolute;
+	left:164px;
+	top:32px;
+	background-color: #FFFFEE;
+	width:122px;
+	height:15px;
+}
+#player_progress_load_bar {
+	background: url("/images/music/bar_load.futaba.png")  top left repeat-x;
+	width:0px;
+	height:15px;
+}
+#player_progress_play_bar {
+	background: url("/images/music/bar_play.futaba.png") top left repeat-x ;
+	width:0px;
+	height:15px;
+}
+#player_volume_min {
+	left:296px;
+	top:32px;
+	background: url("/images/music/icons.futaba.png") 0 -170px no-repeat;
+	width:18px;
+	height:15px;
+}
+
+#player_volume_max {
+	left:368px;
+	top:32px;
+	background: url("/images/music/icons.futaba.png") 0 -186px no-repeat;
+	width:18px;
+	height:15px;
+}
+
+#player_volume_min.jqjp_hover {
+	background: url("/images/music/icons.futaba.png") -19px -170px no-repeat;
+}
+
+#player_volume_max.jqjp_hover {
+	background: url("/images/music/icons.futaba.png") -19px -186px no-repeat;
+}
+
+#player_volume_bar {
+	left:314px;
+	top:37px;
+	background: url("/images/music/volume_bar.futaba.png") repeat-x top left;
+	width:46px;
+	height:5px;
+}
+#player_volume_bar_value {
+	background: url("/images/music/volume_bar_value.futaba.png") repeat-x top left;
+	width:0px;
+	height:5px;
+}
+#playlist_list {
+	width:418px;
+}
+
+#playlist_list ul{
+	list-style-type:none;
+	padding:10px 20px 20px 20px;
+	margin:0 0 10px 0;
+	background-color:#F0E0D6;
+	border:1px solid #FF9D00;
+	border-top:none;
+	width:378px;
+	font-size:.9em;
+}
+
+#playlist_list li{
+	padding:4px 0 4px 20px;
+	border-bottom:1px solid #FFFFEE;
+	cursor: pointer;
+}
+
+#playlist_list li.playlist_current{
+	color:#FF9D00;
+	list-style-type:square;
+	list-style-position:inside;
+	padding-left:6px;
+	cursor: default;
+}
+
+#playlist_list li.playlist_hover {
+	color:#FF9D00;
+}

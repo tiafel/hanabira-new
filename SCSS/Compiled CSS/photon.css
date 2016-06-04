@@ -1,0 +1,216 @@
+@charset UTF-8;
+
+html,body {
+background-color:#EEE;
+color:#333;
+font-family:"Trebuchet MS", Trebuchet, tahoma, serif
+}
+
+.oppost {
+background-color:#EEE
+}
+
+.highlight,.reply,.popup {
+background-color:#DDD;
+color:#333
+}
+
+.reply {
+border-color:#CCC
+}
+
+.highlight {
+border-color:#F50
+}
+
+.popup {
+-moz-box-shadow:5px 5px 10px #988;
+-webkit-box-shadow:5px 5px 10px #988;
+box-shadow:5px 5px 10px #988
+}
+
+.doubledash {
+display:none
+}
+
+.replypost {
+margin-left:20px
+}
+
+.adminbar,.stylebar {
+font-size:1em;
+font-weight:700
+}
+
+.theader,.passvalid {
+background:#DDD;
+color:#26A
+}
+
+.logo {
+clear:both;
+text-align:left;
+font-weight:700;
+color:#F60
+}
+
+.postblock {
+background:transparent;
+color:#024
+}
+
+.managehead {
+background:#DDD
+}
+
+.replytitle {
+color:#024
+}
+
+.postername {
+color:#004A99
+}
+
+.postertrip {
+color:#F30
+}
+
+.fileinfo {
+color:#666
+}
+
+dl.menu dt {
+background:#DDD;
+border:solid 1px #CCC
+}
+
+dl.menu dd {
+border-left:solid 1px #CCC
+}
+
+a {
+color:#F60
+}
+
+.reflink a {
+color:inherit
+}
+
+.reflink {
+font-size:.8em;
+font-weight:700
+}
+
+.spoiler,.spoiler a,.spoiler blockquote,.spoiler blockquote blockquote,.spoiler blockquote blockquote blockquote {
+background:#CCC;
+color:#CCC
+}
+
+.spoiler:hover {
+background:#CCC!important;
+color:#333!important
+}
+
+.spoiler:hover a {
+color:#F60!important
+}
+
+.spoiler:hover blockquote {
+color:#789922!important
+}
+
+.spoiler:hover blockquote blockquote {
+color:#406010!important
+}
+
+.spoiler:hover blockquote blockquote blockquote {
+color:#204010!important
+}
+
+#code_view .highlight {
+background:#F7F7F7
+}
+
+.category {
+font-family:sans-serif;
+font-size:small;
+margin-bottom:8px;
+background:#DDD
+}
+
+.header {
+background:#CCC;
+color:#26A;
+font-weight:700;
+border-left:1px solid #777;
+border-right:1px solid #777;
+border-top:1px solid #777;
+padding:0 3px
+}
+
+.list {
+border-left:1px solid #777;
+border-right:1px solid #777;
+border-bottom:1px solid #777
+}
+
+.list div a {
+display:block;
+text-decoration:none;
+color:#F60;
+padding:0 3px
+}
+
+.featuredimgtop {
+background-image:url(/css/img/imgtop.png);
+background-position:top;
+background-repeat:no-repeat
+}
+
+.featuredimgbottom {
+height:300px;
+background-image:url(/css/img/imgbottom.png);
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newsbg {
+width:502px;
+background-color:#d0d0d0
+}
+
+.newstop {
+background-image:url(/css/img/top.png);
+background-position:top;
+background-repeat:no-repeat
+}
+
+.newsbottom {
+background-image:url(/css/img/bottom.png);
+background-position:bottom;
+background-repeat:no-repeat
+}
+
+.newssize {
+font-size:120%;
+padding:35px 40px 65px 45px
+}
+
+.names td {
+background:#999;
+color:#000
+}
+
+.values td {
+background:#DDD;
+color:#333
+}
+
+td.logo,td > .logo {
+background:#DDD;
+font-size:1.2em
+}
+
+a:hover,.list div a:hover {
+color:#06F
+}

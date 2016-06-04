@@ -1,0 +1,170 @@
+//Имя юзерстиля
+$stylename: Neutron;
+
+//Вкл/выкл тестирование картинок
+$img_address:'https://dl.dropboxusercontent.com/u/32654067/styles';
+//$img_address:'';
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#211F1A;
+//Картинка бэкграунда
+$global-background-image:url($img_address+'/images/muon.bg.jpg');
+//Стандартный цвет шрифта
+$font-color:#9B8165;
+//Стандартный шрифт
+$font-family:"Trebuchet MS",Trebuchet,tahoma,serif;
+
+//Цвет задника ОП-поста
+$oppost-background-color:transparent;
+//Цвет задника обычных постов
+$post-background-color:transparent;
+//Цвет обводки обычных постов
+$post-border-color:#34352D;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#678CB1; ///asdsadas
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: 0px 0px 12px #34352D;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:false;
+//Отступ слева у ответа (лучше не менять, пожалуй)
+$post-margin:0px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: #282828;
+//И соответственно - цвет шрифта
+$threader-color:#698CC0;
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: center;
+//Жирность текста заголовка вверху страницы
+$bold-logo: true;
+//Цвет текста заголовка вверху страницы
+$logo-color: #FF6600;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color: transparent;
+//Цвет текста формы постинга
+$posting-form-color:$font-color;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#FFC17B;
+//Имя отправителя ("Анонимус")
+$postername-color:$font-color;
+//Цвет трипкода
+$tripcode-color:$font-color; //228854
+//Цвет описания файла
+$fileinfo-color:$font-color;
+
+//Цвет ссылок
+$link-color:#FFD97A;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#FFF369;
+//Жирность рефлинков
+$reflink-bold:true;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:#C1B387;
+$blockquote-spoiler-color:#C2C2C2;
+
+//Цвет спойлера
+$spoiler-color: #454545;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #FFFFF7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 1px solid #757575;
+//Бэкграунд таблицы досок
+$list-background-color: #181818;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color: #111111;
+//Цвет заголовка таблицы досок
+$list-header-color:#B0C4DE;
+//Цвет ссылки в таблице досок
+$list-link-color: $link-color;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: $link-active-color;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: #4C4C4C;
+
+//Бэкграунд главной
+$news-background-color:#131313;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
+
+/*Изменение стандартных полей ввода ответа*/
+input[type=password],input[type=submit],input[type=text],textarea,select
+{
+	background: url($img_address+'/images/muon.inputs.jpg');
+	background-color:$global-background-color;
+	border:2px solid $post-border-color;
+	color:#C7924E;
+	font-weight:bold;
+}
+input[type=text],select,input[type=file],input[type=submit]
+{
+	font-weight:bold;
+}
+/*Замена разделителя картинкой*/
+hr {
+	height:3px !important;
+	border-width: 0px !important;
+	background: url($img_address+'/images/muon.line.png') center no-repeat;
+}
+
+/*Заголовки фрейма подчёркнуты снизу*/
+/*плюс изображение*/
+.header {
+	border-bottom: $list-border;
+	background: url($img_address+'/images/muon.bg.jpg');
+	background-color:$global-background-color;
+}
+
+/*Свечение вокруг активной ссылки*/
+a:hover {
+	text-shadow: #FFDE22 0px 0px 15px !important;
+}
+
+/*Бэкграунд поста*/
+.highlight, .reply, .popup {
+	background: url($img_address+'/images/muon.posts.jpg');
+}
+
+/*Цвет шрифта в сообщениях...*/
+.postbody, .message {
+	color:#C7924E;
+}
+/*...и под спойлерами*/
+.spoiler:hover {
+	color:#AEAEAE !important;
+}
+.spoiler:hover a {
+	color:#FFD97A !important;
+}
+
+/*Особый цвет выделения*/
+::-moz-selection{background:#FEC77D!important;color:#111111!important}
+::selection{background:#FEC77D!important;color:#111111!important}

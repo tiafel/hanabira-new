@@ -1,0 +1,297 @@
+//Имя юзерстиля
+$stylename: Greenlight-Terminal;
+
+//Вкл/выкл тестирование картинок
+$img_address:'https://dl.dropboxusercontent.com/u/32654067/styles';
+//$img_address:'';
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#000000;
+//Картинка бэкграунда
+$global-background-image:nil;
+//Стандартный цвет шрифта
+$font-color:#00cc00;
+//Стандартный шрифт
+$font-family:"Verdana",Verdana,"Tahoma",Tahoma,tahoma,sans-serif;
+
+//Цвет задника ОП-поста
+$oppost-background-color:$global-background-color;
+//Цвет задника обычных постов
+$post-background-color:$global-background-color;
+//Цвет обводки обычных постов
+$post-border-color:#006600;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#00ff00;
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: #00cc00 0px 0px 1em;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:true;
+//Отступ слева у ответа (лучше не менять, пожалуй)
+$post-margin:0px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: #003300; //dim green
+//И соответственно - цвет шрифта
+$threader-color:#00ff00; //accented bright green
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: center;
+//Жирность текста заголовка вверху страницы
+$bold-logo: true;
+//Цвет текста заголовка вверху страницы
+$logo-color: #00ff00;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color: #000000;
+//Цвет текста формы постинга
+$posting-form-color:#00cc00;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#00cc00;
+//Имя отправителя ("Анонимус")
+$postername-color:#006600;
+//Цвет трипкода
+$tripcode-color:#006600;
+//Цвет описания файла
+$fileinfo-color:#006600;
+
+//Цвет ссылок
+$link-color:#00e500;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#00ff00;
+//Жирность рефлинков
+$reflink-bold:true;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:#008000;
+$blockquote-spoiler-color:#001a00;
+//$blockquote-color:#BF69AE;
+//$blockquote-spoiler-color:#BF69AE;
+
+//Цвет спойлера
+$spoiler-color: #00cc00;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #FFFFF7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 1px solid #006600;
+//Бэкграунд таблицы досок
+$list-background-color: #000000;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color: #003300;
+//Цвет заголовка таблицы досок
+$list-header-color:#00ff00;
+//Цвет ссылки в таблице досок
+$list-link-color: $link-color;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: $link-active-color;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: #001a00;
+
+//Бэкграунд главной
+$news-background-color:#000000;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
+
+
+/*Изменение стандартных полей ввода ответа*/
+input[type=password],input[type=submit],input[type=text],textarea,select {
+	background-color:#000000;
+	border:2px solid #00cc00;
+	color:#00cc00;
+	font-weight:bold;
+}
+input[type=submit],input[type=text],input[type=file],select {
+	font-weight:bold;
+}
+input[type=text], textarea {
+	-moz-appearance:none !important;
+	-moz-border-radius:5px 5px 5px 5px !important;
+	-moz-box-sizing:content-box !important;
+}
+/*Замена разделителя картинкой*/
+hr {
+	height:3px !important;
+	border-color: #00cc00;
+}
+/*Заголовки фрейма подчёркнуты снизу*/
+.header {
+	border-bottom: $list-border;
+}
+
+/*Свечение вокруг ссылок*/
+a {
+text-shadow: #000000 0px 0px 10px;
+}
+.reflink a { 
+    color: #00ff00;
+}
+//Это чтобы под спойлерами не светилось
+.spoiler a {
+	text-shadow:none;
+}
+.spoiler a:hover {
+    color: #000000 !important;
+}
+a:hover {
+	text-shadow: #00cc00 0px 0px 15px !important;
+}
+
+/*Изменённый цвет текста под спойлерами*/
+.spoiler:hover {
+	color:#000000 !important;
+}
+/*Обводка сообщения об ошибке*/
+.theader, .passvalid {
+	background:#00ff00 0px 0px 1em;
+}
+/*Техническая информация поста*/
+.abbrev {
+	color:#006600;
+}
+
+/*thread header styling, also in charge of some error messages*/
+.theader, .passvalid {
+    text-align: center;
+    padding: 2px;
+    clear: both;
+    margin-bottom: .5em;
+    border: solid 1px #00cc00; // generic bright green
+    font-weight: bold;
+    border-radius: 5px;
+    background: #003300; //dim green
+    color: #00ff00; //accented bright green
+}
+
+// ---------------------------------------Icons customization-------------------------------------
+// Pure and shameless assets replug. Implies the directory /images/ is stuffed properly.
+
+.waiting0 {
+    background-image:url($img_address+'/images/greenlight-terminal.waiting0.gif'); //implemented
+}
+.waiting1 {
+    background-image:url($img_address+'/images/greenlight-terminal.waiting1.gif'); //implemented
+}
+.waiting2 {
+    background-image:url($img_address+'/images/greenlight-terminal.waiting2.gif'); //implemented
+}
+.delete, .delete-file {
+    background-image:url($img_address+'/images/greenlight-terminal.delete.svg'); // implemented
+}
+.checked {
+    background-image:url($img_address+'/images/greenlight-terminal.delete_selected.svg'); //implemented
+}
+.hide {
+    background-image:url($img_address+'/images/greenlight-terminal.hidethread.svg'); //implemented
+}
+.signed {
+    background-image:url($img_address+'/images/greenlight-terminal.signed-on.svg'); //implemented
+}
+.unsigned {
+    background-image:url($img_address+'/images/greenlight-terminal.signed-off8.svg'); //implemented
+}
+.close {
+    background-image:url($img_address+'/images/greenlight-terminal.close.svg'); //implemented
+}
+.reply_ {
+	background-image:url($img_address+'/images/greenlight-terminal.reply.svg'); //implemented
+}
+.quote {
+	background-image:url($img_address+'/images/greenlight-terminal.quote.svg'); //implemented
+}
+.add_ {
+	background-image:url($img_address+'/images/greenlight-terminal.add.svg'); //implemented
+}
+.play_ {
+	background-image:url($img_address+'/images/greenlight-terminal.play.svg'); //implemented
+}
+.view_ {
+	background-image:url($img_address+'/images/greenlight-terminal.view.svg'); //implemented
+}
+.edit_ {
+	background-image:url($img_address+'/images/greenlight-terminal.edit.svg'); //implemented
+}
+.search_google {
+        background-image:url($img_address+'/images/greenlight-terminal.google.svg'); //implemented
+}
+.search_iqdb {
+        background-image:url($img_address+'/images/greenlight-terminal.booru.svg'); //implemented
+}
+
+//----------------------------------------------------Static assets replug------------------------------------------------
+
+label img[src="/images/sticky.png"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/greenlight-terminal.sticky.svg') no-repeat; // implemented
+	width: 14px;
+	height: 14px;
+	padding-left: 14px; 
+}
+
+label img[src="/images/autosage.gif"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/greenlight-terminal.autosage.svg') no-repeat; // implemented
+	width: 14px;
+	height: 14px;
+	padding-left: 14px;
+}
+
+label img[src="/images/locked.png"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/greenlight-terminal.locked.svg') no-repeat; // implemented
+	width: 14px;
+	height: 14px;
+	padding-left: 14px;
+}
+
+label img[src="/images/archive.gif"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/greenlight-terminal.archive.svg') no-repeat; // implemented
+	width: 14px;
+	height: 14px;
+	padding-left: 14px;
+}
+
+// Ho[r,l]o image
+.logo img[src="/images/horo.png"] {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: url($img_address+'/images/greenlight-terminal.horo.png') no-repeat; // some neat ASCII-art
+	width: 180px;
+	height: 223px;
+	padding-left: 180px;
+}
+
+//captcha border restyling - should be reset if looks shitty
+.img[id="captcha-image"] {
+	border-width: 2px;
+	border-color: #00ff00;
+}

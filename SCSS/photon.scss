@@ -1,0 +1,112 @@
+//Имя юзерстиля
+$stylename: Photon;
+
+//Основная секция
+
+//Цвет общего бэкграунда
+$global-background-color:#EEEEEE;
+//Картинка бэкграунда
+$global-background-image:nil;
+//Стандартный цвет шрифта
+$font-color:#333333;
+//Стандартный шрифт
+$font-family:"Trebuchet MS",Trebuchet,tahoma,serif;
+
+//Цвет задника ОП-поста
+$oppost-background-color:$global-background-color;
+//Цвет задника обычных постов
+$post-background-color:#DDDDDD;
+//Цвет обводки обычных постов
+$post-border-color:#CCCCCC;
+//Цвет обводки подсвеченного поста
+$hightlighted-border-color:#FF5500;
+//Цвет тени всплывающих постов (попапов)
+$popup-shadow: 5px 5px 10px #988;
+
+//Показывать ">>" слева от поста?
+$show-doubledash:false;
+//Отступ слева у ответа (лучше не менять, пожалуй)
+$post-margin:20px;
+
+//Заголовок открытого в отдельной вкладке треда - бэкграунд
+$threader-background-color: $post-background-color;
+//И соответственно - цвет шрифта
+$threader-color:#2266AA;
+
+//Расположение заголовка вверху страницы (лого + баннер)
+$logo-align: left;
+//Жирность текста заголовка вверху страницы
+$bold-logo: true;
+//Цвет текста заголовка вверху страницы
+$logo-color: #FF6600;
+
+//Цвет бэкграундов формы постинга
+$posting-form-background-color: transparent;
+//Цвет текста формы постинга
+$posting-form-color:#002244;
+
+//Оформление постов
+
+//Заголовок поста/ОП-поста
+$subj-color:#002244;
+//Имя отправителя ("Анонимус")
+$postername-color:#004A99;
+//Цвет трипкода
+$tripcode-color:#FF3300;
+//Цвет описания файла
+$fileinfo-color:#666666;
+
+//Цвет ссылок
+$link-color:#FF6600;
+//Цвет ссылок, на которые наведён курсор
+$link-active-color:#0066FF;
+//Жирность рефлинков
+$reflink-bold:true;
+
+//Цвет цитат
+//standart для не изменённых цветов
+$blockquote-color:standart;
+$blockquote-spoiler-color:standart;
+
+//Цвет спойлера
+$spoiler-color: #CCCCCC;
+
+//Возможно, предпросмотр кода?
+$code-view-color: #F7F7F7;
+
+
+//Главная страница
+
+//Обводка таблицы досок в фрейме
+$list-border: 1px solid #777777;
+//Бэкграунд таблицы досок
+$list-background-color: $post-background-color;
+//Бэкграунд заголовка таблицы досок
+$list-header-background-color: $spoiler-color;
+//Цвет заголовка таблицы досок
+$list-header-color:#2266AA;
+//Цвет ссылки в таблице досок
+$list-link-color: $link-color;
+//Цвет активной ссылки в таблице досок
+$list-link-active-color: $link-active-color;
+//Цвет бэкграунда активной ссылки в таблице досок
+$list-link-active-background-color: nil;
+
+//Бэкграунд главной
+$news-background-color:#d0d0d0;
+
+
+//Настройки и админка
+
+//Цвет заголовков секций в настройках
+$settings-header-color: $post-background-color;
+
+//(Не трогайте, если не знаете)
+//Цвет фона заголовков в админке
+$admin-header-background-color: $post-background-color;
+//Цвет текста заголовокв в админке
+$admin-header-color: $font-color;
+
+
+
+@import 'template';
