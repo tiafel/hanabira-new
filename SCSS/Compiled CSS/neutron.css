@@ -215,7 +215,7 @@ input[type=text],textarea {
 
 hr {
 height:3px!important;
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/neutron.line.png) center no-repeat;
+background:url(/images/neutron.line.png) center no-repeat;
 border-width:0!important
 }
 
@@ -230,7 +230,7 @@ color:#FFDE22!important
 .logo img[src=/images/horo.png] {
 -moz-box-sizing:border-box;
 box-sizing:border-box;
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/neutron.horo.png) no-repeat;
+background:url(/images/neutron.horo.png) no-repeat;
 width:180px;
 height:234px;
 padding-left:180px

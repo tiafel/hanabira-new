@@ -2,7 +2,7 @@
 
 html,body {
 background-color:#211F1A;
-background-image:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.bg.jpg);
+background-image:url(/images/muon.bg.jpg);
 color:#9B8165;
 font-family:"Trebuchet MS", Trebuchet, tahoma, serif
 }
@@ -14,7 +14,7 @@ background-color:transparent
 .highlight,.reply,.popup {
 background-color:transparent;
 color:#9B8165;
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.posts.jpg)
+background:url(/images/muon.posts.jpg)
 }
 
 .reply {
@@ -41,8 +41,8 @@ font-weight:700
 }
 
 .theader,.passvalid {
-background:#282828;
-color:#698CC0
+background:#1e1b16;
+color:#FFD97A
 }
 
 .logo {
@@ -127,7 +127,7 @@ border-left:1px solid #757575;
 border-right:1px solid #757575;
 border-top:1px solid #757575;
 border-bottom:1px solid #757575;
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.bg.jpg);
+background:url(/images/muon.bg.jpg);
 background-color:#211F1A;
 padding:0 3px
 }
@@ -182,7 +182,7 @@ font-size:1.2em
 }
 
 input[type=password],input[type=submit],input[type=text],textarea,select {
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.inputs.jpg);
+background:url(/images/muon.inputs.jpg);
 background-color:#211F1A;
 border:2px solid #34352D;
 color:#C7924E;
@@ -195,7 +195,7 @@ font-weight:700
 
 hr {
 height:3px!important;
-background:url(https://dl.dropboxusercontent.com/u/32654067/styles/images/muon.line.png) center no-repeat;
+background:url(/images/muon.line.png) center no-repeat;
 border-width:0!important
 }
 
