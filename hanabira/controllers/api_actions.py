@@ -52,9 +52,9 @@ class ApiActionsController(BaseController):
                         
     def hide_info(self, board, format):
         if board in session['hideinfo']:
-            session['hideinfo'].remove(board)
+            del session['hideinfo'][board]
         else:
-            session['hideinfo'].append(board)
+            session['hideinfo'][board] = True
         session.save()
         if format == 'redir':
             return redirect(url('board', board=board))

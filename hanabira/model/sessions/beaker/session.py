@@ -398,7 +398,7 @@ class BeakerSession(Session):
             
     def init_hanabira_v1(self):
         log.info("Update session to version 1")
-        opts = {'username':{}, 'stats':{}, 'referer':'', 'hide':{}, 'posts':{}, 'hideinfo':[], 'reply_button':1, 'rating':g.settings.censorship.default, 'rating_strict':g.settings.censorship.strict, 'post_count':0, 'deleted_posts':0, 'redirect':'board', 'scroll_threads':1, 'mini':0, 'enforced_captcha_complexity':0, 'nopostform':0, 'reputation_min':-5, 'banners':'different'}
+        opts = {'username':{}, 'stats':{}, 'referer':'', 'hide':{}, 'posts':{}, 'hideinfo':{}, 'reply_button':1, 'rating':g.settings.censorship.default, 'rating_strict':g.settings.censorship.strict, 'post_count':0, 'deleted_posts':0, 'redirect':'board', 'scroll_threads':1, 'mini':0, 'enforced_captcha_complexity':0, 'nopostform':0, 'reputation_min':-5, 'banners':'different'}
 
         for o in opts:
             if not o in self:
