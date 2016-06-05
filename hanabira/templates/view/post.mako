@@ -61,7 +61,6 @@
 	<img src="/images/sticky.png" alt="${_('Sticky')}" title="${_('Sticky')}" />
     %endif
 %endif
-	is_hidden = False
 %if c.can_see_invisible and (post.op and thread.invisible or post.invisible):
 	<img src="/images/banned.png" alt="${_('Invisible')}" ${post.inv_reason and 'title="%s"'%u', '.join(post.inv_reason) or '' |n} />
 %endif
@@ -76,9 +75,6 @@
     No.${post.display_id}</a></span>
 %if (c.reply_button and not (thread.archived or c.search or thread.locked)) or not c.reply and post.op:
     <span class="cpanel">
-    %if is_hidden:
-    <img src="/images/rep/show.png" title="${_('Show')}" alt="${_('Show')}" onclick="return reputation_show_post(event, this);" />&nbsp;
-    %endif
   %if c.reply_button and not (thread.archived or c.search or thread.locked):
       ${h.button('reply_', 'Reply', "GetReplyForm(event, '%s', %s, %s)"%(board.board, thread.display_id, post.display_id), double=True) |n}
   %endif
@@ -87,11 +83,7 @@
   %endif
     </span>
 %endif
-%if is_hidden:
-<div style="display:none">
-%else:
     <br />
-%endif
     ## Files block
     %for file in post.files:
         %if post.files_qty > 1:
@@ -183,9 +175,6 @@
   %endif
 %endif
     </div>
-%if is_hidden:
-</div>
-%endif
     ## End of text block
     %if c.get_reflink and c.board.allowed_new_files:
 			<div id="reply-file_new" style="display:none">
