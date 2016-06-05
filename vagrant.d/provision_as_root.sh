@@ -24,5 +24,12 @@ elif which yum > /dev/null; then
 fi
 
 echo -e "\n--- Setting up our MySQL user and db ---\n"
+mysql -uroot -p$DBPASSWD -e "DROP DATABASE IF EXISTS $DBNAME"
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
+mysql -u$DBUSER -p$DBPASSWD $DBNAME < hanabira.sql
+
+echo -e "\n--- Install service ---\n"
+cp vagrant.d/hana.sh /usr/local/bin/hana.sh
+cp vagrant.d/hana.service /etc/systemd/system/hana.service
+systemctl enable hana.service
