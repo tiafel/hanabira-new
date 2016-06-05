@@ -1,0 +1,14 @@
+vim
+curl
+build-essential
+python-software-properties
+git
+libxml2
+libxml2-dev
+libxslt1-dev
+liblz4-1
+python3-minimal
+python3-dev
+virtualenv
+mysql-server
+mysql-client

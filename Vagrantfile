@@ -52,14 +52,18 @@ Vagrant.configure(2) do |config|
     DBPASSWD=some_password
 
     echo -e "\n--- Install && configure python, MySQL, etc. ---\n"
-    apt-get update
-    apt-get install -y vim curl build-essential python-software-properties git
-    apt-get install -y libxml2 libxml2-dev
-    apt-get install -y python3-minimal python3-dev
-    apt-get install -y virtualenv
-    echo "mysql-server mysql-server/root_password password $DBPASSWD" | debconf-set-selections
-    echo "mysql-server mysql-server/root_password_again password $DBPASSWD" | debconf-set-selections
-    apt-get install -y mysql-server mysql-client
+    cd /vagrant/
+    if which apt-get >/dev/null; then
+      # install some debian packages
+      echo "mysql-server mysql-server/root_password password $DBPASSWD" | debconf-set-selections
+      echo "mysql-server mysql-server/root_password_again password $DBPASSWD" | debconf-set-selections
+      apt-get update
+      apt-get -y install $(cat apt.list | tr '\n' ' ')
+    elif which yum >/dev/null; then
+      # install some centos packages
+      yum -y update
+      yum -y install $(cat yum.list | tr '\n' ' ')
+    fi
 
     echo -e "\n--- Setting up our MySQL user and db ---\n"
     mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
@@ -69,23 +73,6 @@ Vagrant.configure(2) do |config|
     virtualenv --no-site-packages -p /usr/bin/python3.4 ~/venv_hanabira
     echo "source ~/venv_hanabira/bin/activate" >> .profile
     source ~/venv_hanabira/bin/activate
-    pip install six
-    pip install chardet
-    pip install pygments
-    pip install mutagen
-    pip install sqlalchemy
-    pip install decorator
-    pip install --no-deps markupsafe
-    pip install --no-deps tempita
-    pip install --no-deps htmldiff
-    pip install --no-deps genshi
-    pip install --no-deps html5lib
-    pip install --no-deps pytils
-    pip install Pillow
-    pip install simplejson
-    pip install --no-deps docutils
-    pip install lxml
-    pip install --no-deps mako
-    pip install --no-deps pymysql
+    pip install -r requirements.txt
   SHELL
 end
