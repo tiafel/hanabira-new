@@ -116,7 +116,7 @@ def popen(command, raise_errors=False):
         r = sp.stdout.read()
     else:
         r = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read()
-    return r
+    return r.decode('utf-8')
 
 def ipToInt(ipstr):
     if type(ipstr) == int: return ipstr
