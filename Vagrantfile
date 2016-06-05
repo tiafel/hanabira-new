@@ -47,32 +47,7 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision :shell, inline: <<-SHELL
-    DBNAME=hanadb
-    DBUSER=hana
-    DBPASSWD=some_password
-
-    echo -e "\n--- Install && configure python, MySQL, etc. ---\n"
-    cd /vagrant/
-    if which apt-get >/dev/null; then
-      # install some debian packages
-      echo "mysql-server mysql-server/root_password password $DBPASSWD" | debconf-set-selections
-      echo "mysql-server mysql-server/root_password_again password $DBPASSWD" | debconf-set-selections
-      apt-get update
-      apt-get -y install $(cat apt.list | tr '\n' ' ')
-    elif which yum >/dev/null; then
-      # install some centos packages
-      yum -y update
-      yum -y install $(cat yum.list | tr '\n' ' ')
-    fi
-
-    echo -e "\n--- Setting up our MySQL user and db ---\n"
-    mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
-    mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
-
-    echo -e "\n--- Configure hanabira environment ---\n"
-    virtualenv --no-site-packages -p /usr/bin/python3.4 ~/venv_hanabira
-    echo "source ~/venv_hanabira/bin/activate" >> .profile
-    source ~/venv_hanabira/bin/activate
-    pip install -r requirements.txt
+    /vagrant/vagrant.d/provision_as_root.sh
+    sudo -u vagrant '/vagrant/vagrant.d/provision_as_user.sh'
   SHELL
 end
