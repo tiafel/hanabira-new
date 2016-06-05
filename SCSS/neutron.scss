@@ -149,17 +149,17 @@ hr {
 
 /*Свечение вокруг ссылок*/
 a {
-text-shadow: #FFD200 0px 0px 10px;
+	text-shadow: #FFD200 0px 0px 10px;
 }
 .reflink a { 
-    color: #DDC771;
+	color: #DDC771;
 }
 //Это чтобы под спойлерами не светилось
 .spoiler a {
 	text-shadow:none;
 }
 .spoiler a:hover {
-    color: #FFDE22 !important;
+	color: #FFDE22 !important;
 }
 a:hover {
 	text-shadow: #FFDE22 0px 0px 15px !important;

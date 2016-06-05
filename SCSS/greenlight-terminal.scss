@@ -145,17 +145,17 @@ hr {
 
 /*Свечение вокруг ссылок*/
 a {
-text-shadow: #000000 0px 0px 10px;
+	text-shadow: #000000 0px 0px 10px;
 }
 .reflink a { 
-    color: #00ff00;
+	color: #00ff00;
 }
 //Это чтобы под спойлерами не светилось
 .spoiler a {
 	text-shadow:none;
 }
 .spoiler a:hover {
-    color: #000000 !important;
+	color: #000000 !important;
 }
 a:hover {
 	text-shadow: #00cc00 0px 0px 15px !important;
@@ -176,46 +176,46 @@ a:hover {
 
 /*thread header styling, also in charge of some error messages*/
 .theader, .passvalid {
-    text-align: center;
-    padding: 2px;
-    clear: both;
-    margin-bottom: .5em;
-    border: solid 1px #00cc00; // generic bright green
-    font-weight: bold;
-    border-radius: 5px;
-    background: #003300; //dim green
-    color: #00ff00; //accented bright green
+	text-align: center;
+	padding: 2px;
+	clear: both;
+	margin-bottom: .5em;
+	border: solid 1px #00cc00; // generic bright green
+	font-weight: bold;
+	border-radius: 5px;
+	background: #003300; //dim green
+	color: #00ff00; //accented bright green
 }
 
 // ---------------------------------------Icons customization-------------------------------------
 // Pure and shameless assets replug. Implies the directory /images/ is stuffed properly.
 
 .waiting0 {
-    background-image:url($img_address+'/images/greenlight-terminal.waiting0.gif'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.waiting0.gif'); //implemented
 }
 .waiting1 {
-    background-image:url($img_address+'/images/greenlight-terminal.waiting1.gif'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.waiting1.gif'); //implemented
 }
 .waiting2 {
-    background-image:url($img_address+'/images/greenlight-terminal.waiting2.gif'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.waiting2.gif'); //implemented
 }
 .delete, .delete-file {
-    background-image:url($img_address+'/images/greenlight-terminal.delete.svg'); // implemented
+	background-image:url($img_address+'/images/greenlight-terminal.delete.svg'); // implemented
 }
 .checked {
-    background-image:url($img_address+'/images/greenlight-terminal.delete_selected.svg'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.delete_selected.svg'); //implemented
 }
 .hide {
-    background-image:url($img_address+'/images/greenlight-terminal.hidethread.svg'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.hidethread.svg'); //implemented
 }
 .signed {
-    background-image:url($img_address+'/images/greenlight-terminal.signed-on.svg'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.signed-on.svg'); //implemented
 }
 .unsigned {
-    background-image:url($img_address+'/images/greenlight-terminal.signed-off8.svg'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.signed-off8.svg'); //implemented
 }
 .close {
-    background-image:url($img_address+'/images/greenlight-terminal.close.svg'); //implemented
+	background-image:url($img_address+'/images/greenlight-terminal.close.svg'); //implemented
 }
 .reply_ {
 	background-image:url($img_address+'/images/greenlight-terminal.reply.svg'); //implemented
@@ -236,10 +236,10 @@ a:hover {
 	background-image:url($img_address+'/images/greenlight-terminal.edit.svg'); //implemented
 }
 .search_google {
-        background-image:url($img_address+'/images/greenlight-terminal.google.svg'); //implemented
+		background-image:url($img_address+'/images/greenlight-terminal.google.svg'); //implemented
 }
 .search_iqdb {
-        background-image:url($img_address+'/images/greenlight-terminal.booru.svg'); //implemented
+		background-image:url($img_address+'/images/greenlight-terminal.booru.svg'); //implemented
 }
 
 //----------------------------------------------------Static assets replug------------------------------------------------

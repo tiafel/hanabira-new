@@ -115,16 +115,16 @@ $admin-header-color: $font-color;
 /*Иконки*/
 
 .delete, .delete-file {
-    background-image:url(/images/delete.futaba.png);
+	background-image:url(/images/delete.futaba.png);
 }
 .checked {
-    background-image:url(/images/delete_selected.png);
+	background-image:url(/images/delete_selected.png);
 }
 .hide {
-    background-image:url(/images/hidethread.futaba.png);
+	background-image:url(/images/hidethread.futaba.png);
 }
 .close {
-    background-image:url(/images/close.futaba.png);
+	background-image:url(/images/close.futaba.png);
 }
 .reply_ {
 	background-image:url(/images/reply.futaba.png);
@@ -148,7 +148,7 @@ $admin-header-color: $font-color;
 	border: solid 1px #DDCCC5;
 }
 .logline {
-    background: #F0E0D6;
+	background: #F0E0D6;
 }
 
 /* Player skin */

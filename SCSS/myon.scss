@@ -166,5 +166,11 @@ a:hover {
 }
 
 /*Особый цвет выделения*/
-::-moz-selection{background:#FEC77D!important;color:#111111!important}
-::selection{background:#FEC77D!important;color:#111111!important}
+::-moz-selection {
+	background:#FEC77D!important;
+	color:#111111!important
+}
+::selection{
+	background:#FEC77D!important;
+	color:#111111!important
+}
