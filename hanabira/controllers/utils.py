@@ -73,6 +73,9 @@ class UtilsController(BaseController):
             c.fonts = g.fonts.fonts
             if f and f.filetype.type == 'image':
                 if request.POST:
+                    if not request.POST.get('tool', None) or not request.POST.get('w', None):
+                        # Spam-bot with wrong POST form
+                        return abort(403)
                     if not new:
                         fs = FileSet(board=board)
                         newpost = board.empty_post(thread_id=post.thread.display_id, fileset=fs,\
@@ -85,10 +88,10 @@ class UtilsController(BaseController):
                     if post.display_id:
                         return abort(403)
                     f2 = None
-                    wd = int(request.POST.get('w', '0'))
-                    hg = int(request.POST.get('h', '0'))
-                    x = int(request.POST.get('x', '0'))
-                    y = int(request.POST.get('y', '0'))
+                    wd = int(request.POST.get('w', '0') or '0')
+                    hg = int(request.POST.get('h', '0') or '0')
+                    x = int(request.POST.get('x', '0') or '0')
+                    y = int(request.POST.get('y', '0') or '0')
                     tool = request.POST.get('tool')
                     if tool in ['macro']:
                         # XXX: rewrite macro/demotivator tools with Pillow
