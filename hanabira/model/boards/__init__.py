@@ -784,6 +784,7 @@ class Boards(object):
                     chan.boards[board.board] = chan.board_ids[board.id] = self.boards[board.board] = self.board_ids[board.id] = board
                     board.chan = chan
                     board.allowed_filetypes.append('video')
+                    board.allowed_filetypes = list(set(board.allowed_filetypes))
                     board.index_lock = Lock()
                     bp = 'images/banners/{0.board}'.format(board)
                     if os.path.exists(self.fs.local(bp)):
