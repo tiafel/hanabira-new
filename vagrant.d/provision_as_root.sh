@@ -33,3 +33,7 @@ echo -e "\n--- Install service ---\n"
 cp vagrant.d/hana.sh /usr/local/bin/hana.sh
 cp vagrant.d/hana.service /etc/systemd/system/hana.service
 systemctl enable hana.service
+
+echo -e "\n--- Configure nginx ---\n"
+ln -sf /vagrant/vagrant.d/hanabira.nginx.conf /etc/nginx/sites-enabled
+systemctl restart nginx.service
