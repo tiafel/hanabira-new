@@ -81,7 +81,7 @@ class ApiActionsController(BaseController):
     def playlist_add(self, file_id, format):
         f = File.query.get(file_id)
         if f:
-            if f.filetype_view.type == 'music':
+            if f.filetype.type == 'music':
                 session['playlist'].add(f)
                 session.save()
                 return self._result(True)
