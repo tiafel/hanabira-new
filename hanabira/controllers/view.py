@@ -251,7 +251,6 @@ class ViewController(BaseController):
             session['scroll_threads'] = int(request.POST.get('scroll_threads', 1))
             session['mini'] = int(bool(request.POST.get('mini')))
             session['nopostform'] = int(bool(request.POST.get('nopostform')))
-            session['reputation_min'] = int(request.POST.get('reputation_min'))
             session['banners'] = request.POST.get('banners')
             lang = request.POST.get('language', g.settings.chan.language).lower()
             if lang in ['ru', 'en', 'ru_ua', 'ja']:
