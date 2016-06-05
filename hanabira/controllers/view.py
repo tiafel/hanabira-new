@@ -142,6 +142,8 @@ class ViewController(BaseController):
             if page is None:
                 return abort(404)
             hidden = session['hide'].get(board.board, [])
+            if page < 0:
+                return abort(403)
             trace_time('board.get_threads')
             if archive:
                 c.threads = board.get_archive_threads(page=page)
