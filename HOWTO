@@ -8,7 +8,7 @@ source ~/venv_hanabira/bin/activate
 
 3. Install requirements
 
-pip install -r requirements.txt
+./requirements.sh
 
 4. Make config file.
 
