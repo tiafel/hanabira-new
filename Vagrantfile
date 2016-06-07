@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -47,45 +47,7 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision :shell, inline: <<-SHELL
-    DBNAME=hanadb
-    DBUSER=hana
-    DBPASSWD=some_password
-
-    echo -e "\n--- Install && configure python, MySQL, etc. ---\n"
-    apt-get update
-    apt-get install -y vim curl build-essential python-software-properties git
-    apt-get install -y libxml2 libxml2-dev
-    apt-get install -y python3-minimal python3-dev
-    apt-get install -y virtualenv
-    echo "mysql-server mysql-server/root_password password $DBPASSWD" | debconf-set-selections
-    echo "mysql-server mysql-server/root_password_again password $DBPASSWD" | debconf-set-selections
-    apt-get install -y mysql-server mysql-client
-
-    echo -e "\n--- Setting up our MySQL user and db ---\n"
-    mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
-    mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
-
-    echo -e "\n--- Configure hanabira environment ---\n"
-    virtualenv --no-site-packages -p /usr/bin/python3.4 ~/venv_hanabira
-    echo "source ~/venv_hanabira/bin/activate" >> .profile
-    source ~/venv_hanabira/bin/activate
-    pip install six
-    pip install chardet
-    pip install pygments
-    pip install mutagen
-    pip install sqlalchemy
-    pip install decorator
-    pip install --no-deps markupsafe
-    pip install --no-deps tempita
-    pip install --no-deps htmldiff
-    pip install --no-deps genshi
-    pip install --no-deps html5lib
-    pip install --no-deps pytils
-    pip install Pillow
-    pip install simplejson
-    pip install --no-deps docutils
-    pip install lxml
-    pip install --no-deps mako
-    pip install --no-deps pymysql
+    /vagrant/vagrant.d/provision_as_root.sh
+    sudo -u vagrant '/vagrant/vagrant.d/provision_as_user.sh'
   SHELL
 end
