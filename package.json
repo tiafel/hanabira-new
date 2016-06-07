@@ -1,0 +1,17 @@
+{
+  "name": "dobrochan",
+  "description": "just config now",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {},
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "kouto-swiss": "^0.12.0",
+    "stylus": "^0.54.5"
+  }
+}
