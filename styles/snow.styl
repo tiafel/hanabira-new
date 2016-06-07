@@ -1,4 +1,4 @@
-@import 'kouto-swiss'
+@import '_config'
 
 html,
 body
@@ -88,29 +88,23 @@ dl.menu dd
 .spoiler
   background: #CCC
   color: #ccc
-
-.spoiler a
-  background: #ccc
-  color: #ccc
-
-.spoiler a:hover
-  color: #333333 !important
-
-.spoiler blockquote
-  background: #ccc
-  color: #ccc
-
-.spoiler blockquote blockquote
-  background: #ccc
-  color: #ccc
-
-.spoiler blockquote blockquote blockquote
-  background: #ccc
-  color: #ccc
-
-.spoiler:hover
-  background: #ccc !important
-  color: #333333 !important
+  a
+    background: #ccc
+    color: #ccc
+    &:hover
+      color: #333333 !important
+  blockquote
+    background: #ccc
+    color: #ccc
+    blockquote
+      background: #ccc
+      color: #ccc
+      blockquote
+        background: #ccc
+        color: #ccc
+  &:hover
+    background: #ccc !important
+    color: #333333 !important
 
 #code_view .highlight
   background: #F7F7F7
