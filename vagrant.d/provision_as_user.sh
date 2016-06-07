@@ -9,7 +9,7 @@ cd /vagrant/
 virtualenv --no-site-packages -p /usr/bin/python3 $HOME/venv_hanabira
 echo "source $HOME/venv_hanabira/bin/activate" >> .profile
 source $HOME/venv_hanabira/bin/activate
-pip install -r requirements.txt
+./requirements.sh
 
 cp confs/development.ini.template confs/development.ini
 sed -i "/sqlalchemy\.url.*/c\\sqlalchemy\.url = mysql+pymysql:\/\/${DBUSER}:${DBPASSWD}@127.0.0.1\/${DBNAME}\?charset=utf8" confs/development.ini
