@@ -20,3 +20,5 @@ pip install --no-deps mako
 pip install --no-deps pymysql
 pip install requests
 pip install --no-deps formalchemy
+
+pip install requests
