@@ -1,5 +1,10 @@
+.PHONY: serve test vagrant
+
 serve:
 	python ./serve.py confs/development.ini
+
+test:
+	PYTHONPATH=.:./extlibs py.test --verbose
 
 vagrant:
 	git clone git@git.assembla.com:dobrochan.git
