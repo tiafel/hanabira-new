@@ -9,6 +9,7 @@ from .archive import ArchiveFile
 from .flash import FlashFile
 from .pdf import PDFFile
 from .text import TextFile, CodeFile
+from .video import VideoFile
 from .fingerprints import Fingerprint
 from .extensions import Extension, Extensions
 from .ratings import ratings
