@@ -1,47 +1,69 @@
 # -*- coding: utf-8 -*-
 
-from pylons.i18n import _, ungettext, N_, set_lang
-from hanabira.model.gorm import *
-
+from pylons.i18n import _
 from .filetype import Filetype
-from hanabira.lib.utils import popen
-
-import logging
+import logging, os, requests
 log = logging.getLogger(__name__)
 
 class VideoFile(Filetype):
+    '''VideoFile represents a webm file
+
+    Current implementation uses thumbnailer service (at :5000).
+    Also required `exiftool` for creating metadata.
+    '''
+
     __mapper_args__ = {'polymorphic_identity': u'video'}
-    def process(self, file, thumb_res, fileset):
+
+    CouldNotCreateThumbnail = Exception('Could not create thumbnail!')
+    NotAnVideoFile = Exception('Not a video file!')
+
+    # XXX hardcoded
+    thumbnailerURL = 'http://127.0.0.1:5000/'
+    def thumbnailerConfig(self, w:int = 200, h:int = 200, interp: str = 'Lanczos3', jpeg: int = 90) -> dict:
+        return {'w': str(w), 'h': str(h), 'interp': str(interp), 'jpeg': str(jpeg)}
+
+    def process(self, file, resolution, fileset) -> bool:
         log.debug('Processing %s[0], %s bytes' % (file.temp_file.path, file.temp_file.size))
-        r = popen('exiftool "{0}"'.format(file.temp_file.path))
-        if not "video/" in r or not 'Duration' in r or not "Image Size" in r:
-            raise Exception("Not a video file!")
+
+        meta = self.gen_meta(file.temp_file.path)
+
+        # generate thumbnail
+        conf = self.thumbnailerConfig(w = resolution, h = resolution)
+        tmp = open(file.temp_file.path, 'rb')
+        r = requests.post(VideoFile.thumbnailerURL, data = conf , files = {'file': tmp})
+        tmp.close()
+
+        # check errors
+        if r.status_code != requests.codes.ok:
+            log.warning('thumbnailer error', r.status_code, r.text)
+            raise VideoFile.CouldNotCreateThumbnail
+
+        # save the temporary file
+        path = self.fs.new_temp_path('jpg')
+        with open(path, 'wb') as out: out.write(r.content)
+        if not os.path.exists(path): raise VideoFile.CouldNotCreateThumbnail
+
+        # save
+        w, h = r.headers['dstimage-width'], r.headers['dstimage-height']
+        file.thumbnail = self.fs.thumbnail(path, 'jpg', w, h)
+        return Filetype.process(self, file, resolution, fileset, meta)
+
+    def process_metadata(self, metadata, file) -> str:
+        return 'Video {0[Image Size]} x {0[Duration]}; {0[File Size]}'.format(metadata)
+
+    def get_superscription(self) -> str:
+        return _('Click the image to play video')
+
+    def gen_meta(self, path: str) -> dict:
+        exif = self.popen('exiftool "{0}"'.format(path))
+        if not 'video/' in exif or not 'Duration' in exif or not 'Image Size' in exif:
+            raise VideoFile.NotAnVideoFile
+
         meta = {}
-        for line in r.strip().split("\n"):
-            if not ":" in line:
-                continue
-            k,v = line.split(":", 1)
+        for line in exif.strip().split('\n'):
+            if not ':' in line: continue
+            k, v = line.split(':', 1)
             meta[k.strip()] = v.strip()
-        
-        print(meta)
-        w,h = map(int, meta['Image Size'].split('x'))
-        sf = float(w) / h
-        print(w,h,sf,thumb_res)
-        if w > h:
-            th_w = thumb_res
-            th_h = int(float(th_w) / sf)
-        else:
-            th_h = thumb_res
-            th_w = int(th_h * sf)
-        thumb_path = g.fs.new_temp_path('jpg')
-        r = popen('ffmpeg -ss 0.5 -i "{0}" -vframes 1 -s {1}x{2} -f image2 {3}'.format(file.temp_file.path, th_w, th_h, thumb_path))
-        if not os.path.exists(thumb_path):
-            raise Exception("Could not create thumbnail!")
-        file.thumbnail = g.fs.thumbnail(thumb_path, 'jpg', th_w, th_h)
-        return Filetype.process(self, file, thumb_res, fileset, meta)
+        print(meta) # XXX debug
+        return meta
 
-    def process_metadata(self, metadata, file):
-        return "Video {0[Image Size]} x {0[Duration]}; {0[File Size]}".format(metadata)
-
-    def get_superscription(self):
-        return _("Click the image to play video")
