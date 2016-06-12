@@ -4,6 +4,8 @@ import traceback
 from pylons.i18n import _, ungettext, N_, set_lang
 from hanabira.model.gorm import *
 
+from hanabira.lib.utils import popen
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -24,7 +26,7 @@ class Filetype(meta.Declarative):
     def preprocess(self, tf, ext, board):
         return (tf, [], None)
     
-    def process(self, file, thumb_res, fileset, metadata={}):
+    def process(self, file, thumb_res, fileset, metadata={}) -> bool:
         if not file.thumb_path:
             if file.thumbnail:
                 file.thumb_path = u"thumb/%s/%02d%02d/%ss.%s" % (file.ext.ext, file.date_added.year%100, file.date_added.month, file.temp_file.name, file.thumbnail.ext)
@@ -77,3 +79,12 @@ class Filetype(meta.Declarative):
         except Exception as e:
             log.info("Exception: %s" % e)
             traceback.print_exc()      
+
+    def popen(self, command, raise_errors=False):
+        '''wrapper for hanabira.lib.utils.popen'''
+        return popen(command, raise_errors)
+
+    @property
+    def fs(self):
+        '''wrapper for global g.fs'''
+        return g.fs
